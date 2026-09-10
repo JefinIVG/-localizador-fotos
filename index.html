@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Localizador de Fotos</title>
+
+<style>
+body{
+  font-family:Arial,sans-serif;
+  max-width:700px;
+  margin:auto;
+  padding:20px;
+  background:#f3f4f6;
+}
+.caixa{
+  background:white;
+  padding:22px;
+  margin-bottom:15px;
+  border-radius:15px;
+}
+h1{text-align:center}
+button{
+  background:#2563eb;
+  color:white;
+  border:0;
+  padding:14px;
+  margin:5px 0;
+  border-radius:8px;
+  font-size:16px;
+  width:100%;
+}
+input{width:100%;margin:10px 0}
+img{
+  max-width:250px;
+  max-height:180px;
+  display:block;
+  margin:10px auto;
+}
+.resultado{
+  background:#f9fafb;
+  border:1px solid #ddd;
+  padding:15px;
+  margin:10px 0;
+  border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="caixa">
+
+<h1>🔎 Localizador de Fotos</h1>
+
+<p>Escolha uma foto e depois o PowerPoint onde deseja procurá-la.</p>
+
+<b>1. Foto para procurar</b>
+
+<input type="file" id="foto" accept="image/*">
+
+<img id="preview" style="display:none">
+
+<b>2. PowerPoint</b>
+
+<input type="file" id="ppt" accept=".pptx">
+
+<button onclick="procurar()">🔎 PROCURAR FOTO</button>
+
+<p id="status"></p>
+
+</div>
+
+<div class="caixa">
+
+<h2>Resultados</h2>
+
+<div id="resultados">
+Os resultados aparecerão aqui.
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<script type="module">
+
+import { pipeline }
+from "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.8.1";
+
+let foto=null;
+
+document.getElementById("foto").onchange=function(){
+
+foto=this.files[0];
+
+if(foto){
+
+let imagem=document.getElementById("preview");
+
+imagem.src=URL.createObjectURL(foto);
+
+imagem.style.display="block";
+
+}
+
+};
+
+window.procurar=async function(){
+
+let ppt=document.getElementById("ppt").files[0];
+
+if(!foto){
+
+alert("Escolha a foto primeiro.");
+
+return;
+
+}
+
+if(!ppt){
+
+alert("Escolha o PowerPoint.");
+
+return;
+
+}
+
+let status=document.getElementById("status");
+
+status.innerText="Carregando sistema de reconhecimento...";
+
+try{
+
+const modelo=await pipeline(
+"image-feature-extraction",
+"Xenova/clip-vit-base-patch32",
+{quantized:true}
+);
+
+status.innerText="Lendo o PowerPoint...";
+
+const zip=await JSZip.loadAsync(await ppt.arrayBuffer());
+
+let arquivos=Object.keys(zip.files);
+
+let imagens=arquivos.filter(nome=>
+nome.startsWith("ppt/media/") &&
+/\.(jpg|jpeg|png|webp|bmp)$/i.test(nome)
+);
+
+if(imagens.length===0){
+
+status.innerText="Nenhuma imagem encontrada.";
+
+return;
+
+}
+
+status.innerText="Analisando "+imagens.length+" imagens...";
+
+let consulta=await modelo(
+URL.createObjectURL(foto),
+{pooling:"mean",normalize:true}
+);
+
+let resultados=[];
+
+for(let nome of imagens){
+
+try{
+
+let blob=await zip.files[nome].async("blob");
+
+let vetor=await modelo(
+URL.createObjectURL(blob),
+{pooling:"mean",normalize:true}
+);
+
+let a=consulta.data;
+let b=vetor.data;
+
+let soma=0;
+
+for(let i=0;i<a.length;i++)
+soma+=a[i]*b[i];
+
+resultados.push({
+nome:nome,
+score:soma,
+blob:blob
+});
+
+}catch(e){}
+
+}
+
+resultados.sort((a,b)=>b.score-a.score);
+
+let area=document.getElementById("resultados");
+
+area.innerHTML="";
+
+resultados.slice(0,20).forEach((r,i)=>{
+
+let porcentagem=Math.max(
+0,
+Math.min(100,r.score*100)
+);
+
+let div=document.createElement("div");
+
+div.className="resultado";
+
+div.innerHTML=
+"<b>Resultado "+(i+1)+"</b><br>"+
+"Imagem: "+r.nome.split("/").pop()+"<br>"+
+"Semelhança: "+porcentagem.toFixed(1)+"%<br><br>"+
+"<button>🖼️ Abrir imagem</button>";
+
+div.querySelector("button").onclick=function(){
+
+let url=URL.createObjectURL(r.blob);
+
+window.open(url,"_blank");
+
+};
+
+area.appendChild(div);
+
+});
+
+status.innerText="Busca concluída!";
+
+}catch(erro){
+
+status.innerText=
+"Erro: "+erro.message;
+
+console.error(erro);
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
