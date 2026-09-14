@@ -2,143 +2,1529 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Localizador de Fotos</title>
+
 <style>
-body{font-family:Arial,sans-serif;max-width:760px;margin:auto;padding:20px;background:#f3f4f6}.caixa{background:white;padding:22px;margin-bottom:15px;border-radius:15px}h1{text-align:center}button{background:#2563eb;color:white;border:0;padding:14px;margin:8px 0;border-radius:8px;font-size:16px;width:100%;cursor:pointer}input{width:100%;margin:10px 0}img{max-width:250px;max-height:180px;display:block;margin:10px auto}.resultado{background:#f9fafb;border:1px solid #ddd;padding:15px;margin:10px 0;border-radius:10px}.pequeno{color:#555;font-size:14px}
-</style>
-</head>
-<body>
-<div class="caixa">
-<h1>🔎 Localizador de Fotos</h1>
-<p>Escolha a foto que você procura e depois o PowerPoint.</p>
-<b>1. Foto para procurar</b>
-<input type="file" id="foto" accept="image/*"><img id="preview" style="display:none">
-<b>2. PowerPoint</b>
-<input type="file" id="ppt" accept=".pptx" multiple>
-<p>Você pode selecionar vários PowerPoints de uma vez. No Windows, use Ctrl ou Shift para selecionar vários.</p>
-<button id="btn">🔎 PROCURAR FOTO</button>
-<p id="status"></p>
-<p class="pequeno">A busca é feita no próprio computador. O PowerPoint não é enviado para a internet.</p>
-</div>
-<div class="caixa"><h2>Resultados</h2><div id="resultados">Os resultados aparecerão aqui.</div></div>
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-<script>
-let foto=null;
-document.getElementById("foto").onchange=function(){foto=this.files[0];if(foto){const img=document.getElementById("preview");img.src=URL.createObjectURL(foto);img.style.display="block";}};
-function normalizarCaminho(base,target){const partes=(base+"/"+target).split("/");const saida=[];for(const p of partes){if(!p||p===".")continue;if(p==="..")saida.pop();else saida.push(p);}return saida.join("/");}
-async function texto(zip,nome){if(!zip.files[nome])return "";return await zip.files[nome].async("text");}
-function extrairRelacionamentos(xml){const mapa={};const doc=new DOMParser().parseFromString(xml,"application/xml");for(const rel of Array.from(doc.getElementsByTagName("Relationship"))){const id=rel.getAttribute("Id"),target=rel.getAttribute("Target");if(id&&target)mapa[id]=target;}return mapa;}
-async function imagemDoBlob(blob){return await new Promise((resolve,reject)=>{const url=URL.createObjectURL(blob);const img=new Image();img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error("Imagem inválida"))};img.src=url;});}
-async function assinatura(blob){const img=await imagemDoBlob(blob),w=48,h=48,c=document.createElement("canvas");c.width=w;c.height=h;const ctx=c.getContext("2d",{willReadFrequently:true});ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);const escala=Math.min(w/img.naturalWidth,h/img.naturalHeight),dw=img.naturalWidth*escala,dh=img.naturalHeight*escala;ctx.drawImage(img,(w-dw)/2,(h-dh)/2,dw,dh);const data=ctx.getImageData(0,0,w,h).data,cinza=new Float32Array(w*h);let media=0;for(let i=0,p=0;i<data.length;i+=4,p++){const v=.299*data[i]+.587*data[i+1]+.114*data[i+2];cinza[p]=v;media+=v;}media/=cinza.length;let vari=0;for(const v of cinza)vari+=(v-media)*(v-media);const desvio=Math.sqrt(vari/cinza.length)||1;for(let i=0;i<cinza.length;i++)cinza[i]=(cinza[i]-media)/desvio;return cinza;}
-function distancia(a,b){let soma=0;for(let i=0;i<a.length;i++){const d=a[i]-b[i];soma+=d*d;}return Math.sqrt(soma/a.length);}
-function similaridade(dist){return Math.max(0,Math.min(100,100*Math.exp(-dist/2.2)));}
-async function procurar(){
-  const ppts = Array.from(document.getElementById("ppt").files);
-  const status = document.getElementById("status");
-  const area = document.getElementById("resultados");
-  const btn = document.getElementById("btn");
-
-  if(!foto){ alert("Escolha a foto primeiro."); return; }
-  if(!ppts.length){ alert("Escolha pelo menos um PowerPoint."); return; }
-
-  btn.disabled = true;
-  area.innerHTML = "";
-
-  try{
-    const ref = await assinatura(foto);
-    let todos = [];
-
-    for(let p=0; p<ppts.length; p++){
-      const ppt = ppts[p];
-      status.innerText = "Lendo PowerPoint " + (p+1) + " de " + ppts.length + ": " + ppt.name;
-
-      const zip = await JSZip.loadAsync(await ppt.arrayBuffer());
-      const arquivos = Object.keys(zip.files);
-      const imagens = arquivos.filter(n =>
-        n.startsWith("ppt/media/") &&
-        /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i.test(n)
-      );
-
-      const usos = {};
-      const slides = arquivos.filter(n => /^ppt\/slides\/slide\d+\.xml$/i.test(n))
-        .sort((a,b)=>+(a.match(/slide(\d+)\.xml/i)||[,0])[1]-+(b.match(/slide(\d+)\.xml/i)||[,0])[1]);
-
-      for(const slide of slides){
-        const num = +(slide.match(/slide(\d+)\.xml/i)||[,0])[1];
-        const relXml = await texto(zip, "ppt/slides/_rels/slide"+num+".xml.rels");
-        const rels = extrairRelacionamentos(relXml);
-        const slideXml = await texto(zip, slide);
-        const doc = new DOMParser().parseFromString(slideXml, "application/xml");
-
-        for(const blip of Array.from(doc.getElementsByTagName("a:blip"))){
-          const rid = blip.getAttribute("r:embed") || blip.getAttribute("embed");
-          if(!rid || !rels[rid]) continue;
-          const target = normalizarCaminho("ppt/slides", rels[rid]);
-          if(!target.startsWith("ppt/media/")) continue;
-          if(!usos[target]) usos[target] = [];
-          if(!usos[target].includes(num)) usos[target].push(num);
-        }
-      }
-
-      for(let i=0;i<imagens.length;i++){
-        status.innerText = "Analisando " + ppt.name + " — imagem " + (i+1) + " de " + imagens.length + "...";
-        try{
-          const nome = imagens[i];
-          const blob = await zip.files[nome].async("blob");
-          const sig = await assinatura(blob);
-          todos.push({
-            arquivo: ppt.name,
-            nome: nome.split("/").pop(),
-            blob: blob,
-            score: similaridade(distancia(ref,sig)),
-            slides: usos[nome] || []
-          });
-        }catch(e){}
-      }
-    }
-
-    todos.sort((a,b)=>b.score-a.score);
-    area.innerHTML = "";
-
-    if(!todos.length){
-      area.innerHTML = "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
-    }else{
-      todos.slice(0,30).forEach((r,i)=>{
-        const div = document.createElement("div");
-        div.className = "resultado";
-        const slideTexto = r.slides.length ? r.slides.join(", ") : "não identificado";
-
-        div.innerHTML =
-          "<b>Resultado "+(i+1)+"</b><br>" +
-          "<b>📁 PowerPoint:</b> "+r.arquivo+"<br>" +
-          "<b>📄 Slide(s):</b> "+slideTexto+"<br>" +
-          "<b>🖼️ Imagem:</b> "+r.nome+"<br>" +
-          "<b>🔎 Semelhança visual:</b> "+r.score.toFixed(1)+"%";
-
-        const img = document.createElement("img");
-        img.src = URL.createObjectURL(r.blob);
-        div.appendChild(img);
-
-        const abrir = document.createElement("button");
-        abrir.innerText = "🖼️ Abrir imagem encontrada";
-        abrir.onclick = ()=>window.open(img.src,"_blank");
-        div.appendChild(abrir);
-
-        area.appendChild(div);
-      });
-    }
-
-    status.innerText = "✅ Busca concluída em " + ppts.length + " PowerPoint(s).";
-  }catch(erro){
-    console.error(erro);
-    status.innerText = "❌ Erro ao ler o PowerPoint: " + (erro.message || erro);
-  }finally{
-    btn.disabled = false;
-  }
+* {
+    box-sizing: border-box;
 }
 
-document.getElementById("btn").addEventListener("click",procurar);
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 20px 50px;
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.subtitulo {
+    color: #667085;
+    margin-bottom: 24px;
+}
+
+.painel {
+    background: white;
+    border: 1px solid #e4e7ec;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.05);
+}
+
+label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    background: #fff;
+    margin-bottom: 18px;
+}
+
+button {
+    border: 0;
+    border-radius: 10px;
+    padding: 13px 18px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #2864e8;
+    color: white;
+}
+
+button:hover {
+    opacity: .92;
+}
+
+button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+#status {
+    margin-top: 15px;
+    font-weight: 600;
+    color: #475467;
+    white-space: pre-line;
+}
+
+.resultado {
+    background: white;
+    border: 1px solid #e4e7ec;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.04);
+}
+
+.badge {
+    display: inline-block;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.desenho {
+    background: #eef5ff;
+    border-left: 5px solid #2864e8;
+    border-radius: 8px;
+    padding: 13px 15px;
+    margin-bottom: 14px;
+    font-size: 18px;
+}
+
+.desenho strong {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.info {
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+.preview {
+    display: block;
+    max-width: 280px;
+    max-height: 220px;
+    object-fit: contain;
+    margin: 18px auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+}
+
+.acoes {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-baixar {
+    background: #157347;
+}
+
+.vazio {
+    padding: 30px;
+    text-align: center;
+    color: #667085;
+}
+
+.erro {
+    color: #b42318;
+    background: #fef3f2;
+    border: 1px solid #fecdca;
+    padding: 12px;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📷 Localizador de Fotos</h1>
+
+    <div class="subtitulo">
+        Encontre uma foto dentro de vários arquivos PowerPoint e veja
+        o desenho, arquivo, slide e semelhança visual.
+    </div>
+
+    <div class="painel">
+
+        <label for="fotoReferencia">
+            1. Foto de referência
+        </label>
+
+        <input
+            id="fotoReferencia"
+            type="file"
+            accept="image/*"
+        >
+
+        <label for="powerpoints">
+            2. Arquivos PowerPoint (.pptx)
+        </label>
+
+        <input
+            id="powerpoints"
+            type="file"
+            accept=".pptx"
+            multiple
+        >
+
+        <button
+            id="btnBuscar"
+            onclick="buscarFotos()"
+        >
+            🔎 Buscar foto nos PowerPoints
+        </button>
+
+        <div id="status"></div>
+
+    </div>
+
+    <div id="areaResultados"></div>
+
+</div>
+
+
+<!-- JSZip -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+
+<script>
+
+/* =========================================================
+   VARIÁVEIS
+========================================================= */
+
+let resultadosGlobais = [];
+let urlsCriadas = [];
+
+
+/* =========================================================
+   FUNÇÕES UTILITÁRIAS
+========================================================= */
+
+function escaparHTML(texto) {
+
+    return String(texto ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function obterMimeImagem(nome) {
+
+    const ext = String(nome)
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+    const tipos = {
+
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        png: "image/png",
+        gif: "image/gif",
+        webp: "image/webp",
+        bmp: "image/bmp",
+        svg: "image/svg+xml"
+
+    };
+
+    return tipos[ext] || "application/octet-stream";
+}
+
+
+function atualizarStatus(texto) {
+
+    document.getElementById("status").textContent = texto;
+
+}
+
+
+/* =========================================================
+   LEITURA DO XML DO POWERPOINT
+========================================================= */
+
+function obterTextosXML(xml) {
+
+    const doc = new DOMParser()
+        .parseFromString(xml, "application/xml");
+
+    const textos = [];
+
+    doc.querySelectorAll("a\\:t, t")
+        .forEach(el => {
+
+            const txt =
+                (el.textContent || "").trim();
+
+            if (txt) {
+                textos.push(txt);
+            }
+
+        });
+
+    return textos;
+}
+
+
+function normalizarEspacos(texto) {
+
+    return String(texto || "")
+        .replace(/\u00A0/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+}
+
+
+/* =========================================================
+   ENCONTRAR O DESENHO
+========================================================= */
+
+function encontrarDesenho(xml) {
+
+    const doc =
+        new DOMParser()
+        .parseFromString(xml, "application/xml");
+
+    const paragrafos = [];
+
+
+    /*
+       Procura todos os parágrafos do slide
+    */
+
+    doc.querySelectorAll("a\\:p, p")
+        .forEach(p => {
+
+            const textos = [];
+
+            p.querySelectorAll("a\\:t, t")
+                .forEach(t => {
+
+                    const valor =
+                        (t.textContent || "").trim();
+
+                    if (valor) {
+                        textos.push(valor);
+                    }
+
+                });
+
+            const linha =
+                normalizarEspacos(
+                    textos.join("")
+                );
+
+            if (linha) {
+                paragrafos.push(linha);
+            }
+
+        });
+
+
+    /*
+       Procura uma linha começando por DESENHO
+    */
+
+    for (const linhaOriginal of paragrafos) {
+
+        const linha =
+            linhaOriginal
+                .replace(
+                    /^desenho\s*\/?\s*/i,
+                    ""
+                );
+
+
+        if (/^desenho\b/i.test(linhaOriginal)) {
+
+            const partes =
+                linha.split(/\s+-\s+/);
+
+
+            /*
+               Exemplo:
+
+               Desenho / &V 001 - 3800395 -
+               TIRANTE - 8400 AE D1...
+            */
+
+            if (partes.length >= 3) {
+
+                return "Desenho / " +
+                    partes[0].trim() +
+                    " - " +
+                    partes[1].trim() +
+                    " - " +
+                    partes[2].trim();
+
+            }
+
+
+            return "Desenho / " +
+                linha.trim();
+
+        }
+
+    }
+
+
+    /*
+       Segunda tentativa:
+       procura no texto inteiro do slide
+    */
+
+    const todos =
+        obterTextosXML(xml);
+
+    const textoCompleto =
+        normalizarEspacos(
+            todos.join(" | ")
+        );
+
+
+    const match =
+        textoCompleto.match(
+            /Desenho\s*\/?\s*(.+?)(?=\s+\|\s+|$)/i
+        );
+
+
+    if (match) {
+
+        const linha =
+            normalizarEspacos(match[1]);
+
+        const partes =
+            linha.split(/\s+-\s+/);
+
+
+        if (partes.length >= 3) {
+
+            return "Desenho / " +
+                partes[0].trim() +
+                " - " +
+                partes[1].trim() +
+                " - " +
+                partes[2].trim();
+
+        }
+
+
+        return "Desenho / " +
+            linha;
+
+    }
+
+
+    return "Desenho não identificado";
+
+}
+
+
+/* =========================================================
+   NOME DA IMAGEM NO RELACIONAMENTO
+========================================================= */
+
+function nomeArquivoRelacionamento(target) {
+
+    let nome =
+        String(target || "")
+        .replace(/\\/g, "/");
+
+
+    nome =
+        nome.replace(
+            /^(\.\.\/)+/,
+            ""
+        );
+
+
+    if (nome.includes("media/")) {
+
+        return nome.substring(
+            nome.lastIndexOf("media/") + 6
+        );
+
+    }
+
+
+    return nome.substring(
+        nome.lastIndexOf("/") + 1
+    );
+
+}
+
+
+/* =========================================================
+   MAPEAR IMAGENS DOS SLIDES
+========================================================= */
+
+async function mapearImagensDosSlides(zip) {
+
+    const mapa = [];
+
+    const nomes =
+        Object.keys(zip.files)
+        .filter(
+            n =>
+            /^ppt\/slides\/slide\d+\.xml$/i.test(n)
+        );
+
+
+    nomes.sort((a, b) => {
+
+        const na =
+            Number(
+                a.match(/slide(\d+)\.xml/i)[1]
+            );
+
+        const nb =
+            Number(
+                b.match(/slide(\d+)\.xml/i)[1]
+            );
+
+        return na - nb;
+
+    });
+
+
+    for (const slidePath of nomes) {
+
+        const numeroSlide =
+            Number(
+                slidePath.match(
+                    /slide(\d+)\.xml/i
+                )[1]
+            );
+
+
+        const slideXml =
+            await zip
+            .file(slidePath)
+            .async("string");
+
+
+        const desenho =
+            encontrarDesenho(slideXml);
+
+
+        const relPath =
+            "ppt/slides/_rels/" +
+            slidePath.split("/").pop() +
+            ".rels";
+
+
+        const relFile =
+            zip.file(relPath);
+
+
+        if (!relFile) {
+
+            mapa.push({
+
+                slide: numeroSlide,
+                desenho: desenho,
+                imagens: []
+
+            });
+
+            continue;
+
+        }
+
+
+        const relXml =
+            await relFile
+            .async("string");
+
+
+        const relDoc =
+            new DOMParser()
+            .parseFromString(
+                relXml,
+                "application/xml"
+            );
+
+
+        const imagens = [];
+
+
+        relDoc
+        .querySelectorAll("Relationship")
+        .forEach(rel => {
+
+            const tipo =
+                rel.getAttribute("Type") || "";
+
+            const target =
+                rel.getAttribute("Target") || "";
+
+
+            if (
+                tipo
+                .toLowerCase()
+                .includes("/image")
+            ) {
+
+                imagens.push(
+                    nomeArquivoRelacionamento(
+                        target
+                    )
+                );
+
+            }
+
+        });
+
+
+        mapa.push({
+
+            slide: numeroSlide,
+            desenho: desenho,
+            imagens: imagens
+
+        });
+
+    }
+
+
+    return mapa;
+
+}
+
+
+/* =========================================================
+   CARREGAR IMAGEM
+========================================================= */
+
+async function carregarImagemBlob(blob) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const url =
+                URL.createObjectURL(blob);
+
+            const img =
+                new Image();
+
+
+            img.onload = () => {
+
+                URL.revokeObjectURL(url);
+
+                resolve(img);
+
+            };
+
+
+            img.onerror = () => {
+
+                URL.revokeObjectURL(url);
+
+                reject(
+                    new Error(
+                        "Não foi possível carregar a imagem."
+                    )
+                );
+
+            };
+
+
+            img.src = url;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ASSINATURA DA IMAGEM
+========================================================= */
+
+async function assinaturaImagem(
+    blob,
+    tamanho = 48
+) {
+
+    const img =
+        await carregarImagemBlob(blob);
+
+
+    const canvas =
+        document.createElement("canvas");
+
+
+    canvas.width =
+        tamanho;
+
+    canvas.height =
+        tamanho;
+
+
+    const ctx =
+        canvas.getContext(
+            "2d",
+            {
+                willReadFrequently: true
+            }
+        );
+
+
+    ctx.drawImage(
+        img,
+        0,
+        0,
+        tamanho,
+        tamanho
+    );
+
+
+    const dados =
+        ctx.getImageData(
+            0,
+            0,
+            tamanho,
+            tamanho
+        ).data;
+
+
+    const assinatura =
+        new Float32Array(
+            tamanho * tamanho
+        );
+
+
+    let soma = 0;
+
+
+    for (
+        let i = 0, j = 0;
+        i < dados.length;
+        i += 4, j++
+    ) {
+
+        const cinza =
+            0.299 * dados[i] +
+            0.587 * dados[i + 1] +
+            0.114 * dados[i + 2];
+
+
+        assinatura[j] =
+            cinza;
+
+
+        soma += cinza;
+
+    }
+
+
+    const media =
+        soma /
+        assinatura.length;
+
+
+    let variancia = 0;
+
+
+    for (
+        let i = 0;
+        i < assinatura.length;
+        i++
+    ) {
+
+        assinatura[i] -=
+            media;
+
+        variancia +=
+            assinatura[i] *
+            assinatura[i];
+
+    }
+
+
+    const desvio =
+        Math.sqrt(
+            variancia /
+            assinatura.length
+        ) || 1;
+
+
+    for (
+        let i = 0;
+        i < assinatura.length;
+        i++
+    ) {
+
+        assinatura[i] /=
+            desvio;
+
+    }
+
+
+    return assinatura;
+
+}
+
+
+/* =========================================================
+   SIMILARIDADE
+========================================================= */
+
+function similaridade(a, b) {
+
+    if (
+        !a ||
+        !b ||
+        a.length !== b.length
+    ) {
+
+        return 0;
+
+    }
+
+
+    let soma = 0;
+
+
+    for (
+        let i = 0;
+        i < a.length;
+        i++
+    ) {
+
+        const d =
+            a[i] - b[i];
+
+        soma +=
+            d * d;
+
+    }
+
+
+    const distancia =
+        Math.sqrt(
+            soma / a.length
+        );
+
+
+    const percentual =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                100 - distancia * 18
+            )
+        );
+
+
+    return percentual;
+
+}
+
+
+/* =========================================================
+   ABRIR IMAGEM
+========================================================= */
+
+function abrirImagem(url) {
+
+    if (!url) {
+
+        alert(
+            "Imagem não disponível."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Abre uma nova aba imediatamente.
+       Isso evita bloqueio de pop-up.
+    */
+
+    const novaAba =
+        window.open(
+            "",
+            "_blank"
+        );
+
+
+    if (!novaAba) {
+
+        alert(
+            "O navegador bloqueou a nova aba. " +
+            "Permita pop-ups para este site."
+        );
+
+        return;
+
+    }
+
+
+    novaAba.document.write(`
+
+        <!DOCTYPE html>
+
+        <html lang="pt-BR">
+
+        <head>
+
+            <meta charset="UTF-8">
+
+            <title>
+                Imagem encontrada
+            </title>
+
+            <style>
+
+                html,
+                body {
+
+                    margin: 0;
+                    width: 100%;
+                    height: 100%;
+
+                    background: #111;
+
+                    display: flex;
+
+                    align-items: center;
+
+                    justify-content: center;
+
+                }
+
+                img {
+
+                    max-width: 98vw;
+                    max-height: 98vh;
+
+                    object-fit: contain;
+
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <img
+                src="${url}"
+                alt="Imagem encontrada"
+            >
+
+        </body>
+
+        </html>
+
+    `);
+
+
+    novaAba.document.close();
+
+}
+
+
+/* =========================================================
+   BAIXAR IMAGEM
+========================================================= */
+
+function baixarImagem(
+    url,
+    nome
+) {
+
+    if (!url) {
+
+        alert(
+            "Imagem não disponível."
+        );
+
+        return;
+
+    }
+
+
+    const a =
+        document.createElement("a");
+
+
+    a.href =
+        url;
+
+
+    a.download =
+        nome ||
+        "imagem-encontrada.jpg";
+
+
+    document.body.appendChild(a);
+
+
+    a.click();
+
+
+    a.remove();
+
+}
+
+
+/* =========================================================
+   BUSCA PRINCIPAL
+========================================================= */
+
+async function buscarFotos() {
+
+    const fotoInput =
+        document.getElementById(
+            "fotoReferencia"
+        );
+
+
+    const pptInput =
+        document.getElementById(
+            "powerpoints"
+        );
+
+
+    const btn =
+        document.getElementById(
+            "btnBuscar"
+        );
+
+
+    const area =
+        document.getElementById(
+            "areaResultados"
+        );
+
+
+    area.innerHTML = "";
+
+    resultadosGlobais = [];
+
+
+    /*
+       Limpa URLs antigas
+    */
+
+    urlsCriadas.forEach(
+        url => {
+
+            try {
+
+                URL.revokeObjectURL(
+                    url
+                );
+
+            } catch (e) {}
+
+        }
+    );
+
+
+    urlsCriadas = [];
+
+
+    if (!fotoInput.files.length) {
+
+        alert(
+            "Selecione a foto de referência."
+        );
+
+        return;
+
+    }
+
+
+    if (!pptInput.files.length) {
+
+        alert(
+            "Selecione pelo menos um arquivo PowerPoint (.pptx)."
+        );
+
+        return;
+
+    }
+
+
+    btn.disabled = true;
+
+
+    try {
+
+        atualizarStatus(
+            "Carregando foto de referência..."
+        );
+
+
+        const referenciaBlob =
+            fotoInput.files[0];
+
+
+        const assinaturaReferencia =
+            await assinaturaImagem(
+                referenciaBlob
+            );
+
+
+        const todosResultados = [];
+
+
+        for (
+            let p = 0;
+            p < pptInput.files.length;
+            p++
+        ) {
+
+            const arquivoPPT =
+                pptInput.files[p];
+
+
+            atualizarStatus(
+
+                `Processando PowerPoint ${
+                    p + 1
+                } de ${
+                    pptInput.files.length
+                }:\n${
+                    arquivoPPT.name
+                }`
+
+            );
+
+
+            const buffer =
+                await arquivoPPT
+                .arrayBuffer();
+
+
+            const zip =
+                await JSZip.loadAsync(
+                    buffer
+                );
+
+
+            const mapaSlides =
+                await mapearImagensDosSlides(
+                    zip
+                );
+
+
+            for (
+                const infoSlide
+                of mapaSlides
+            ) {
+
+                for (
+                    const nomeImagem
+                    of infoSlide.imagens
+                ) {
+
+                    const caminhoImagem =
+                        "ppt/media/" +
+                        nomeImagem;
+
+
+                    const entrada =
+                        zip.file(
+                            caminhoImagem
+                        );
+
+
+                    if (!entrada) {
+                        continue;
+                    }
+
+
+                    try {
+
+                        const bytes =
+                            await entrada
+                            .async(
+                                "uint8array"
+                            );
+
+
+                        /*
+                           CORREÇÃO PRINCIPAL
+
+                           Identifica corretamente
+                           JPG, PNG etc.
+                        */
+
+                        const mime =
+                            obterMimeImagem(
+                                nomeImagem
+                            );
+
+
+                        const blob =
+                            new Blob(
+                                [bytes],
+                                {
+                                    type: mime
+                                }
+                            );
+
+
+                        const assinatura =
+                            await assinaturaImagem(
+                                blob
+                            );
+
+
+                        const percentual =
+                            similaridade(
+                                assinaturaReferencia,
+                                assinatura
+                            );
+
+
+                        /*
+                           Cria URL da imagem
+                        */
+
+                        const url =
+                            URL.createObjectURL(
+                                blob
+                            );
+
+
+                        urlsCriadas.push(
+                            url
+                        );
+
+
+                        todosResultados.push({
+
+                            desenho:
+                                infoSlide.desenho,
+
+                            powerpoint:
+                                arquivoPPT.name,
+
+                            slide:
+                                infoSlide.slide,
+
+                            similaridade:
+                                percentual,
+
+                            url:
+                                url,
+
+                            nomeImagem:
+                                nomeImagem,
+
+                            mime:
+                                mime
+
+                        });
+
+
+                    } catch (
+                        erroImagem
+                    ) {
+
+                        console.warn(
+
+                            "Erro ao processar imagem:",
+                            caminhoImagem,
+                            erroImagem
+
+                        );
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
+        /*
+           Ordena do maior para o menor
+        */
+
+        todosResultados.sort(
+
+            (a, b) =>
+                b.similaridade -
+                a.similaridade
+
+        );
+
+
+        /*
+           Mostra os 10 melhores
+        */
+
+        resultadosGlobais =
+            todosResultados.slice(
+                0,
+                10
+            );
+
+
+        mostrarResultados(
+            resultadosGlobais
+        );
+
+
+        atualizarStatus(
+
+            `Busca concluída.
+${todosResultados.length} imagens analisadas.
+${resultadosGlobais.length} melhores resultados exibidos.`
+
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            erro
+        );
+
+
+        area.innerHTML = `
+
+            <div class="painel erro">
+
+                <strong>Erro:</strong><br>
+
+                ${
+                    escaparHTML(
+                        erro.message ||
+                        erro
+                    )
+                }
+
+            </div>
+
+        `;
+
+
+        atualizarStatus(
+            "Ocorreu um erro durante a busca."
+        );
+
+
+    } finally {
+
+        btn.disabled = false;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOSTRAR RESULTADOS
+========================================================= */
+
+function mostrarResultados(
+    resultados
+) {
+
+    const area =
+        document.getElementById(
+            "areaResultados"
+        );
+
+
+    if (!resultados.length) {
+
+        area.innerHTML = `
+
+            <div class="painel vazio">
+
+                Nenhuma imagem foi encontrada
+                nos PowerPoints.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    area.innerHTML = `
+
+        <h2>Resultados</h2>
+
+        ${
+            resultados
+            .map(
+                (r, index) => `
+
+                <div class="resultado">
+
+                    <div class="badge">
+
+                        Resultado ${index + 1}
+
+                    </div>
+
+
+                    <div class="desenho">
+
+                        <strong>
+                            📋 Desenho:
+                        </strong>
+
+                        ${escaparHTML(
+                            r.desenho
+                        )}
+
+                    </div>
+
+
+                    <div class="info">
+
+                        📁
+                        <strong>
+                            PowerPoint:
+                        </strong>
+
+                        ${escaparHTML(
+                            r.powerpoint
+                        )}
+
+                        <br>
+
+
+                        📄
+                        <strong>
+                            Slide:
+                        </strong>
+
+                        ${r.slide}
+
+                        <br>
+
+
+                        🔎
+                        <strong>
+                            Semelhança visual:
+                        </strong>
+
+                        ${r.similaridade.toFixed(
+                            1
+                        )}%
+
+                    </div>
+
+
+                    <img
+
+                        class="preview"
+
+                        src="${r.url}"
+
+                        alt="Imagem encontrada"
+
+                        onerror="
+                            this.style.display='none'
+                        "
+
+                    >
+
+
+                    <div class="acoes">
+
+
+                        <button
+
+                            onclick="
+                                abrirImagem(
+                                    resultadosGlobais[
+                                        ${index}
+                                    ].url
+                                )
+                            "
+
+                        >
+
+                            🖼️ Abrir imagem encontrada
+
+                        </button>
+
+
+                        <button
+
+                            class="btn-baixar"
+
+                            onclick="
+                                baixarImagem(
+                                    resultadosGlobais[
+                                        ${index}
+                                    ].url,
+
+                                    resultadosGlobais[
+                                        ${index}
+                                    ].nomeImagem
+                                )
+                            "
+
+                        >
+
+                            💾 Baixar imagem
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+            `
+            )
+            .join("")
+        }
+
+    `;
+
+}
+
 </script>
+
 </body>
 </html>
