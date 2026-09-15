@@ -12,7 +12,7 @@ body{
   margin:auto;
   padding:20px;
   background:#f3f4f6;
-  color:#111827
+  color:#111827;
 }
 
 .caixa{
@@ -20,12 +20,43 @@ body{
   padding:22px;
   margin-bottom:15px;
   border-radius:15px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06)
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
 }
 
-h1{
+/* CABEÇALHO */
+.cabecalho{
+  position:relative;
+  min-height:135px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:15px;
+  background:#f3f4f6;
+}
+
+.cabecalho h1{
+  margin:0;
+  color:#102a54;
+  font-size:40px;
   text-align:center;
-  margin-top:0
+}
+
+.caminhao{
+  position:absolute;
+  left:5px;
+  bottom:0;
+  width:105px;
+  height:125px;
+  object-fit:contain;
+}
+
+.logo{
+  position:absolute;
+  right:5px;
+  top:25px;
+  width:190px;
+  height:auto;
+  object-fit:contain;
 }
 
 button{
@@ -37,22 +68,22 @@ button{
   border-radius:8px;
   font-size:16px;
   width:100%;
-  cursor:pointer
+  cursor:pointer;
 }
 
 button:disabled{
   opacity:.6;
-  cursor:wait
+  cursor:wait;
 }
 
 input{
   width:100%;
-  margin:10px 0
+  margin:10px 0;
 }
 
 .pequeno{
   color:#555;
-  font-size:14px
+  font-size:14px;
 }
 
 .resultado{
@@ -60,12 +91,12 @@ input{
   border:1px solid #ddd;
   padding:15px;
   margin:14px 0;
-  border-radius:12px
+  border-radius:12px;
 }
 
 .dados{
   line-height:1.6;
-  margin-bottom:12px
+  margin-bottom:12px;
 }
 
 .desenho{
@@ -74,7 +105,7 @@ input{
   padding:12px;
   margin:12px 0;
   border-radius:6px;
-  font-size:16px
+  font-size:16px;
 }
 
 .imagem-encontrada{
@@ -82,7 +113,7 @@ input{
   max-height:160px;
   display:block;
   margin:12px auto;
-  border-radius:6px
+  border-radius:6px;
 }
 
 .tag{
@@ -93,7 +124,7 @@ input{
   border-radius:999px;
   font-size:13px;
   font-weight:bold;
-  margin-bottom:8px
+  margin-bottom:8px;
 }
 
 .nota{
@@ -102,29 +133,73 @@ input{
   padding:10px;
   margin-top:10px;
   border-radius:6px;
-  color:#1e3a8a
+  color:#1e3a8a;
 }
 
 .erro{
   color:#991b1b;
   background:#fee2e2;
   padding:10px;
-  border-radius:6px
+  border-radius:6px;
 }
 
 .separador{
   height:1px;
   background:#e5e7eb;
-  margin:18px 0
+  margin:18px 0;
+}
+
+@media(max-width:700px){
+
+  .cabecalho{
+    min-height:105px;
+  }
+
+  .cabecalho h1{
+    font-size:27px;
+  }
+
+  .caminhao{
+    width:75px;
+    height:95px;
+  }
+
+  .logo{
+    width:125px;
+    top:25px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="caixa">
+<!-- CABEÇALHO -->
 
-<h1>🔎 Localizador de Fotos</h1>
+<div class="cabecalho">
+
+  <img
+    class="caminhao"
+    src="caminhao.jpg"
+    alt="Caminhão IVECO"
+  >
+
+  <h1>
+    Localizador de Fotos
+  </h1>
+
+  <img
+    class="logo"
+    src="logo-iveco.jpg"
+    alt="IVECO"
+  >
+
+</div>
+
+
+<!-- ÁREA DE BUSCA -->
+
+<div class="caixa">
 
 <p>
 Escolha a foto que você procura e depois os PowerPoints onde deseja procurar.
@@ -132,46 +207,81 @@ Escolha a foto que você procura e depois os PowerPoints onde deseja procurar.
 
 <b>1. Foto para procurar</b>
 
-<input type="file" id="foto" accept="image/*">
+<input
+  type="file"
+  id="foto"
+  accept="image/*"
+>
 
 <img
   id="preview"
   style="display:none;max-width:250px;max-height:180px;margin:10px auto"
 >
 
+
 <b>2. PowerPoints</b>
 
-<input type="file" id="ppt" accept=".pptx" multiple>
+<input
+  type="file"
+  id="ppt"
+  accept=".pptx"
+  multiple
+>
 
 <p>
 Você pode selecionar vários PowerPoints de uma vez.
 </p>
 
+
 <button id="btn">
 🔎 PROCURAR FOTO
 </button>
 
+
 <p id="status"></p>
 
+
 <div class="nota">
+
 📌 O resultado mostrará:
+
 <br><br>
-<b>📋 Desenho:</b> &V 001 - 3800395 - TIRANTE
+
+<b>📋 Desenho:</b>
+&V 001 - 3800395 - TIRANTE
+
 <br>
-<b>📁 PowerPoint:</b> nome do PowerPoint
+
+<b>📁 PowerPoint:</b>
+nome do PowerPoint
+
 <br>
-<b>📄 Slide:</b> número do slide
+
+<b>📄 Slide:</b>
+número do slide
+
 <br>
-<b>🔎 Semelhança:</b> percentual encontrado
+
+<b>🔎 Semelhança:</b>
+percentual encontrado
+
 </div>
 
+
 <p class="pequeno">
-A busca é feita no próprio computador.
+
+🔒 A busca é feita no próprio computador.
+
+<br>
+
 Os PowerPoints não são enviados para um servidor.
+
 </p>
 
 </div>
 
+
+<!-- RESULTADOS -->
 
 <div class="caixa">
 
@@ -192,9 +302,7 @@ Os resultados aparecerão aqui.
 let foto = null;
 
 
-/* =====================================================
-   FOTO DE REFERÊNCIA
-===================================================== */
+/* FOTO DE REFERÊNCIA */
 
 document.getElementById("foto").onchange = function(){
 
@@ -202,20 +310,20 @@ document.getElementById("foto").onchange = function(){
 
   if(foto){
 
-    const img = document.getElementById("preview");
+    const img =
+      document.getElementById("preview");
 
-    img.src = URL.createObjectURL(foto);
+    img.src =
+      URL.createObjectURL(foto);
 
-    img.style.display = "block";
-
+    img.style.display =
+      "block";
   }
 
 };
 
 
-/* =====================================================
-   NORMALIZAR CAMINHO
-===================================================== */
+/* NORMALIZAR CAMINHO */
 
 function normalizarCaminho(base,target){
 
@@ -240,9 +348,7 @@ function normalizarCaminho(base,target){
 }
 
 
-/* =====================================================
-   LER TEXTO DO ZIP
-===================================================== */
+/* LER TEXTO DO ZIP */
 
 async function texto(zip,nome){
 
@@ -253,9 +359,7 @@ async function texto(zip,nome){
 }
 
 
-/* =====================================================
-   RELACIONAMENTOS DO POWERPOINT
-===================================================== */
+/* RELACIONAMENTOS */
 
 function extrairRelacionamentos(xml){
 
@@ -263,11 +367,16 @@ function extrairRelacionamentos(xml){
 
   const doc =
     new DOMParser()
-    .parseFromString(xml,"application/xml");
+    .parseFromString(
+      xml,
+      "application/xml"
+    );
 
   const relacoes =
     Array.from(
-      doc.getElementsByTagName("Relationship")
+      doc.getElementsByTagName(
+        "Relationship"
+      )
     );
 
   for(const rel of relacoes){
@@ -286,15 +395,16 @@ function extrairRelacionamentos(xml){
 }
 
 
-/* =====================================================
-   PEGAR TEXTOS DO SLIDE
-===================================================== */
+/* TEXTOS DO SLIDE */
 
 function extrairTextosDoSlide(xml){
 
   const doc =
     new DOMParser()
-    .parseFromString(xml,"application/xml");
+    .parseFromString(
+      xml,
+      "application/xml"
+    );
 
   const textos = [];
 
@@ -331,9 +441,7 @@ function extrairTextosDoSlide(xml){
 }
 
 
-/* =====================================================
-   ENCONTRAR O CAMPO DESENHO
-===================================================== */
+/* ENCONTRAR DESENHO */
 
 function encontrarDesenho(xml){
 
@@ -345,16 +453,6 @@ function encontrarDesenho(xml){
     const texto =
       textoOriginal.trim();
 
-    /*
-      Procura uma linha que comece com:
-
-      Desenho /
-
-      ou
-
-      Desenho
-    */
-
     if(/^Desenho\s*\/?/i.test(texto)){
 
       let conteudo =
@@ -363,30 +461,8 @@ function encontrarDesenho(xml){
           ""
         ).trim();
 
-
-      /*
-        Exemplo original:
-
-        &V 001 - 3800395 - TIRANTE -
-        8400 AE D1 TWB10 A2/8400 AE D1 TWB10 A3 -
-        | &V - PD - QVER
-      */
-
       const partes =
         conteudo.split(/\s+-\s+/);
-
-
-      /*
-        Mantém somente:
-
-        &V 001
-        3800395
-        TIRANTE
-
-        formando:
-
-        &V 001 - 3800395 - TIRANTE
-      */
 
       if(partes.length >= 3){
 
@@ -405,9 +481,7 @@ function encontrarDesenho(xml){
 }
 
 
-/* =====================================================
-   TRANSFORMAR IMAGEM EM ASSINATURA
-===================================================== */
+/* TRANSFORMAR IMAGEM */
 
 async function imagemDoBlob(blob){
 
@@ -437,11 +511,12 @@ async function imagemDoBlob(blob){
       };
 
       img.src = url;
-
     }
   );
 }
 
+
+/* ASSINATURA DA IMAGEM */
 
 async function assinatura(blob){
 
@@ -472,20 +547,17 @@ async function assinatura(blob){
     h
   );
 
-
   const escala =
     Math.min(
       w / img.naturalWidth,
       h / img.naturalHeight
     );
 
-
   const dw =
     img.naturalWidth * escala;
 
   const dh =
     img.naturalHeight * escala;
-
 
   ctx.drawImage(
     img,
@@ -495,7 +567,6 @@ async function assinatura(blob){
     dh
   );
 
-
   const data =
     ctx.getImageData(
       0,
@@ -504,13 +575,10 @@ async function assinatura(blob){
       h
     ).data;
 
-
   const cinza =
     new Float32Array(w*h);
 
-
   let media = 0;
-
 
   for(
     let i=0,p=0;
@@ -528,13 +596,10 @@ async function assinatura(blob){
     media += v;
   }
 
-
   media /=
     cinza.length;
 
-
   let vari = 0;
-
 
   for(const v of cinza){
 
@@ -542,12 +607,10 @@ async function assinatura(blob){
       (v-media)*(v-media);
   }
 
-
   const desvio =
     Math.sqrt(
       vari/cinza.length
     ) || 1;
-
 
   for(
     let i=0;
@@ -559,14 +622,11 @@ async function assinatura(blob){
       (cinza[i]-media)/desvio;
   }
 
-
   return cinza;
 }
 
 
-/* =====================================================
-   DISTÂNCIA
-===================================================== */
+/* DISTÂNCIA */
 
 function distancia(a,b){
 
@@ -590,9 +650,7 @@ function distancia(a,b){
 }
 
 
-/* =====================================================
-   SIMILARIDADE
-===================================================== */
+/* SIMILARIDADE */
 
 function similaridade(dist){
 
@@ -606,29 +664,20 @@ function similaridade(dist){
 }
 
 
-/* =====================================================
-   ESCAPAR HTML
-===================================================== */
+/* ESCAPAR HTML */
 
 function escapeHtml(text){
 
   return String(text)
-
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;")
-
     .replace(/"/g,"&quot;")
-
     .replace(/'/g,"&#039;");
 }
 
 
-/* =====================================================
-   PROCURAR
-===================================================== */
+/* PROCURAR */
 
 async function procurar(){
 
@@ -677,20 +726,13 @@ async function procurar(){
 
   try{
 
-    /*
-      Assinatura da foto procurada
-    */
-
     const ref =
       await assinatura(foto);
-
 
     const todos = [];
 
 
-    /*
-      Percorrer PowerPoints
-    */
+    /* PERCORRER POWERPOINTS */
 
     for(
       let p=0;
@@ -700,7 +742,6 @@ async function procurar(){
 
       const ppt =
         ppts[p];
-
 
       status.innerText =
         "Lendo PowerPoint "+
@@ -725,52 +766,35 @@ async function procurar(){
         Object.keys(zip.files);
 
 
-      /*
-        Todas as imagens
-      */
+      /* IMAGENS */
 
       const imagens =
         arquivos.filter(
           n =>
-            n.startsWith("ppt/media/") &&
+            n.startsWith(
+              "ppt/media/"
+            ) &&
             /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i
               .test(n)
         );
 
 
-      /*
-        Relação:
-
-        imagem -> slides
-      */
-
       const usos = {};
-
-
-      /*
-        Relação:
-
-        slide -> desenho
-      */
 
       const desenhos = {};
 
 
-      /*
-        Localizar slides
-      */
+      /* SLIDES */
 
       const slides =
         arquivos
-
         .filter(
           n =>
             /^ppt\/slides\/slide\d+\.xml$/i
               .test(n)
         )
-
         .sort(
-          (a,b) => {
+          (a,b)=>{
 
             const na =
               +(a.match(
@@ -787,9 +811,7 @@ async function procurar(){
         );
 
 
-      /*
-        Ler cada slide
-      */
+      /* LER SLIDES */
 
       for(const slide of slides){
 
@@ -799,10 +821,6 @@ async function procurar(){
           ) || [,0])[1];
 
 
-        /*
-          XML do slide
-        */
-
         const slideXml =
           await texto(
             zip,
@@ -810,19 +828,11 @@ async function procurar(){
           );
 
 
-        /*
-          PEGAR DESENHO
-        */
-
         desenhos[num] =
           encontrarDesenho(
             slideXml
           );
 
-
-        /*
-          Relações do slide
-        */
 
         const relXml =
           await texto(
@@ -838,11 +848,6 @@ async function procurar(){
             relXml
           );
 
-
-        /*
-          Encontrar imagens utilizadas
-          pelo slide
-        */
 
         const doc =
           new DOMParser()
@@ -898,22 +903,16 @@ async function procurar(){
 
 
           if(
-            !usos[target].includes(
-              num
-            )
+            !usos[target].includes(num)
           ){
 
-            usos[target].push(
-              num
-            );
+            usos[target].push(num);
           }
         }
       }
 
 
-      /*
-        Comparar cada imagem
-      */
+      /* COMPARAR IMAGENS */
 
       for(
         let i=0;
@@ -943,9 +942,7 @@ async function procurar(){
 
 
           const sig =
-            await assinatura(
-              blob
-            );
+            await assinatura(blob);
 
 
           const score =
@@ -961,10 +958,6 @@ async function procurar(){
             usos[nome] || [];
 
 
-          /*
-            Pegar desenho do slide
-          */
-
           const desenhosEncontrados =
             slidesDaImagem.map(
               slide =>
@@ -975,23 +968,17 @@ async function procurar(){
 
           todos.push({
 
-            arquivo:
-              ppt.name,
+            arquivo:ppt.name,
 
-            nome:
-              nome.split("/").pop(),
+            nome:nome.split("/").pop(),
 
-            blob:
-              blob,
+            blob:blob,
 
-            score:
-              score,
+            score:score,
 
-            slides:
-              slidesDaImagem,
+            slides:slidesDaImagem,
 
-            desenhos:
-              desenhosEncontrados
+            desenhos:desenhosEncontrados
 
           });
 
@@ -1002,18 +989,15 @@ async function procurar(){
             "Imagem ignorada",
             e
           );
-
         }
       }
     }
 
 
-    /*
-      Ordenar pelos melhores
-    */
+    /* ORDENAR */
 
     todos.sort(
-      (a,b) =>
+      (a,b)=>
         b.score-a.score
     );
 
@@ -1028,15 +1012,8 @@ async function procurar(){
 
     }else{
 
-      /*
-        Mostrar 10 melhores
-      */
-
       const exibidos =
-        todos.slice(
-          0,
-          10
-        );
+        todos.slice(0,10);
 
 
       for(
@@ -1059,10 +1036,6 @@ async function procurar(){
           "resultado";
 
 
-        /*
-          Desenho
-        */
-
         let desenho =
           "Desenho não identificado";
 
@@ -1083,10 +1056,6 @@ async function procurar(){
         }
 
 
-        /*
-          Informações
-        */
-
         div.innerHTML =
 
           '<div class="tag">'+
@@ -1096,17 +1065,13 @@ async function procurar(){
 
           '<div class="desenho">'+
           '<b>📋 Desenho:</b><br>'+
-          escapeHtml(
-            desenho
-          )+
+          escapeHtml(desenho)+
           '</div>'+
 
           '<div class="dados">'+
 
           '<b>📁 PowerPoint:</b> '+
-          escapeHtml(
-            r.arquivo
-          )+
+          escapeHtml(r.arquivo)+
 
           '<br>'+
 
@@ -1126,10 +1091,6 @@ async function procurar(){
           '</div>';
 
 
-        /*
-          Imagem encontrada
-        */
-
         const img =
           document.createElement(
             "img"
@@ -1146,14 +1107,8 @@ async function procurar(){
           );
 
 
-        div.appendChild(
-          img
-        );
+        div.appendChild(img);
 
-
-        /*
-          Botão da imagem
-        */
 
         const abrir =
           document.createElement(
@@ -1173,14 +1128,10 @@ async function procurar(){
             );
 
 
-        div.appendChild(
-          abrir
-        );
+        div.appendChild(abrir);
 
 
-        area.appendChild(
-          div
-        );
+        area.appendChild(div);
 
 
         if(
@@ -1196,9 +1147,7 @@ async function procurar(){
           sep.className =
             "separador";
 
-          area.appendChild(
-            sep
-          );
+          area.appendChild(sep);
         }
       }
     }
@@ -1213,9 +1162,7 @@ async function procurar(){
 
   }catch(erro){
 
-    console.error(
-      erro
-    );
+    console.error(erro);
 
 
     status.innerHTML =
@@ -1230,15 +1177,12 @@ async function procurar(){
 
   }finally{
 
-    btn.disabled =
-      false;
+    btn.disabled = false;
   }
 }
 
 
-/* =====================================================
-   BOTÃO
-===================================================== */
+/* BOTÃO */
 
 document
   .getElementById("btn")
