@@ -102,14 +102,6 @@ button:hover{
     background:#fafafa;
 }
 
-.resultado img{
-    max-width:300px;
-    max-height:220px;
-    display:block;
-    margin-top:10px;
-    border-radius:6px;
-}
-
 .resultado a{
     display:inline-block;
     margin-top:10px;
@@ -291,7 +283,7 @@ async function procurar(){
                 <b>PowerPoint:</b> ${item.ppt}<br>
                 <b>Imagem:</b> ${item.imagem}<br>
                 <b>Semelhança aproximada:</b> ${similaridade.toFixed(1)}%
-                <img src="${item.url}">
+                <br>
                 <a href="${item.url}" target="_blank">Abrir imagem encontrada</a>
             `;
 
