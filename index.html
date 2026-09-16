@@ -153,7 +153,7 @@ input{
 }
 
 /* =====================================================
-   CABEÇALHO - RESPONSIVO
+   RESPONSIVO
 ===================================================== */
 
 @media(max-width:700px){
@@ -186,205 +186,26 @@ input{
 <div class="caixa">
 
 <!-- =====================================================
-     CABEÇALHO
+     CABEÇALHO COM AS IMAGENS ENVIADAS
 ===================================================== -->
 
 <div class="cabecalho">
 
-  <!-- Caminhão IVECO -->
-  <svg
+  <img
+    src="caminhao.jpg"
     class="logo-caminhao"
-    viewBox="0 0 180 150"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-label="Caminhão IVECO"
+    alt="Caminhão IVECO"
   >
 
-    <!-- cabine -->
-    <path
-      d="M48 25
-         C48 17 54 12 63 12
-         H119
-         C131 12 139 19 142 30
-         L151 67
-         H157
-         C165 67 170 73 170 81
-         V119
-         H39
-         V42
-         C39 32 42 27 48 25Z"
-      fill="#159bd3"
-      stroke="#222"
-      stroke-width="4"
-    />
-
-    <!-- para-brisa -->
-    <path
-      d="M58 28
-         H113
-         C120 28 126 32 128 39
-         L134 59
-         H58Z"
-      fill="#bfe8f5"
-      stroke="#222"
-      stroke-width="3"
-    />
-
-    <!-- divisão do vidro -->
-    <line
-      x1="91"
-      y1="28"
-      x2="91"
-      y2="59"
-      stroke="#222"
-      stroke-width="3"
-    />
-
-    <!-- grade frontal -->
-    <path
-      d="M52 69
-         H139
-         L148 110
-         H43Z"
-      fill="#252525"
-      stroke="#111"
-      stroke-width="3"
-    />
-
-    <!-- linhas da grade -->
-    <line
-      x1="55"
-      y1="79"
-      x2="142"
-      y2="79"
-      stroke="#777"
-      stroke-width="3"
-    />
-
-    <line
-      x1="51"
-      y1="90"
-      x2="145"
-      y2="90"
-      stroke="#777"
-      stroke-width="3"
-    />
-
-    <line
-      x1="48"
-      y1="101"
-      x2="147"
-      y2="101"
-      stroke="#777"
-      stroke-width="3"
-    />
-
-    <!-- faróis -->
-    <rect
-      x="45"
-      y="70"
-      width="16"
-      height="12"
-      rx="3"
-      fill="#e8f6ff"
-      stroke="#222"
-      stroke-width="2"
-    />
-
-    <rect
-      x="130"
-      y="70"
-      width="16"
-      height="12"
-      rx="3"
-      fill="#e8f6ff"
-      stroke="#222"
-      stroke-width="2"
-    />
-
-    <!-- para-choque -->
-    <path
-      d="M40 111
-         H151
-         V124
-         H40Z"
-      fill="#555"
-      stroke="#222"
-      stroke-width="3"
-    />
-
-    <!-- rodas -->
-    <circle
-      cx="62"
-      cy="128"
-      r="18"
-      fill="#111"
-    />
-
-    <circle
-      cx="62"
-      cy="128"
-      r="8"
-      fill="#aaa"
-    />
-
-    <circle
-      cx="132"
-      cy="128"
-      r="18"
-      fill="#111"
-    />
-
-    <circle
-      cx="132"
-      cy="128"
-      r="8"
-      fill="#aaa"
-    />
-
-    <!-- logo frontal -->
-    <text
-      x="90"
-      y="117"
-      text-anchor="middle"
-      font-family="Arial"
-      font-size="10"
-      font-weight="bold"
-      fill="white"
-    >
-      IVECO
-    </text>
-
-  </svg>
-
-
-  <!-- Título -->
   <h1 class="titulo-cabecalho">
     Localizador de Fotos
   </h1>
 
-
-  <!-- Logo IVECO -->
-  <svg
+  <img
+    src="iveco.jpg"
     class="logo-iveco"
-    viewBox="0 0 300 100"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-label="IVECO"
+    alt="IVECO"
   >
-
-    <text
-      x="150"
-      y="68"
-      text-anchor="middle"
-      font-family="Arial, Helvetica, sans-serif"
-      font-size="58"
-      font-weight="900"
-      letter-spacing="2"
-      fill="#111"
-    >
-      IVECO
-    </text>
-
-  </svg>
 
 </div>
 
@@ -608,16 +429,6 @@ function encontrarDesenho(xml){
     const texto =
       textoOriginal.trim();
 
-    /*
-      Procura uma linha que comece com:
-
-      Desenho /
-
-      ou
-
-      Desenho
-    */
-
     if(/^Desenho\s*\/?/i.test(texto)){
 
       let conteudo =
@@ -626,30 +437,8 @@ function encontrarDesenho(xml){
           ""
         ).trim();
 
-
-      /*
-        Exemplo original:
-
-        &V 001 - 3800395 - TIRANTE -
-        8400 AE D1 TWB10 A2/8400 AE D1 TWB10 A3 -
-        | &V - PD - QVER
-      */
-
       const partes =
         conteudo.split(/\s+-\s+/);
-
-
-      /*
-        Mantém somente:
-
-        &V 001
-        3800395
-        TIRANTE
-
-        formando:
-
-        &V 001 - 3800395 - TIRANTE
-      */
 
       if(partes.length >= 3){
 
@@ -940,20 +729,12 @@ async function procurar(){
 
   try{
 
-    /*
-      Assinatura da foto procurada
-    */
-
     const ref =
       await assinatura(foto);
 
 
     const todos = [];
 
-
-    /*
-      Percorrer PowerPoints
-    */
 
     for(
       let p=0;
@@ -988,10 +769,6 @@ async function procurar(){
         Object.keys(zip.files);
 
 
-      /*
-        Todas as imagens
-      */
-
       const imagens =
         arquivos.filter(
           n =>
@@ -1001,27 +778,10 @@ async function procurar(){
         );
 
 
-      /*
-        Relação:
-
-        imagem -> slides
-      */
-
       const usos = {};
-
-
-      /*
-        Relação:
-
-        slide -> desenho
-      */
 
       const desenhos = {};
 
-
-      /*
-        Localizar slides
-      */
 
       const slides =
         arquivos
@@ -1050,10 +810,6 @@ async function procurar(){
         );
 
 
-      /*
-        Ler cada slide
-      */
-
       for(const slide of slides){
 
         const num =
@@ -1062,10 +818,6 @@ async function procurar(){
           ) || [,0])[1];
 
 
-        /*
-          XML do slide
-        */
-
         const slideXml =
           await texto(
             zip,
@@ -1073,19 +825,11 @@ async function procurar(){
           );
 
 
-        /*
-          PEGAR DESENHO
-        */
-
         desenhos[num] =
           encontrarDesenho(
             slideXml
           );
 
-
-        /*
-          Relações do slide
-        */
 
         const relXml =
           await texto(
@@ -1101,11 +845,6 @@ async function procurar(){
             relXml
           );
 
-
-        /*
-          Encontrar imagens utilizadas
-          pelo slide
-        */
 
         const doc =
           new DOMParser()
@@ -1174,10 +913,6 @@ async function procurar(){
       }
 
 
-      /*
-        Comparar cada imagem
-      */
-
       for(
         let i=0;
         i<imagens.length;
@@ -1224,10 +959,6 @@ async function procurar(){
             usos[nome] || [];
 
 
-          /*
-            Pegar desenho do slide
-          */
-
           const desenhosEncontrados =
             slidesDaImagem.map(
               slide =>
@@ -1271,10 +1002,6 @@ async function procurar(){
     }
 
 
-    /*
-      Ordenar pelos melhores
-    */
-
     todos.sort(
       (a,b) =>
         b.score-a.score
@@ -1290,10 +1017,6 @@ async function procurar(){
         "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
 
     }else{
-
-      /*
-        Mostrar 10 melhores
-      */
 
       const exibidos =
         todos.slice(
@@ -1322,10 +1045,6 @@ async function procurar(){
           "resultado";
 
 
-        /*
-          Desenho
-        */
-
         let desenho =
           "Desenho não identificado";
 
@@ -1345,10 +1064,6 @@ async function procurar(){
             r.desenhos[0];
         }
 
-
-        /*
-          Informações
-        */
 
         div.innerHTML =
 
@@ -1389,10 +1104,6 @@ async function procurar(){
           '</div>';
 
 
-        /*
-          Imagem encontrada
-        */
-
         const img =
           document.createElement(
             "img"
@@ -1413,10 +1124,6 @@ async function procurar(){
           img
         );
 
-
-        /*
-          Botão da imagem
-        */
 
         const abrir =
           document.createElement(
