@@ -23,10 +23,44 @@ body{
   box-shadow:0 2px 8px rgba(0,0,0,.06)
 }
 
-h1{
-  text-align:center;
-  margin-top:0
+/* =====================================================
+   CABEÇALHO
+===================================================== */
+
+.cabecalho{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  min-height:100px;
+  margin-bottom:20px;
 }
+
+.logo-caminhao{
+  width:105px;
+  height:90px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+.titulo-cabecalho{
+  flex:1;
+  text-align:center;
+  font-size:36px;
+  margin:0;
+  color:#111827;
+}
+
+.logo-iveco{
+  width:180px;
+  height:80px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+/* =====================================================
+   RESTANTE DO CÓDIGO
+===================================================== */
 
 button{
   background:#2563eb;
@@ -117,6 +151,33 @@ input{
   background:#e5e7eb;
   margin:18px 0
 }
+
+/* =====================================================
+   CABEÇALHO - RESPONSIVO
+===================================================== */
+
+@media(max-width:700px){
+
+  .cabecalho{
+    min-height:75px;
+  }
+
+  .logo-caminhao{
+    width:70px;
+    height:65px;
+  }
+
+  .logo-iveco{
+    width:110px;
+    height:60px;
+  }
+
+  .titulo-cabecalho{
+    font-size:25px;
+  }
+
+}
+
 </style>
 </head>
 
@@ -124,7 +185,209 @@ input{
 
 <div class="caixa">
 
-<h1>🔎 Localizador de Fotos</h1>
+<!-- =====================================================
+     CABEÇALHO
+===================================================== -->
+
+<div class="cabecalho">
+
+  <!-- Caminhão IVECO -->
+  <svg
+    class="logo-caminhao"
+    viewBox="0 0 180 150"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Caminhão IVECO"
+  >
+
+    <!-- cabine -->
+    <path
+      d="M48 25
+         C48 17 54 12 63 12
+         H119
+         C131 12 139 19 142 30
+         L151 67
+         H157
+         C165 67 170 73 170 81
+         V119
+         H39
+         V42
+         C39 32 42 27 48 25Z"
+      fill="#159bd3"
+      stroke="#222"
+      stroke-width="4"
+    />
+
+    <!-- para-brisa -->
+    <path
+      d="M58 28
+         H113
+         C120 28 126 32 128 39
+         L134 59
+         H58Z"
+      fill="#bfe8f5"
+      stroke="#222"
+      stroke-width="3"
+    />
+
+    <!-- divisão do vidro -->
+    <line
+      x1="91"
+      y1="28"
+      x2="91"
+      y2="59"
+      stroke="#222"
+      stroke-width="3"
+    />
+
+    <!-- grade frontal -->
+    <path
+      d="M52 69
+         H139
+         L148 110
+         H43Z"
+      fill="#252525"
+      stroke="#111"
+      stroke-width="3"
+    />
+
+    <!-- linhas da grade -->
+    <line
+      x1="55"
+      y1="79"
+      x2="142"
+      y2="79"
+      stroke="#777"
+      stroke-width="3"
+    />
+
+    <line
+      x1="51"
+      y1="90"
+      x2="145"
+      y2="90"
+      stroke="#777"
+      stroke-width="3"
+    />
+
+    <line
+      x1="48"
+      y1="101"
+      x2="147"
+      y2="101"
+      stroke="#777"
+      stroke-width="3"
+    />
+
+    <!-- faróis -->
+    <rect
+      x="45"
+      y="70"
+      width="16"
+      height="12"
+      rx="3"
+      fill="#e8f6ff"
+      stroke="#222"
+      stroke-width="2"
+    />
+
+    <rect
+      x="130"
+      y="70"
+      width="16"
+      height="12"
+      rx="3"
+      fill="#e8f6ff"
+      stroke="#222"
+      stroke-width="2"
+    />
+
+    <!-- para-choque -->
+    <path
+      d="M40 111
+         H151
+         V124
+         H40Z"
+      fill="#555"
+      stroke="#222"
+      stroke-width="3"
+    />
+
+    <!-- rodas -->
+    <circle
+      cx="62"
+      cy="128"
+      r="18"
+      fill="#111"
+    />
+
+    <circle
+      cx="62"
+      cy="128"
+      r="8"
+      fill="#aaa"
+    />
+
+    <circle
+      cx="132"
+      cy="128"
+      r="18"
+      fill="#111"
+    />
+
+    <circle
+      cx="132"
+      cy="128"
+      r="8"
+      fill="#aaa"
+    />
+
+    <!-- logo frontal -->
+    <text
+      x="90"
+      y="117"
+      text-anchor="middle"
+      font-family="Arial"
+      font-size="10"
+      font-weight="bold"
+      fill="white"
+    >
+      IVECO
+    </text>
+
+  </svg>
+
+
+  <!-- Título -->
+  <h1 class="titulo-cabecalho">
+    Localizador de Fotos
+  </h1>
+
+
+  <!-- Logo IVECO -->
+  <svg
+    class="logo-iveco"
+    viewBox="0 0 300 100"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="IVECO"
+  >
+
+    <text
+      x="150"
+      y="68"
+      text-anchor="middle"
+      font-family="Arial, Helvetica, sans-serif"
+      font-size="58"
+      font-weight="900"
+      letter-spacing="2"
+      fill="#111"
+    >
+      IVECO
+    </text>
+
+  </svg>
+
+</div>
+
 
 <p>
 Escolha a foto que você procura e depois os PowerPoints onde deseja procurar.
