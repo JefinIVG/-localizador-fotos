@@ -23,44 +23,10 @@ body{
   box-shadow:0 2px 8px rgba(0,0,0,.06)
 }
 
-/* =====================================================
-   CABEÇALHO
-===================================================== */
-
-.cabecalho{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  width:100%;
-  min-height:100px;
-  margin-bottom:20px;
-}
-
-.logo-caminhao{
-  width:105px;
-  height:90px;
-  object-fit:contain;
-  flex-shrink:0;
-}
-
-.titulo-cabecalho{
-  flex:1;
+h1{
   text-align:center;
-  font-size:36px;
-  margin:0;
-  color:#111827;
+  margin-top:0
 }
-
-.logo-iveco{
-  width:180px;
-  height:80px;
-  object-fit:contain;
-  flex-shrink:0;
-}
-
-/* =====================================================
-   RESTANTE DO CÓDIGO
-===================================================== */
 
 button{
   background:#2563eb;
@@ -151,33 +117,6 @@ input{
   background:#e5e7eb;
   margin:18px 0
 }
-
-/* =====================================================
-   RESPONSIVO
-===================================================== */
-
-@media(max-width:700px){
-
-  .cabecalho{
-    min-height:75px;
-  }
-
-  .logo-caminhao{
-    width:70px;
-    height:65px;
-  }
-
-  .logo-iveco{
-    width:110px;
-    height:60px;
-  }
-
-  .titulo-cabecalho{
-    font-size:25px;
-  }
-
-}
-
 </style>
 </head>
 
@@ -185,30 +124,7 @@ input{
 
 <div class="caixa">
 
-<!-- =====================================================
-     CABEÇALHO COM AS IMAGENS ENVIADAS
-===================================================== -->
-
-<div class="cabecalho">
-
-  <img
-    src="caminhao.jpg"
-    class="logo-caminhao"
-    alt="Caminhão IVECO"
-  >
-
-  <h1 class="titulo-cabecalho">
-    Localizador de Fotos
-  </h1>
-
-  <img
-    src="iveco.jpg"
-    class="logo-iveco"
-    alt="IVECO"
-  >
-
-</div>
-
+<h1>🔎 Localizador de Fotos</h1>
 
 <p>
 Escolha a foto que você procura e depois os PowerPoints onde deseja procurar.
@@ -429,6 +345,16 @@ function encontrarDesenho(xml){
     const texto =
       textoOriginal.trim();
 
+    /*
+      Procura uma linha que comece com:
+
+      Desenho /
+
+      ou
+
+      Desenho
+    */
+
     if(/^Desenho\s*\/?/i.test(texto)){
 
       let conteudo =
@@ -437,8 +363,30 @@ function encontrarDesenho(xml){
           ""
         ).trim();
 
+
+      /*
+        Exemplo original:
+
+        &V 001 - 3800395 - TIRANTE -
+        8400 AE D1 TWB10 A2/8400 AE D1 TWB10 A3 -
+        | &V - PD - QVER
+      */
+
       const partes =
         conteudo.split(/\s+-\s+/);
+
+
+      /*
+        Mantém somente:
+
+        &V 001
+        3800395
+        TIRANTE
+
+        formando:
+
+        &V 001 - 3800395 - TIRANTE
+      */
 
       if(partes.length >= 3){
 
@@ -729,12 +677,20 @@ async function procurar(){
 
   try{
 
+    /*
+      Assinatura da foto procurada
+    */
+
     const ref =
       await assinatura(foto);
 
 
     const todos = [];
 
+
+    /*
+      Percorrer PowerPoints
+    */
 
     for(
       let p=0;
@@ -769,6 +725,10 @@ async function procurar(){
         Object.keys(zip.files);
 
 
+      /*
+        Todas as imagens
+      */
+
       const imagens =
         arquivos.filter(
           n =>
@@ -778,10 +738,27 @@ async function procurar(){
         );
 
 
+      /*
+        Relação:
+
+        imagem -> slides
+      */
+
       const usos = {};
+
+
+      /*
+        Relação:
+
+        slide -> desenho
+      */
 
       const desenhos = {};
 
+
+      /*
+        Localizar slides
+      */
 
       const slides =
         arquivos
@@ -810,6 +787,10 @@ async function procurar(){
         );
 
 
+      /*
+        Ler cada slide
+      */
+
       for(const slide of slides){
 
         const num =
@@ -818,6 +799,10 @@ async function procurar(){
           ) || [,0])[1];
 
 
+        /*
+          XML do slide
+        */
+
         const slideXml =
           await texto(
             zip,
@@ -825,11 +810,19 @@ async function procurar(){
           );
 
 
+        /*
+          PEGAR DESENHO
+        */
+
         desenhos[num] =
           encontrarDesenho(
             slideXml
           );
 
+
+        /*
+          Relações do slide
+        */
 
         const relXml =
           await texto(
@@ -845,6 +838,11 @@ async function procurar(){
             relXml
           );
 
+
+        /*
+          Encontrar imagens utilizadas
+          pelo slide
+        */
 
         const doc =
           new DOMParser()
@@ -913,6 +911,10 @@ async function procurar(){
       }
 
 
+      /*
+        Comparar cada imagem
+      */
+
       for(
         let i=0;
         i<imagens.length;
@@ -959,6 +961,10 @@ async function procurar(){
             usos[nome] || [];
 
 
+          /*
+            Pegar desenho do slide
+          */
+
           const desenhosEncontrados =
             slidesDaImagem.map(
               slide =>
@@ -1002,6 +1008,10 @@ async function procurar(){
     }
 
 
+    /*
+      Ordenar pelos melhores
+    */
+
     todos.sort(
       (a,b) =>
         b.score-a.score
@@ -1017,6 +1027,10 @@ async function procurar(){
         "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
 
     }else{
+
+      /*
+        Mostrar 10 melhores
+      */
 
       const exibidos =
         todos.slice(
@@ -1045,6 +1059,10 @@ async function procurar(){
           "resultado";
 
 
+        /*
+          Desenho
+        */
+
         let desenho =
           "Desenho não identificado";
 
@@ -1064,6 +1082,10 @@ async function procurar(){
             r.desenhos[0];
         }
 
+
+        /*
+          Informações
+        */
 
         div.innerHTML =
 
@@ -1104,6 +1126,10 @@ async function procurar(){
           '</div>';
 
 
+        /*
+          Imagem encontrada
+        */
+
         const img =
           document.createElement(
             "img"
@@ -1124,6 +1150,10 @@ async function procurar(){
           img
         );
 
+
+        /*
+          Botão da imagem
+        */
 
         const abrir =
           document.createElement(
