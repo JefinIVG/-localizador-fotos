@@ -6,1081 +6,187 @@
 <title>Localizador de Fotos</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
-
-:root{
-  --azul:#0878ff;
-  --azul2:#0758cf;
-  --fundo:#031525;
-  --painel:#061d31;
-  --painel2:#08263e;
-  --borda:#14517c;
-  --texto:#f5f9ff;
-  --texto2:#b8c9d9;
-  --verde:#50e3bd;
-}
-
-html,body{
-  margin:0;
-  min-height:100%;
-}
-
 body{
   font-family:Arial,sans-serif;
-  background:
-    radial-gradient(
-      circle at 70% 0%,
-      rgba(0,100,220,.20),
-      transparent 32%
-    ),
-    linear-gradient(
-      135deg,
-      #021321,
-      #061e33 55%,
-      #031321
-    );
-  color:var(--texto);
-  min-height:100vh;
-}
-
-/* =====================================================
-   CABEÇALHO
-===================================================== */
-
-.main{
-  width:100%;
-  min-width:0;
-}
-
-.hero{
-  height:205px;
-  position:relative;
-  overflow:hidden;
-
-  display:flex;
-  align-items:center;
-
-  padding:25px 7%;
-
-  border-bottom:1px solid #17527d;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(2,18,31,.90),
-      rgba(2,18,31,.38)
-    ),
-    url("hero.jpg")
-    center/cover no-repeat;
-}
-
-.hero:after{
-  content:"";
-
-  position:absolute;
-
-  right:6%;
-  top:-80px;
-
-  width:145px;
-  height:340px;
-
-  background:
-    linear-gradient(
-      145deg,
-      transparent 0 38%,
-      #0a70ec 39% 55%,
-      transparent 56%
-    );
-
-  opacity:.75;
-
-  transform:skewX(-18deg);
-}
-
-.hero-logo{
-  position:absolute;
-
-  left:30px;
-  top:25px;
-
-  width:125px;
-  height:auto;
-
-  z-index:2;
-}
-
-.hero-logo-right{
-  position:absolute;
-
-  right:28px;
-  top:40px;
-
-  width:170px;
-  height:auto;
-
-  z-index:2;
-}
-
-.hero-copy{
-  position:relative;
-
-  z-index:3;
-
-  margin-left:23%;
-
-  max-width:700px;
-}
-
-.hero h1{
-  margin:0;
-
-  font-size:42px;
-
-  letter-spacing:-1.5px;
-}
-
-.hero h1 span{
-  color:#0878ff;
-}
-
-.hero p{
-  margin:7px 0 0;
-
-  color:#c4d4e2;
-
-  font-size:16px;
-}
-
-/* =====================================================
-   CONTEÚDO
-===================================================== */
-
-.content{
-  padding:17px 3% 28px;
-
-  max-width:1280px;
-
+  max-width:1100px;
   margin:auto;
+  padding:20px;
+  background:#f3f4f6;
+  color:#111827
 }
-
-.top-grid{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr 270px;
-
-  gap:10px;
-}
-
-/* =====================================================
-   CAIXAS
-===================================================== */
 
 .caixa{
-  background:
-    linear-gradient(
-      145deg,
-      rgba(7,32,52,.98),
-      rgba(4,23,40,.98)
-    );
-
-  padding:16px;
-
-  border-radius:10px;
-
-  border:1px solid var(--borda);
-
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.22);
-
-  margin:0 0 10px;
+  background:white;
+  padding:22px;
+  margin-bottom:15px;
+  border-radius:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06)
 }
 
-/* =====================================================
-   ETAPAS
-===================================================== */
-
-.step-title{
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  margin-bottom:12px;
-
-  font-weight:bold;
-}
-
-.step{
-  width:31px;
-  height:31px;
-
-  border-radius:50%;
-
-  background:#0878ff;
-
-  display:grid;
-
-  place-items:center;
-
-  font-weight:900;
-
-  flex:none;
-}
-
-/* =====================================================
-   ÁREA DE UPLOAD
-===================================================== */
-
-.upload{
-  min-height:96px;
-
-  border:1px dashed #347eae;
-
-  border-radius:9px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
+h1{
   text-align:center;
-
-  color:#bfd0df;
-
-  padding:15px;
-
-  background:
-    rgba(0,90,150,.08);
-
-  position:relative;
+  margin-top:0
 }
-
-.upload input{
-  position:absolute;
-
-  inset:0;
-
-  opacity:0;
-
-  cursor:pointer;
-
-  width:100%;
-  height:100%;
-
-  margin:0;
-}
-
-.upload-icon{
-  font-size:28px;
-
-  margin-bottom:5px;
-}
-
-input[type=file]{
-  width:100%;
-
-  margin:0;
-
-  color:#bfd0df;
-}
-
-#preview{
-  display:none;
-
-  max-width:120px;
-  max-height:85px;
-
-  margin:10px 0 0;
-
-  border:1px solid #5685a9;
-
-  border-radius:7px;
-}
-
-.pequeno{
-  color:#91a9bd;
-
-  font-size:12px;
-
-  margin:7px 0 0;
-}
-
-/* =====================================================
-   CARD INFORMATIVO
-===================================================== */
-
-.info-card{
-  text-align:center;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  align-items:center;
-
-  min-height:250px;
-
-  background:
-    linear-gradient(
-      rgba(3,28,48,.88),
-      rgba(3,28,48,.97)
-    );
-}
-
-.info-icon{
-  font-size:38px;
-
-  margin-bottom:7px;
-}
-
-.info-card h3{
-  margin:0 0 8px;
-
-  font-size:16px;
-}
-
-.info-card p{
-  color:#b9cad9;
-
-  font-size:13px;
-
-  line-height:1.45;
-
-  max-width:210px;
-}
-
-/* =====================================================
-   BOTÕES
-===================================================== */
 
 button{
-  background:
-    linear-gradient(
-      135deg,
-      #0878ff,
-      #0759d0
-    );
-
+  background:#2563eb;
   color:white;
-
   border:0;
-
-  padding:12px 14px;
-
-  margin:8px 0 0;
-
-  border-radius:7px;
-
-  font-size:14px;
-
-  font-weight:bold;
-
+  padding:14px;
+  margin:8px 0;
+  border-radius:8px;
+  font-size:16px;
   width:100%;
-
-  cursor:pointer;
-
-  box-shadow:
-    0 6px 16px rgba(0,105,255,.22);
-
-  transition:.15s;
-}
-
-button:hover{
-  filter:brightness(1.08);
+  cursor:pointer
 }
 
 button:disabled{
   opacity:.6;
-
-  cursor:wait;
+  cursor:wait
 }
 
-/* =====================================================
-   STATUS
-===================================================== */
-
-#status{
-  min-height:20px;
-
-  color:#73e7bd;
-
-  font-size:13px;
-
-  text-align:center;
+input{
+  width:100%;
+  margin:10px 0
 }
 
-/* =====================================================
-   INFORMAÇÕES
-===================================================== */
-
-.nota{
-  background:#071d30;
-
-  border:1px solid #14517c;
-
-  padding:13px 18px;
-
-  margin:0 0 10px;
-
-  border-radius:9px;
-
-  color:#c3d4e4;
-
-  font-size:12px;
-
-  line-height:1.55;
-
-  display:grid;
-
-  grid-template-columns:
-    1.3fr
-    1.1fr
-    1fr
-    1fr;
-
-  gap:10px;
+.pequeno{
+  color:#555;
+  font-size:14px
 }
-
-.nota b{
-  color:#e8f3ff;
-}
-
-/* =====================================================
-   RESULTADOS
-===================================================== */
-
-.results-box{
-  background:
-    linear-gradient(
-      145deg,
-      #061b2d,
-      #041728
-    );
-
-  border:1px solid #14517c;
-
-  border-radius:10px;
-
-  padding:15px;
-
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.18);
-}
-
-.results-head{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  margin-bottom:13px;
-}
-
-.results-head h2{
-  margin:0;
-
-  font-size:22px;
-}
-
-.badge{
-  background:#0c4676;
-
-  border-radius:20px;
-
-  padding:7px 11px;
-
-  font-size:11px;
-
-  color:#dceeff;
-}
-
-#resultados{
-  display:grid;
-
-  grid-template-columns:
-    repeat(
-      5,
-      minmax(0,1fr)
-    );
-
-  gap:10px;
-}
-
-/* =====================================================
-   CARD DO RESULTADO
-===================================================== */
 
 .resultado{
-  background:
-    linear-gradient(
-      160deg,
-      #082844,
-      #051b2d
-    );
-
-  border:1px solid #14517c;
-
-  padding:10px;
-
-  margin:0;
-
-  border-radius:9px;
-
-  min-width:0;
-
-  overflow:hidden;
-
-  transition:.15s;
+  background:#f9fafb;
+  border:1px solid #ddd;
+  padding:15px;
+  margin:14px 0;
+  border-radius:12px
 }
 
-.resultado:hover{
-  border-color:#2389dc;
-
-  transform:translateY(-1px);
+.dados{
+  line-height:1.6;
+  margin-bottom:12px
 }
 
-/* =====================================================
-   TAG
-===================================================== */
+.desenho{
+  background:#eff6ff;
+  border-left:4px solid #2563eb;
+  padding:12px;
+  margin:12px 0;
+  border-radius:6px;
+  font-size:16px
+}
+
+.imagem-encontrada{
+  max-width:240px;
+  max-height:160px;
+  display:block;
+  margin:12px auto;
+  border-radius:6px
+}
 
 .tag{
   display:inline-block;
-
-  background:var(--verde);
-
-  color:#03271e;
-
-  padding:4px 7px;
-
-  border-radius:12px;
-
-  font-size:10px;
-
+  background:#dcfce7;
+  color:#166534;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:13px;
   font-weight:bold;
-
-  margin-bottom:5px;
+  margin-bottom:8px
 }
 
-/* =====================================================
-   DESENHO
-===================================================== */
-
-.desenho{
-  background:transparent;
-
-  border:0;
-
-  padding:0;
-
-  margin:5px 0;
-
-  border-radius:0;
-
-  font-size:11px;
-
-  color:#e7f2fc;
-
-  line-height:1.35;
+.nota{
+  background:#eff6ff;
+  border-left:4px solid #2563eb;
+  padding:10px;
+  margin-top:10px;
+  border-radius:6px;
+  color:#1e3a8a
 }
-
-.desenho b{
-  color:#a9c5dc;
-}
-
-/* =====================================================
-   DADOS
-===================================================== */
-
-.dados{
-  line-height:1.5;
-
-  margin-bottom:4px;
-
-  color:#c2d2df;
-
-  font-size:10px;
-}
-
-.dados b{
-  color:#e7f1fa;
-}
-
-/* =====================================================
-   IMAGEM ENCONTRADA
-===================================================== */
-
-.imagem-encontrada{
-  width:100%;
-
-  height:105px;
-
-  object-fit:contain;
-
-  display:block;
-
-  margin:7px auto;
-
-  border-radius:7px;
-
-  background:#031522;
-}
-
-/* =====================================================
-   SEPARADOR
-===================================================== */
-
-.separador{
-  display:none;
-}
-
-/* =====================================================
-   ERRO
-===================================================== */
 
 .erro{
-  color:#ffb5b5;
-
-  background:#401b22;
-
-  border:1px solid #82363e;
-
+  color:#991b1b;
+  background:#fee2e2;
   padding:10px;
-
-  border-radius:7px;
+  border-radius:6px
 }
 
-/* =====================================================
-   RODAPÉ
-===================================================== */
-
-.footer{
-  border-top:1px solid #16486d;
-
-  padding:11px 4%;
-
-  color:#9db4c8;
-
-  font-size:11px;
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
+.separador{
+  height:1px;
+  background:#e5e7eb;
+  margin:18px 0
 }
-
-.footer-logo{
-  width:78px;
-
-  height:auto;
-}
-
-/* =====================================================
-   RESPONSIVO
-===================================================== */
-
-@media(max-width:1050px){
-
-  .top-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .info-card{
-    grid-column:1/-1;
-
-    min-height:130px;
-  }
-
-  #resultados{
-    grid-template-columns:
-      repeat(
-        3,
-        minmax(0,1fr)
-      );
-  }
-
-}
-
-@media(max-width:760px){
-
-  .hero{
-    height:155px;
-
-    padding:20px;
-  }
-
-  .hero-logo{
-    left:15px;
-
-    top:18px;
-
-    width:90px;
-  }
-
-  .hero-logo-right{
-    right:15px;
-
-    top:24px;
-
-    width:105px;
-  }
-
-  .hero-copy{
-    margin-left:0;
-
-    padding-top:45px;
-  }
-
-  .hero h1{
-    font-size:29px;
-  }
-
-  .hero p{
-    font-size:12px;
-  }
-
-  .top-grid{
-    grid-template-columns:1fr;
-  }
-
-  .info-card{
-    grid-column:auto;
-  }
-
-  .nota{
-    grid-template-columns:1fr 1fr;
-  }
-
-  #resultados{
-    grid-template-columns:
-      repeat(
-        2,
-        minmax(0,1fr)
-      );
-  }
-
-}
-
-@media(max-width:480px){
-
-  .content{
-    padding:12px;
-  }
-
-  .hero h1{
-    font-size:24px;
-  }
-
-  .hero p{
-    font-size:11px;
-  }
-
-  .hero-logo-right{
-    display:none;
-  }
-
-  .nota{
-    grid-template-columns:1fr;
-  }
-
-  #resultados{
-    grid-template-columns:1fr;
-  }
-
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="main">
-
-<header class="hero">
-
-  <img
-    class="hero-logo"
-    src="logo.jpg"
-    alt="
-    "
-  >
-
-  <img
-    class="hero-logo-right"
-    src="logo.jpg"
-    alt="iveco_referencia"
-  >
-
-  <div class="hero-copy">
-
-    <h1>
-      Localizador de
-      <span>Fotos</span>
-    </h1>
-
-    <p>
-      Encontre rapidamente imagens nos seus PowerPoints.
-    </p>
-
-  </div>
-
-</header>
-
-<div class="content">
-
-<div class="top-grid">
-
-<!-- =====================================================
-     FOTO
-===================================================== -->
-
 <div class="caixa">
 
-  <div class="step-title">
+<h1>🔎 Localizador de Fotos</h1>
 
-    <div class="step">
-      1
-    </div>
+<p>
+Escolha a foto que você procura e depois os PowerPoints onde deseja procurar.
+</p>
 
-    <span>
-      Foto para procurar
-    </span>
+<b>1. Foto para procurar</b>
 
-  </div>
+<input type="file" id="foto" accept="image/*">
 
-  <div class="upload">
+<img
+  id="preview"
+  style="display:none;max-width:250px;max-height:180px;margin:10px auto"
+>
 
-    <input
-      type="file"
-      id="foto"
-      accept="image/*"
-    >
+<b>2. PowerPoints</b>
 
-    <div>
+<input type="file" id="ppt" accept=".pptx" multiple>
 
-      <div class="upload-icon">
-        ▧
-      </div>
+<p>
+Você pode selecionar vários PowerPoints de uma vez.
+</p>
 
-      Clique para selecionar uma imagem
-      <br>
+<button id="btn">
+🔎 PROCURAR FOTO
+</button>
 
-      ou arraste aqui
-
-    </div>
-
-  </div>
-
-  <img
-    id="preview"
-  >
-
-</div>
-
-
-<!-- =====================================================
-     POWERPOINT
-===================================================== -->
-
-<div class="caixa">
-
-  <div class="step-title">
-
-    <div class="step">
-      2
-    </div>
-
-    <span>
-      PowerPoints
-    </span>
-
-  </div>
-
-  <div class="upload">
-
-    <input
-      type="file"
-      id="ppt"
-      accept=".pptx"
-      multiple
-    >
-
-    <div>
-
-      <div class="upload-icon">
-        ▤
-      </div>
-
-      Clique para selecionar vários
-      <br>
-
-      PowerPoints (.pptx)
-
-    </div>
-
-  </div>
-
-  <p class="pequeno">
-
-    Você pode selecionar vários arquivos
-    de uma vez.
-
-  </p>
-
-</div>
-
-
-<!-- =====================================================
-     BUSCA
-===================================================== -->
-
-<div class="caixa info-card">
-
-  <div class="info-icon">
-    ♢
-  </div>
-
-  <h3>
-    Busca com<br>
-    precisão e agilidade
-  </h3>
-
-  <p>
-    Nossa ferramenta encontra as imagens
-    que você precisa nos seus PowerPoints.
-  </p>
-
-  <button id="btn">
-
-    ⌕ &nbsp;
-    PROCURAR FOTO
-
-  </button>
-
-</div>
-
-</div>
-
-
-<div id="status"></div>
-
-
-<!-- =====================================================
-     NOTA
-===================================================== -->
+<p id="status"></p>
 
 <div class="nota">
+📌 O resultado mostrará:
+<br><br>
+<b>📋 Desenho:</b> &V 001 - 3800395 - TIRANTE
+<br>
+<b>📁 PowerPoint:</b> nome do PowerPoint
+<br>
+<b>📄 Slide:</b> número do slide
+<br>
+<b>🔎 Semelhança:</b> percentual encontrado
+</div>
 
-  <div>
-
-    <b>ⓘ Desenho:</b>
-    <br>
-
-    &V 001 - 3800395 - TIRANTE
-
-  </div>
-
-  <div>
-
-    <b>PowerPoint:</b>
-    <br>
-
-    nome do PowerPoint
-
-  </div>
-
-  <div>
-
-    <b>Slide:</b>
-    <br>
-
-    número do slide
-
-  </div>
-
-  <div>
-
-    <b>Semelhança:</b>
-    <br>
-
-    % encontrado
-
-  </div>
+<p class="pequeno">
+A busca é feita no próprio computador.
+Os PowerPoints não são enviados para um servidor.
+</p>
 
 </div>
 
 
-<!-- =====================================================
-     RESULTADOS
-===================================================== -->
+<div class="caixa">
 
-<div class="results-box">
+<h2>Resultados</h2>
 
-  <div class="results-head">
-
-    <h2>
-      ▣ &nbsp;
-      Resultados
-    </h2>
-
-    <div class="badge">
-
-      ★ &nbsp;
-      10 melhores resultados
-
-    </div>
-
-  </div>
-
-
-  <div id="resultados">
-
-    Os resultados aparecerão aqui.
-
-  </div>
-
+<div id="resultados">
+Os resultados aparecerão aqui.
 </div>
-
-</div>
-
-
-<!-- =====================================================
-     RODAPÉ
-===================================================== -->
-
-<footer class="footer">
-
-  <img
-    class="footer-logo"
-    src="logo.jpg"
-    alt="iveco_referencia"
-  >
-
-  <span>
-    Tecnologia que move o seu mundo.
-  </span>
-
-  <span>
-    ♢ &nbsp;
-    Tudo processado no seu computador
-  </span>
-
-</footer>
 
 </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+
 <script>
 
 let foto = null;
@@ -1239,6 +345,16 @@ function encontrarDesenho(xml){
     const texto =
       textoOriginal.trim();
 
+    /*
+      Procura uma linha que comece com:
+
+      Desenho /
+
+      ou
+
+      Desenho
+    */
+
     if(/^Desenho\s*\/?/i.test(texto)){
 
       let conteudo =
@@ -1247,8 +363,30 @@ function encontrarDesenho(xml){
           ""
         ).trim();
 
+
+      /*
+        Exemplo original:
+
+        &V 001 - 3800395 - TIRANTE -
+        8400 AE D1 TWB10 A2/8400 AE D1 TWB10 A3 -
+        | &V - PD - QVER
+      */
+
       const partes =
         conteudo.split(/\s+-\s+/);
+
+
+      /*
+        Mantém somente:
+
+        &V 001
+        3800395
+        TIRANTE
+
+        formando:
+
+        &V 001 - 3800395 - TIRANTE
+      */
 
       if(partes.length >= 3){
 
@@ -1539,12 +677,20 @@ async function procurar(){
 
   try{
 
+    /*
+      Assinatura da foto procurada
+    */
+
     const ref =
       await assinatura(foto);
 
 
     const todos = [];
 
+
+    /*
+      Percorrer PowerPoints
+    */
 
     for(
       let p=0;
@@ -1579,6 +725,10 @@ async function procurar(){
         Object.keys(zip.files);
 
 
+      /*
+        Todas as imagens
+      */
+
       const imagens =
         arquivos.filter(
           n =>
@@ -1588,11 +738,27 @@ async function procurar(){
         );
 
 
+      /*
+        Relação:
+
+        imagem -> slides
+      */
+
       const usos = {};
 
 
+      /*
+        Relação:
+
+        slide -> desenho
+      */
+
       const desenhos = {};
 
+
+      /*
+        Localizar slides
+      */
 
       const slides =
         arquivos
@@ -1621,6 +787,10 @@ async function procurar(){
         );
 
 
+      /*
+        Ler cada slide
+      */
+
       for(const slide of slides){
 
         const num =
@@ -1629,6 +799,10 @@ async function procurar(){
           ) || [,0])[1];
 
 
+        /*
+          XML do slide
+        */
+
         const slideXml =
           await texto(
             zip,
@@ -1636,11 +810,19 @@ async function procurar(){
           );
 
 
+        /*
+          PEGAR DESENHO
+        */
+
         desenhos[num] =
           encontrarDesenho(
             slideXml
           );
 
+
+        /*
+          Relações do slide
+        */
 
         const relXml =
           await texto(
@@ -1656,6 +838,11 @@ async function procurar(){
             relXml
           );
 
+
+        /*
+          Encontrar imagens utilizadas
+          pelo slide
+        */
 
         const doc =
           new DOMParser()
@@ -1724,6 +911,10 @@ async function procurar(){
       }
 
 
+      /*
+        Comparar cada imagem
+      */
+
       for(
         let i=0;
         i<imagens.length;
@@ -1770,6 +961,10 @@ async function procurar(){
             usos[nome] || [];
 
 
+          /*
+            Pegar desenho do slide
+          */
+
           const desenhosEncontrados =
             slidesDaImagem.map(
               slide =>
@@ -1813,6 +1008,10 @@ async function procurar(){
     }
 
 
+    /*
+      Ordenar pelos melhores
+    */
+
     todos.sort(
       (a,b) =>
         b.score-a.score
@@ -1828,6 +1027,10 @@ async function procurar(){
         "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
 
     }else{
+
+      /*
+        Mostrar 10 melhores
+      */
 
       const exibidos =
         todos.slice(
@@ -1856,6 +1059,10 @@ async function procurar(){
           "resultado";
 
 
+        /*
+          Desenho
+        */
+
         let desenho =
           "Desenho não identificado";
 
@@ -1875,6 +1082,10 @@ async function procurar(){
             r.desenhos[0];
         }
 
+
+        /*
+          Informações
+        */
 
         div.innerHTML =
 
@@ -1915,6 +1126,10 @@ async function procurar(){
           '</div>';
 
 
+        /*
+          Imagem encontrada
+        */
+
         const img =
           document.createElement(
             "img"
@@ -1935,6 +1150,10 @@ async function procurar(){
           img
         );
 
+
+        /*
+          Botão da imagem
+        */
 
         const abrir =
           document.createElement(
@@ -2029,5 +1248,6 @@ document
   );
 
 </script>
+
 </body>
 </html>
