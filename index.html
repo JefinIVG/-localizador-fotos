@@ -3,120 +3,351 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>Localizador de Fotos</title>
 
 <style>
+
+*{
+  box-sizing:border-box;
+}
+
 body{
   font-family:Arial,sans-serif;
-  max-width:1100px;
+  max-width:1180px;
   margin:auto;
-  padding:20px;
-  background:#f3f4f6;
-  color:#111827
+  padding:30px 20px;
+  background:#eef2f7;
+  color:#111827;
 }
+
+/* =====================================================
+   CAIXAS
+===================================================== */
 
 .caixa{
   background:white;
-  padding:22px;
-  margin-bottom:15px;
-  border-radius:15px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06)
+  padding:28px;
+  margin-bottom:20px;
+  border-radius:20px;
+  box-shadow:0 8px 30px rgba(15,23,42,.07);
+  border:1px solid #e5e7eb;
 }
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
 
 h1{
   text-align:center;
-  margin-top:0
+  margin:0 0 10px;
+  font-size:34px;
+  letter-spacing:-1px;
+  color:#111827;
 }
 
+h2{
+  margin-top:0;
+  font-size:23px;
+  color:#111827;
+}
+
+p{
+  color:#4b5563;
+  line-height:1.6;
+}
+
+.caixa:first-child > p:first-of-type{
+  text-align:center;
+  max-width:650px;
+  margin:0 auto 28px;
+}
+
+/* =====================================================
+   ETAPAS
+===================================================== */
+
+b{
+  color:#1f2937;
+}
+
+.caixa:first-child > b{
+  display:block;
+  margin-top:22px;
+  margin-bottom:8px;
+  font-size:15px;
+}
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+input[type="file"]{
+  width:100%;
+  margin:8px 0 18px;
+  padding:18px;
+  border:2px dashed #cbd5e1;
+  border-radius:14px;
+  background:#f8fafc;
+  cursor:pointer;
+  font-size:15px;
+  color:#475569;
+  transition:.2s;
+}
+
+input[type="file"]:hover{
+  border-color:#2563eb;
+  background:#eff6ff;
+}
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+#preview{
+  display:none;
+  max-width:250px;
+  max-height:180px;
+  margin:15px auto 20px;
+  padding:5px;
+  background:white;
+  border:1px solid #dbe3ef;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(15,23,42,.10);
+}
+
+/* =====================================================
+   BOTÃO
+===================================================== */
+
 button{
-  background:#2563eb;
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
   color:white;
   border:0;
-  padding:14px;
-  margin:8px 0;
-  border-radius:8px;
+  padding:15px 18px;
+  margin:12px 0;
+  border-radius:12px;
   font-size:16px;
+  font-weight:bold;
   width:100%;
-  cursor:pointer
+  cursor:pointer;
+  box-shadow:0 6px 16px rgba(37,99,235,.22);
+  transition:
+    transform .15s,
+    box-shadow .15s,
+    opacity .15s;
+}
+
+button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 9px 22px rgba(37,99,235,.28);
+}
+
+button:active{
+  transform:translateY(0);
 }
 
 button:disabled{
   opacity:.6;
-  cursor:wait
+  cursor:wait;
+  transform:none;
 }
 
-input{
-  width:100%;
-  margin:10px 0
-}
+/* =====================================================
+   TEXTO PEQUENO
+===================================================== */
 
 .pequeno{
-  color:#555;
-  font-size:14px
+  color:#64748b;
+  font-size:13px;
+  text-align:center;
+  margin-top:20px;
 }
+
+/* =====================================================
+   NOTA INFORMATIVA
+===================================================== */
+
+.nota{
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  border-left:5px solid #2563eb;
+  padding:16px;
+  margin-top:18px;
+  border-radius:12px;
+  color:#1e3a8a;
+  line-height:1.55;
+}
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+#status{
+  min-height:22px;
+  margin:12px 0 0;
+  text-align:center;
+  font-weight:bold;
+}
+
+/* =====================================================
+   RESULTADO
+===================================================== */
 
 .resultado{
-  background:#f9fafb;
-  border:1px solid #ddd;
-  padding:15px;
-  margin:14px 0;
-  border-radius:12px
+  background:#ffffff;
+  border:1px solid #e2e8f0;
+  padding:20px;
+  margin:16px 0;
+  border-radius:16px;
+  box-shadow:0 5px 18px rgba(15,23,42,.06);
+  transition:.2s;
 }
+
+.resultado:hover{
+  transform:translateY(-2px);
+  box-shadow:0 9px 25px rgba(15,23,42,.09);
+}
+
+/* =====================================================
+   DADOS
+===================================================== */
 
 .dados{
-  line-height:1.6;
-  margin-bottom:12px
+  line-height:1.8;
+  margin-bottom:12px;
+  color:#475569;
 }
+
+.dados b{
+  color:#1e293b;
+}
+
+/* =====================================================
+   DESENHO
+===================================================== */
 
 .desenho{
-  background:#eff6ff;
-  border-left:4px solid #2563eb;
-  padding:12px;
-  margin:12px 0;
-  border-radius:6px;
-  font-size:16px
+  background:linear-gradient(
+    135deg,
+    #eff6ff,
+    #f8fbff
+  );
+  border:1px solid #bfdbfe;
+  border-left:5px solid #2563eb;
+  padding:15px;
+  margin:12px 0 16px;
+  border-radius:10px;
+  font-size:16px;
+  color:#1e3a8a;
 }
 
-.imagem-encontrada{
-  max-width:240px;
-  max-height:160px;
-  display:block;
-  margin:12px auto;
-  border-radius:6px
+.desenho b{
+  color:#1e40af;
 }
+
+/* =====================================================
+   IMAGEM ENCONTRADA
+===================================================== */
+
+.imagem-encontrada{
+  max-width:280px;
+  max-height:190px;
+  display:block;
+  margin:18px auto;
+  padding:5px;
+  background:white;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  box-shadow:0 5px 18px rgba(15,23,42,.10);
+}
+
+/* =====================================================
+   TAG
+===================================================== */
 
 .tag{
   display:inline-block;
   background:#dcfce7;
   color:#166534;
-  padding:5px 9px;
+  padding:6px 11px;
   border-radius:999px;
-  font-size:13px;
+  font-size:12px;
   font-weight:bold;
-  margin-bottom:8px
+  margin-bottom:8px;
+  border:1px solid #bbf7d0;
 }
 
-.nota{
-  background:#eff6ff;
-  border-left:4px solid #2563eb;
-  padding:10px;
-  margin-top:10px;
-  border-radius:6px;
-  color:#1e3a8a
-}
-
-.erro{
-  color:#991b1b;
-  background:#fee2e2;
-  padding:10px;
-  border-radius:6px
-}
+/* =====================================================
+   SEPARADOR
+===================================================== */
 
 .separador{
   height:1px;
   background:#e5e7eb;
-  margin:18px 0
+  margin:22px 0;
 }
+
+/* =====================================================
+   ERRO
+===================================================== */
+
+.erro{
+  display:block;
+  color:#991b1b;
+  background:#fee2e2;
+  border:1px solid #fecaca;
+  padding:12px 14px;
+  border-radius:10px;
+}
+
+/* =====================================================
+   ÁREA DE RESULTADOS VAZIA
+===================================================== */
+
+#resultados{
+  color:#64748b;
+  line-height:1.6;
+}
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media(max-width:650px){
+
+  body{
+    padding:15px 10px;
+  }
+
+  .caixa{
+    padding:20px 16px;
+    border-radius:16px;
+  }
+
+  h1{
+    font-size:28px;
+  }
+
+  h2{
+    font-size:21px;
+  }
+
+  input[type="file"]{
+    padding:15px 12px;
+  }
+
+  .resultado{
+    padding:16px;
+  }
+
+  .imagem-encontrada{
+    max-width:100%;
+    max-height:220px;
+  }
+
+}
+
 </style>
 </head>
 
@@ -345,16 +576,6 @@ function encontrarDesenho(xml){
     const texto =
       textoOriginal.trim();
 
-    /*
-      Procura uma linha que comece com:
-
-      Desenho /
-
-      ou
-
-      Desenho
-    */
-
     if(/^Desenho\s*\/?/i.test(texto)){
 
       let conteudo =
@@ -363,30 +584,8 @@ function encontrarDesenho(xml){
           ""
         ).trim();
 
-
-      /*
-        Exemplo original:
-
-        &V 001 - 3800395 - TIRANTE -
-        8400 AE D1 TWB10 A2/8400 AE D1 TWB10 A3 -
-        | &V - PD - QVER
-      */
-
       const partes =
         conteudo.split(/\s+-\s+/);
-
-
-      /*
-        Mantém somente:
-
-        &V 001
-        3800395
-        TIRANTE
-
-        formando:
-
-        &V 001 - 3800395 - TIRANTE
-      */
 
       if(partes.length >= 3){
 
@@ -472,20 +671,17 @@ async function assinatura(blob){
     h
   );
 
-
   const escala =
     Math.min(
       w / img.naturalWidth,
       h / img.naturalHeight
     );
 
-
   const dw =
     img.naturalWidth * escala;
 
   const dh =
     img.naturalHeight * escala;
-
 
   ctx.drawImage(
     img,
@@ -495,7 +691,6 @@ async function assinatura(blob){
     dh
   );
 
-
   const data =
     ctx.getImageData(
       0,
@@ -504,13 +699,10 @@ async function assinatura(blob){
       h
     ).data;
 
-
   const cinza =
     new Float32Array(w*h);
 
-
   let media = 0;
-
 
   for(
     let i=0,p=0;
@@ -528,13 +720,10 @@ async function assinatura(blob){
     media += v;
   }
 
-
   media /=
     cinza.length;
 
-
   let vari = 0;
-
 
   for(const v of cinza){
 
@@ -542,12 +731,10 @@ async function assinatura(blob){
       (v-media)*(v-media);
   }
 
-
   const desvio =
     Math.sqrt(
       vari/cinza.length
     ) || 1;
-
 
   for(
     let i=0;
@@ -558,7 +745,6 @@ async function assinatura(blob){
     cinza[i] =
       (cinza[i]-media)/desvio;
   }
-
 
   return cinza;
 }
@@ -646,7 +832,6 @@ async function procurar(){
   const btn =
     document.getElementById("btn");
 
-
   if(!foto){
 
     alert(
@@ -655,7 +840,6 @@ async function procurar(){
 
     return;
   }
-
 
   if(!ppts.length){
 
@@ -666,7 +850,6 @@ async function procurar(){
     return;
   }
 
-
   btn.disabled = true;
 
   area.innerHTML = "";
@@ -674,23 +857,12 @@ async function procurar(){
   status.innerText =
     "Iniciando busca...";
 
-
   try{
-
-    /*
-      Assinatura da foto procurada
-    */
 
     const ref =
       await assinatura(foto);
 
-
     const todos = [];
-
-
-    /*
-      Percorrer PowerPoints
-    */
 
     for(
       let p=0;
@@ -701,7 +873,6 @@ async function procurar(){
       const ppt =
         ppts[p];
 
-
       status.innerText =
         "Lendo PowerPoint "+
         (p+1)+
@@ -710,24 +881,16 @@ async function procurar(){
         ": "+
         ppt.name;
 
-
       const buffer =
         await ppt.arrayBuffer();
-
 
       const zip =
         await JSZip.loadAsync(
           buffer
         );
 
-
       const arquivos =
         Object.keys(zip.files);
-
-
-      /*
-        Todas as imagens
-      */
 
       const imagens =
         arquivos.filter(
@@ -737,28 +900,9 @@ async function procurar(){
               .test(n)
         );
 
-
-      /*
-        Relação:
-
-        imagem -> slides
-      */
-
       const usos = {};
 
-
-      /*
-        Relação:
-
-        slide -> desenho
-      */
-
       const desenhos = {};
-
-
-      /*
-        Localizar slides
-      */
 
       const slides =
         arquivos
@@ -786,11 +930,6 @@ async function procurar(){
           }
         );
 
-
-      /*
-        Ler cada slide
-      */
-
       for(const slide of slides){
 
         const num =
@@ -798,31 +937,16 @@ async function procurar(){
             /slide(\d+)\.xml/i
           ) || [,0])[1];
 
-
-        /*
-          XML do slide
-        */
-
         const slideXml =
           await texto(
             zip,
             slide
           );
 
-
-        /*
-          PEGAR DESENHO
-        */
-
         desenhos[num] =
           encontrarDesenho(
             slideXml
           );
-
-
-        /*
-          Relações do slide
-        */
 
         const relXml =
           await texto(
@@ -832,17 +956,10 @@ async function procurar(){
             ".xml.rels"
           );
 
-
         const rels =
           extrairRelacionamentos(
             relXml
           );
-
-
-        /*
-          Encontrar imagens utilizadas
-          pelo slide
-        */
 
         const doc =
           new DOMParser()
@@ -851,14 +968,12 @@ async function procurar(){
             "application/xml"
           );
 
-
         const blips =
           Array.from(
             doc.getElementsByTagName(
               "a:blip"
             )
           );
-
 
         for(const blip of blips){
 
@@ -870,20 +985,17 @@ async function procurar(){
               "embed"
             );
 
-
           if(
             !rid ||
             !rels[rid]
           )
             continue;
 
-
           const target =
             normalizarCaminho(
               "ppt/slides",
               rels[rid]
             );
-
 
           if(
             !target.startsWith(
@@ -892,10 +1004,8 @@ async function procurar(){
           )
             continue;
 
-
           if(!usos[target])
             usos[target] = [];
-
 
           if(
             !usos[target].includes(
@@ -909,11 +1019,6 @@ async function procurar(){
           }
         }
       }
-
-
-      /*
-        Comparar cada imagem
-      */
 
       for(
         let i=0;
@@ -930,23 +1035,19 @@ async function procurar(){
           imagens.length+
           "...";
 
-
         try{
 
           const nome =
             imagens[i];
 
-
           const blob =
             await zip.files[nome]
               .async("blob");
-
 
           const sig =
             await assinatura(
               blob
             );
-
 
           const score =
             similaridade(
@@ -956,14 +1057,8 @@ async function procurar(){
               )
             );
 
-
           const slidesDaImagem =
             usos[nome] || [];
-
-
-          /*
-            Pegar desenho do slide
-          */
 
           const desenhosEncontrados =
             slidesDaImagem.map(
@@ -971,7 +1066,6 @@ async function procurar(){
                 desenhos[slide] ||
                 "Desenho não identificado"
             );
-
 
           todos.push({
 
@@ -995,7 +1089,6 @@ async function procurar(){
 
           });
 
-
         }catch(e){
 
           console.warn(
@@ -1007,19 +1100,12 @@ async function procurar(){
       }
     }
 
-
-    /*
-      Ordenar pelos melhores
-    */
-
     todos.sort(
       (a,b) =>
         b.score-a.score
     );
 
-
     area.innerHTML = "";
-
 
     if(!todos.length){
 
@@ -1028,16 +1114,11 @@ async function procurar(){
 
     }else{
 
-      /*
-        Mostrar 10 melhores
-      */
-
       const exibidos =
         todos.slice(
           0,
           10
         );
-
 
       for(
         let i=0;
@@ -1048,24 +1129,16 @@ async function procurar(){
         const r =
           exibidos[i];
 
-
         const div =
           document.createElement(
             "div"
           );
 
-
         div.className =
           "resultado";
 
-
-        /*
-          Desenho
-        */
-
         let desenho =
           "Desenho não identificado";
-
 
         if(
           r.desenhos &&
@@ -1081,11 +1154,6 @@ async function procurar(){
             ) ||
             r.desenhos[0];
         }
-
-
-        /*
-          Informações
-        */
 
         div.innerHTML =
 
@@ -1125,45 +1193,30 @@ async function procurar(){
 
           '</div>';
 
-
-        /*
-          Imagem encontrada
-        */
-
         const img =
           document.createElement(
             "img"
           );
 
-
         img.className =
           "imagem-encontrada";
-
 
         img.src =
           URL.createObjectURL(
             r.blob
           );
 
-
         div.appendChild(
           img
         );
-
-
-        /*
-          Botão da imagem
-        */
 
         const abrir =
           document.createElement(
             "button"
           );
 
-
         abrir.innerText =
           "🖼️ Abrir imagem encontrada";
-
 
         abrir.onclick =
           () =>
@@ -1172,16 +1225,13 @@ async function procurar(){
               "_blank"
             );
 
-
         div.appendChild(
           abrir
         );
 
-
         area.appendChild(
           div
         );
-
 
         if(
           i <
@@ -1203,20 +1253,17 @@ async function procurar(){
       }
     }
 
-
     status.innerText =
       "✅ Busca concluída em "+
       ppts.length+
       " PowerPoint(s). "+
       "Foram mostrados os 10 melhores resultados.";
 
-
   }catch(erro){
 
     console.error(
       erro
     );
-
 
     status.innerHTML =
       '<span class="erro">'+
@@ -1226,7 +1273,6 @@ async function procurar(){
         erro
       )+
       '</span>';
-
 
   }finally{
 
