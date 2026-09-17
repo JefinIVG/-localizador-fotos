@@ -224,7 +224,8 @@ button,input{
   text-align:center;
   color:#b9c9d8;
   cursor:pointer;
-  padding:12px
+  padding:12px;
+  transition:.2s
 }
 
 .drop:hover,
@@ -281,7 +282,8 @@ button,input{
   height:22px;
   background:#162c40;
   color:#fff;
-  cursor:pointer
+  cursor:pointer;
+  z-index:3
 }
 
 .hint{
@@ -737,10 +739,11 @@ button,input{
   Foto para procurar
 </div>
 
-<label
+<div
   class="drop"
   id="fotoDrop"
-  for="foto"
+  role="button"
+  tabindex="0"
 >
 
 <div>
@@ -757,13 +760,13 @@ ou arraste aqui
 
 </div>
 
-</label>
+</div>
 
 <input
   id="foto"
   class="hidden"
   type="file"
-  accept="image/*"
+  accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,image/jpeg,image/png,image/webp,image/gif,image/bmp"
 >
 
 <div
@@ -779,7 +782,10 @@ ou arraste aqui
   ×
 </button>
 
-<img id="preview">
+<img
+  id="preview"
+  alt="Pré-visualização da foto selecionada"
+>
 
 </div>
 
@@ -989,6 +995,9 @@ const foto =
 const ppt =
   document.getElementById("ppt");
 
+const fotoDrop =
+  document.getElementById("fotoDrop");
+
 const preview =
   document.getElementById("preview");
 
@@ -1044,8 +1053,50 @@ foto.addEventListener(
       e.target.files &&
       e.target.files[0];
 
-    if(arquivo){
-      setFoto(arquivo);
+    if(!arquivo){
+      return;
+    }
+
+    console.log(
+      "Foto selecionada:",
+      arquivo.name
+    );
+
+    setFoto(arquivo);
+
+  }
+);
+
+
+/* =========================================================
+   ABRIR SELETOR DA FOTO
+========================================================= */
+
+fotoDrop.addEventListener(
+  "click",
+  function(e){
+
+    e.preventDefault();
+
+    foto.click();
+
+  }
+);
+
+
+fotoDrop.addEventListener(
+  "keydown",
+  function(e){
+
+    if(
+      e.key === "Enter" ||
+      e.key === " "
+    ){
+
+      e.preventDefault();
+
+      foto.click();
+
     }
 
   }
@@ -1076,7 +1127,11 @@ document
   .getElementById("removeFoto")
   .addEventListener(
     "click",
-    function(){
+    function(e){
+
+      e.preventDefault();
+
+      e.stopPropagation();
 
       fotoSelecionada = null;
 
@@ -1085,6 +1140,9 @@ document
       preview.removeAttribute("src");
 
       previewBox.classList.remove("show");
+
+      status.textContent =
+        "Foto removida.";
 
     }
   );
@@ -1177,13 +1235,14 @@ function configurarDrop(
 
 
 configurarDrop(
-  document.getElementById("fotoDrop"),
+  fotoDrop,
   function(files){
 
     const arquivo =
       files.find(
         f =>
-          f.type.startsWith("image/")
+          f.type.startsWith("image/") ||
+          /\.(jpg|jpeg|png|webp|gif|bmp)$/i.test(f.name)
       );
 
     if(arquivo){
@@ -1218,20 +1277,80 @@ configurarDrop(
 
 function setFoto(file){
 
+  if(!file){
+    return;
+  }
+
+
+  /*
+    Aceita JPG/JPEG/PNG/WEBP/GIF/BMP.
+  */
+
+  const imagemValida =
+    file.type.startsWith("image/") ||
+    /\.(jpg|jpeg|png|webp|gif|bmp)$/i.test(
+      file.name
+    );
+
+
+  if(!imagemValida){
+
+    error.innerHTML =
+      `
+      <div class="error">
+        O arquivo selecionado não é uma imagem válida.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
   fotoSelecionada = file;
+
+
+  /*
+    Cria a visualização.
+  */
 
   const url =
     URL.createObjectURL(file);
 
+
+  preview.onload =
+    function(){
+
+      previewBox.classList.add("show");
+
+      URL.revokeObjectURL(url);
+
+      status.textContent =
+        Foto selecionada: ${file.name};
+
+      error.innerHTML = "";
+
+    };
+
+
+  preview.onerror =
+    function(){
+
+      previewBox.classList.remove("show");
+
+      URL.revokeObjectURL(url);
+
+      error.innerHTML =
+        `
+        <div class="error">
+          Não foi possível visualizar a imagem selecionada.
+        </div>
+        `;
+
+    };
+
+
   preview.src = url;
-
-  preview.onload = function(){
-
-    URL.revokeObjectURL(url);
-
-  };
-
-  previewBox.classList.add("show");
 
 }
 
@@ -1452,11 +1571,6 @@ function extrairRelacionamentos(xml){
       continue;
     }
 
-
-    /*
-      Ignora hyperlinks e objetos OLE.
-      Queremos somente relações de mídia.
-    */
 
     if(
       /hyperlink|oleObject|package/i
@@ -1932,7 +2046,6 @@ async function procurar(){
 
       /*
         PPTX é um pacote ZIP.
-        O JSZip carrega o ArrayBuffer.
       */
 
       const zip =
@@ -2502,11 +2615,6 @@ function renderizarResultados(
                 "noopener,noreferrer"
               );
 
-
-            /*
-              Se o navegador bloquear
-              nova aba, tenta download.
-            */
 
             if(!janela){
 
