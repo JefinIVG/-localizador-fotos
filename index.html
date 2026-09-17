@@ -6,185 +6,952 @@
 <title>Localizador de Fotos</title>
 
 <style>
+
+/* =====================================================
+   ESTILO GERAL
+===================================================== */
+
+:root{
+  --azul-fundo:#031323;
+  --azul-painel:#061d32;
+  --azul-painel2:#092943;
+  --azul-borda:#145487;
+  --azul:#0875ff;
+  --azul-claro:#1590ff;
+  --texto:#f5f9ff;
+  --texto2:#c8d9e8;
+  --verde:#61edc0;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  min-height:100%;
+}
+
 body{
   font-family:Arial,sans-serif;
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-  background:#f3f4f6;
-  color:#111827
+  margin:0;
+  padding:0;
+  background:
+    radial-gradient(
+      circle at 75% 5%,
+      rgba(0,105,220,.25),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #02101e 0%,
+      #06223a 50%,
+      #031322 100%
+    );
+  color:var(--texto);
 }
+
+
+/* =====================================================
+   BARRA LATERAL
+===================================================== */
+
+body:before{
+  content:"";
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:176px;
+  background:
+    linear-gradient(
+      180deg,
+      #031426 0%,
+      #051c31 65%,
+      #031120 100%
+    );
+  border-right:1px solid #16466e;
+  z-index:0;
+}
+
+body:after{
+  content:"IVECO";
+  position:fixed;
+  left:30px;
+  top:24px;
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:1px;
+  z-index:5;
+}
+
+
+/* =====================================================
+   CAIXAS
+===================================================== */
 
 .caixa{
-  background:white;
-  padding:22px;
-  margin-bottom:15px;
-  border-radius:15px;
-  box-shadow:0 2px 8px rgba(0,0,0,.06)
+  background:rgba(5,29,49,.96);
+  padding:20px;
+  margin:14px 0;
+  border:1px solid #164d7b;
+  border-radius:12px;
+  box-shadow:0 8px 25px rgba(0,0,0,.20);
 }
 
-h1{
-  text-align:center;
-  margin-top:0
+
+/* =====================================================
+   CABEÇALHO / ÁREA PRINCIPAL
+===================================================== */
+
+body > .caixa:first-of-type{
+  position:relative;
+  z-index:2;
+
+  margin:0 0 0 176px;
+
+  padding:0 26px 20px;
+
+  max-width:none;
+
+  background:transparent;
+
+  border:0;
+
+  border-radius:0;
+
+  box-shadow:none;
 }
+
+
+/* Banner superior */
+
+body > .caixa:first-of-type:before{
+  content:"";
+
+  display:block;
+
+  height:190px;
+
+  margin:0 -26px 18px;
+
+  border-bottom:1px solid #15518a;
+
+  background:
+    radial-gradient(
+      ellipse at 18% 75%,
+      rgba(0,135,255,.55),
+      transparent 18%
+    ),
+    linear-gradient(
+      110deg,
+      rgba(7,48,82,.95),
+      rgba(3,17,31,.94) 55%,
+      rgba(5,31,55,.96)
+    );
+
+  box-shadow:
+    inset 0 -30px 45px rgba(0,0,0,.30);
+}
+
+
+/* =====================================================
+   TÍTULO
+===================================================== */
+
+body > .caixa:first-of-type h1{
+  position:absolute;
+
+  top:42px;
+  left:275px;
+
+  margin:0;
+
+  font-size:42px;
+
+  line-height:1.1;
+
+  text-align:left;
+
+  font-weight:800;
+
+  color:white;
+}
+
+
+/* Palavra Fotos em azul */
+
+body > .caixa:first-of-type h1{
+  font-size:0;
+}
+
+body > .caixa:first-of-type h1:after{
+  content:"Localizador de Fotos";
+
+  font-size:42px;
+}
+
+
+/* =====================================================
+   TEXTO DO CABEÇALHO
+===================================================== */
+
+body > .caixa:first-of-type > p:first-of-type{
+  position:absolute;
+
+  top:96px;
+  left:277px;
+
+  margin:0;
+
+  font-size:16px;
+
+  color:#d3e2ef;
+}
+
+
+/* =====================================================
+   MENU LATERAL
+===================================================== */
+
+body > .caixa:first-of-type:after{
+  content:
+    "⌂   Início\A\A"
+    "⌕   Localizar Fotos\A\A"
+    "◷   Histórico\A\A"
+    "⚙️   Configurações\A\A\A\A\A\A"
+    "▱\A"
+    "Mais tecnologia\A"
+    "para o seu\A"
+    "dia a dia.";
+
+  white-space:pre;
+
+  position:fixed;
+
+  left:24px;
+  top:87px;
+
+  width:145px;
+
+  color:#edf6ff;
+
+  font-size:14px;
+
+  line-height:1.55;
+
+  z-index:4;
+}
+
+
+/* =====================================================
+   TÍTULOS
+===================================================== */
+
+h1,
+h2{
+  color:#f7fbff;
+}
+
+h2{
+  margin:0 0 15px;
+  font-size:25px;
+}
+
+h2:before{
+  content:"🤖 ";
+  font-size:21px;
+}
+
+
+/* =====================================================
+   TEXTOS
+===================================================== */
+
+.pequeno{
+  color:#9fb6ca;
+  font-size:13px;
+}
+
+#status{
+  color:#c8d9e8;
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
+
+input[type=file]{
+  width:100%;
+
+  margin:8px 0 10px;
+
+  padding:15px;
+
+  border:1px dashed #3379b6;
+
+  border-radius:9px;
+
+  background:#071f36;
+
+  color:#dbeafe;
+
+  cursor:pointer;
+}
+
+input[type=file]::file-selector-button{
+  background:#0875ff;
+
+  color:white;
+
+  border:0;
+
+  border-radius:6px;
+
+  padding:8px 12px;
+
+  margin-right:10px;
+
+  cursor:pointer;
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+#preview{
+  border:1px solid #4e789c;
+
+  border-radius:8px;
+
+  background:#0a2239;
+
+  object-fit:contain;
+}
+
+
+/* =====================================================
+   BOTÕES
+===================================================== */
 
 button{
-  background:#2563eb;
+  background:
+    linear-gradient(
+      180deg,
+      #1680ff,
+      #0564eb
+    );
+
   color:white;
-  border:0;
-  padding:14px;
+
+  border:1px solid #2e91ff;
+
+  padding:12px 14px;
+
   margin:8px 0;
+
   border-radius:8px;
-  font-size:16px;
+
+  font-size:15px;
+
   width:100%;
-  cursor:pointer
+
+  cursor:pointer;
+
+  font-weight:700;
+
+  box-shadow:
+    0 4px 12px rgba(0,100,255,.20);
+}
+
+button:hover{
+  background:
+    linear-gradient(
+      180deg,
+      #2990ff,
+      #0870f5
+    );
 }
 
 button:disabled{
   opacity:.6;
-  cursor:wait
+  cursor:wait;
 }
 
-input{
-  width:100%;
-  margin:10px 0
+
+/* =====================================================
+   ORGANIZAÇÃO DOS CAMPOS
+===================================================== */
+
+body > .caixa:first-of-type{
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    minmax(0,1fr)
+    260px;
+
+  column-gap:10px;
+
+  align-items:start;
 }
 
-.pequeno{
-  color:#555;
-  font-size:14px
+
+/* Elementos que ocupam toda largura */
+
+body > .caixa:first-of-type h1,
+body > .caixa:first-of-type > p:first-of-type,
+body > .caixa:first-of-type > #status,
+body > .caixa:first-of-type > .pequeno{
+  grid-column:1 / -1;
 }
 
-.resultado{
-  background:#f9fafb;
-  border:1px solid #ddd;
-  padding:15px;
-  margin:14px 0;
-  border-radius:12px
+
+/* Primeiro campo */
+
+body > .caixa:first-of-type > b:nth-of-type(1),
+body > .caixa:first-of-type > #foto,
+body > .caixa:first-of-type > #preview{
+  grid-column:1;
 }
 
-.dados{
-  line-height:1.6;
-  margin-bottom:12px
+
+/* Segundo campo */
+
+body > .caixa:first-of-type > b:nth-of-type(2),
+body > .caixa:first-of-type > #ppt{
+  grid-column:2;
 }
 
-.desenho{
-  background:#eff6ff;
-  border-left:4px solid #2563eb;
-  padding:12px;
-  margin:12px 0;
-  border-radius:6px;
-  font-size:16px
+
+/* Texto abaixo do PPT */
+
+body > .caixa:first-of-type > p:not(:first-of-type):not(.pequeno){
+  grid-column:2;
 }
 
-.imagem-encontrada{
-  max-width:240px;
-  max-height:160px;
-  display:block;
-  margin:12px auto;
-  border-radius:6px
+
+/* Botão principal */
+
+body > .caixa:first-of-type > #btn{
+  grid-column:3;
+
+  grid-row:5;
+
+  align-self:end;
+
+  margin-top:25px;
 }
 
-.tag{
-  display:inline-block;
-  background:#dcfce7;
-  color:#166534;
-  padding:5px 9px;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:bold;
-  margin-bottom:8px
+
+/* Nota */
+
+body > .caixa:first-of-type > .nota{
+  grid-column:1 / -1;
 }
+
+
+/* =====================================================
+   NOTA
+===================================================== */
 
 .nota{
-  background:#eff6ff;
-  border-left:4px solid #2563eb;
-  padding:10px;
-  margin-top:10px;
+  background:#092b49;
+
+  border-left:4px solid #0875ff;
+
+  padding:13px;
+
+  margin-top:12px;
+
   border-radius:6px;
-  color:#1e3a8a
+
+  color:#d7e8f8;
 }
 
-.erro{
-  color:#991b1b;
-  background:#fee2e2;
-  padding:10px;
-  border-radius:6px
+
+/* =====================================================
+   SEGUNDA CAIXA — RESULTADOS
+===================================================== */
+
+body > .caixa:nth-of-type(2){
+  position:relative;
+
+  z-index:2;
+
+  margin-left:202px;
+
+  margin-right:24px;
+
+  margin-top:0;
 }
+
+
+/* =====================================================
+   RESULTADOS
+===================================================== */
+
+#resultados{
+  display:grid;
+
+  grid-template-columns:
+    repeat(5,minmax(0,1fr));
+
+  gap:12px;
+}
+
+
+/* =====================================================
+   CARTÃO DE RESULTADO
+===================================================== */
+
+.resultado{
+  position:relative;
+
+  background:
+    linear-gradient(
+      180deg,
+      #09243d,
+      #061c31
+    );
+
+  border:1px solid #15517f;
+
+  padding:10px;
+
+  margin:0;
+
+  border-radius:10px;
+
+  min-width:0;
+
+  overflow:hidden;
+
+  box-shadow:
+    inset 0 0 20px rgba(0,80,150,.08);
+}
+
+
+/* =====================================================
+   TAG RESULTADO
+===================================================== */
+
+.resultado .tag{
+  position:absolute;
+
+  z-index:2;
+
+  left:10px;
+
+  top:10px;
+
+  background:var(--verde);
+
+  color:#063b2d;
+
+  padding:5px 8px;
+
+  border-radius:999px;
+
+  font-size:12px;
+
+  font-weight:900;
+}
+
+
+/* =====================================================
+   DESENHO
+===================================================== */
+
+.resultado .desenho{
+  margin:0;
+
+  padding:0;
+
+  border:0;
+
+  background:transparent;
+
+  font-size:12px;
+
+  color:#e8f2fc;
+}
+
+.resultado .desenho b{
+  font-weight:400;
+}
+
+
+/* =====================================================
+   DADOS
+===================================================== */
+
+.resultado .dados{
+  line-height:1.4;
+
+  margin:8px 0;
+
+  font-size:11px;
+
+  color:#d2e1ed;
+}
+
+.resultado .dados b{
+  color:#edf7ff;
+}
+
+
+/* =====================================================
+   IMAGEM
+===================================================== */
+
+.resultado .imagem-encontrada{
+  width:100%;
+
+  height:112px;
+
+  max-width:none;
+
+  max-height:none;
+
+  object-fit:contain;
+
+  display:block;
+
+  margin:25px auto 8px;
+
+  border-radius:6px;
+
+  background:#061728;
+}
+
+
+/* =====================================================
+   BOTÃO DO RESULTADO
+===================================================== */
+
+.resultado button{
+  font-size:12px;
+
+  padding:8px;
+
+  margin:3px 0 0;
+}
+
+
+/* =====================================================
+   SEPARADOR
+===================================================== */
 
 .separador{
-  height:1px;
-  background:#e5e7eb;
-  margin:18px 0
+  display:none;
 }
+
+
+/* =====================================================
+   RODAPÉ
+===================================================== */
+
+body > .caixa:nth-of-type(2):after{
+  content:
+    "IVECO     Tecnologia que move o seu mundo.                         "
+    "◇  Tudo processado no seu computador";
+
+  display:block;
+
+  border-top:1px solid #164d7b;
+
+  margin:22px -20px -20px;
+
+  padding:12px 20px;
+
+  color:#afc4d6;
+
+  font-size:11px;
+
+  white-space:pre;
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media(max-width:1050px){
+
+  body:before{
+    width:130px;
+  }
+
+  body:after{
+    left:20px;
+    font-size:23px;
+  }
+
+  body > .caixa:first-of-type{
+    margin-left:130px;
+
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+  body > .caixa:nth-of-type(2){
+    margin-left:145px;
+  }
+
+  body > .caixa:first-of-type:after{
+    left:15px;
+
+    width:105px;
+
+    font-size:11px;
+  }
+
+  body > .caixa:first-of-type h1{
+    left:190px;
+
+    font-size:34px;
+  }
+
+  body > .caixa:first-of-type h1:after{
+    font-size:34px;
+  }
+
+  body > .caixa:first-of-type > p:first-of-type{
+    left:192px;
+  }
+
+  body > .caixa:first-of-type > #btn{
+    grid-column:1 / -1;
+
+    grid-row:auto;
+  }
+
+  #resultados{
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
+  }
+}
+
+
+/* =====================================================
+   TABLET / CELULAR
+===================================================== */
+
+@media(max-width:760px){
+
+  body:before,
+  body:after,
+  body > .caixa:first-of-type:after{
+    display:none;
+  }
+
+  body > .caixa:first-of-type,
+  body > .caixa:nth-of-type(2){
+    margin-left:10px;
+
+    margin-right:10px;
+  }
+
+  body > .caixa:first-of-type{
+    display:block;
+
+    padding:15px;
+  }
+
+  body > .caixa:first-of-type:before{
+    height:135px;
+
+    margin:0 -15px 15px;
+  }
+
+  body > .caixa:first-of-type h1{
+    position:absolute;
+
+    left:25px;
+
+    top:35px;
+
+    font-size:29px;
+  }
+
+  body > .caixa:first-of-type h1:after{
+    font-size:29px;
+  }
+
+  body > .caixa:first-of-type > p:first-of-type{
+    position:absolute;
+
+    left:25px;
+
+    top:75px;
+
+    font-size:13px;
+  }
+
+  body > .caixa:first-of-type > #btn{
+    width:100%;
+  }
+
+  #resultados{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+}
+
+
+@media(max-width:480px){
+
+  #resultados{
+    grid-template-columns:1fr;
+  }
+
+  body > .caixa:first-of-type h1{
+    font-size:25px;
+  }
+
+  body > .caixa:first-of-type h1:after{
+    font-size:25px;
+  }
+}
+
 </style>
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     ÁREA PRINCIPAL
+===================================================== -->
 
 <div class="caixa">
 
+
 <h1>🔎 Localizador de Fotos</h1>
 
+
 <p>
-Escolha a foto que você procura e depois os PowerPoints onde deseja procurar.
+Encontre rapidamente imagens nos seus PowerPoints.
 </p>
+
 
 <b>1. Foto para procurar</b>
 
-<input type="file" id="foto" accept="image/*">
+
+<input
+  type="file"
+  id="foto"
+  accept="image/*"
+>
+
 
 <img
   id="preview"
-  style="display:none;max-width:250px;max-height:180px;margin:10px auto"
+  style="
+    display:none;
+    max-width:250px;
+    max-height:180px;
+    margin:10px auto;
+  "
 >
+
 
 <b>2. PowerPoints</b>
 
-<input type="file" id="ppt" accept=".pptx" multiple>
+
+<input
+  type="file"
+  id="ppt"
+  accept=".pptx"
+  multiple
+>
+
 
 <p>
-Você pode selecionar vários PowerPoints de uma vez.
+Você pode selecionar vários arquivos de uma vez.
 </p>
+
 
 <button id="btn">
 🔎 PROCURAR FOTO
 </button>
 
+
 <p id="status"></p>
 
+
 <div class="nota">
+
 📌 O resultado mostrará:
+
 <br><br>
-<b>📋 Desenho:</b> &V 001 - 3800395 - TIRANTE
+
+<b>📋 Desenho:</b>
+&V 001 - 3800395 - TIRANTE
+
 <br>
-<b>📁 PowerPoint:</b> nome do PowerPoint
+
+<b>📁 PowerPoint:</b>
+nome do PowerPoint
+
 <br>
-<b>📄 Slide:</b> número do slide
+
+<b>📄 Slide:</b>
+número do slide
+
 <br>
-<b>🔎 Semelhança:</b> percentual encontrado
+
+<b>🔎 Semelhança:</b>
+percentual encontrado
+
 </div>
+
 
 <p class="pequeno">
+
 A busca é feita no próprio computador.
+<br>
 Os PowerPoints não são enviados para um servidor.
+
 </p>
+
 
 </div>
 
+
+
+<!-- =====================================================
+     RESULTADOS
+===================================================== -->
 
 <div class="caixa">
 
+
 <h2>Resultados</h2>
 
+
 <div id="resultados">
+
 Os resultados aparecerão aqui.
-</div>
 
 </div>
 
+
+</div>
+
+
+
+<!-- =====================================================
+     JSZIP
+===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
 
 
 <script>
@@ -202,11 +969,14 @@ document.getElementById("foto").onchange = function(){
 
   if(foto){
 
-    const img = document.getElementById("preview");
+    const img =
+      document.getElementById("preview");
 
-    img.src = URL.createObjectURL(foto);
+    img.src =
+      URL.createObjectURL(foto);
 
-    img.style.display = "block";
+    img.style.display =
+      "block";
 
   }
 
@@ -263,11 +1033,16 @@ function extrairRelacionamentos(xml){
 
   const doc =
     new DOMParser()
-    .parseFromString(xml,"application/xml");
+    .parseFromString(
+      xml,
+      "application/xml"
+    );
 
   const relacoes =
     Array.from(
-      doc.getElementsByTagName("Relationship")
+      doc.getElementsByTagName(
+        "Relationship"
+      )
     );
 
   for(const rel of relacoes){
@@ -294,20 +1069,27 @@ function extrairTextosDoSlide(xml){
 
   const doc =
     new DOMParser()
-    .parseFromString(xml,"application/xml");
+    .parseFromString(
+      xml,
+      "application/xml"
+    );
 
   const textos = [];
 
   const paragrafos =
     Array.from(
-      doc.getElementsByTagName("a:p")
+      doc.getElementsByTagName(
+        "a:p"
+      )
     );
 
   for(const p of paragrafos){
 
     const partes =
       Array.from(
-        p.getElementsByTagName("a:t")
+        p.getElementsByTagName(
+          "a:t"
+        )
       );
 
     let texto = "";
@@ -340,10 +1122,13 @@ function encontrarDesenho(xml){
   const textos =
     extrairTextosDoSlide(xml);
 
-  for(const textoOriginal of textos){
+  for(
+    const textoOriginal of textos
+  ){
 
     const texto =
       textoOriginal.trim();
+
 
     /*
       Procura uma linha que comece com:
@@ -355,7 +1140,9 @@ function encontrarDesenho(xml){
       Desenho
     */
 
-    if(/^Desenho\s*\/?/i.test(texto)){
+    if(
+      /^Desenho\s*\/?/i.test(texto)
+    ){
 
       let conteudo =
         texto.replace(
@@ -365,7 +1152,7 @@ function encontrarDesenho(xml){
 
 
       /*
-        Exemplo original:
+        Exemplo:
 
         &V 001 - 3800395 - TIRANTE -
         8400 AE D1 TWB10 A2/8400 AE D1 TWB10 A3 -
@@ -373,7 +1160,9 @@ function encontrarDesenho(xml){
       */
 
       const partes =
-        conteudo.split(/\s+-\s+/);
+        conteudo.split(
+          /\s+-\s+/
+        );
 
 
       /*
@@ -382,10 +1171,6 @@ function encontrarDesenho(xml){
         &V 001
         3800395
         TIRANTE
-
-        formando:
-
-        &V 001 - 3800395 - TIRANTE
       */
 
       if(partes.length >= 3){
@@ -432,7 +1217,9 @@ async function imagemDoBlob(blob){
         URL.revokeObjectURL(url);
 
         reject(
-          new Error("Imagem inválida")
+          new Error(
+            "Imagem inválida"
+          )
         );
       };
 
@@ -452,7 +1239,9 @@ async function assinatura(blob){
   const h = 48;
 
   const canvas =
-    document.createElement("canvas");
+    document.createElement(
+      "canvas"
+    );
 
   canvas.width = w;
   canvas.height = h;
@@ -460,8 +1249,11 @@ async function assinatura(blob){
   const ctx =
     canvas.getContext(
       "2d",
-      {willReadFrequently:true}
+      {
+        willReadFrequently:true
+      }
     );
+
 
   ctx.fillStyle = "#fff";
 
@@ -506,7 +1298,9 @@ async function assinatura(blob){
 
 
   const cinza =
-    new Float32Array(w*h);
+    new Float32Array(
+      w*h
+    );
 
 
   let media = 0;
@@ -600,7 +1394,9 @@ function similaridade(dist){
     0,
     Math.min(
       100,
-      100*Math.exp(-dist/2.2)
+      100*Math.exp(
+        -dist/2.2
+      )
     )
   );
 }
@@ -614,15 +1410,30 @@ function escapeHtml(text){
 
   return String(text)
 
-    .replace(/&/g,"&amp;")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
 
-    .replace(/</g,"&lt;")
+    .replace(
+      /</g,
+      "&lt;"
+    )
 
-    .replace(/>/g,"&gt;")
+    .replace(
+      />/g,
+      "&gt;"
+    )
 
-    .replace(/"/g,"&quot;")
+    .replace(
+      /"/g,
+      "&quot;"
+    )
 
-    .replace(/'/g,"&#039;");
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 }
 
 
@@ -634,17 +1445,28 @@ async function procurar(){
 
   const ppts =
     Array.from(
-      document.getElementById("ppt").files
+      document
+      .getElementById("ppt")
+      .files
     );
 
+
   const status =
-    document.getElementById("status");
+    document.getElementById(
+      "status"
+    );
+
 
   const area =
-    document.getElementById("resultados");
+    document.getElementById(
+      "resultados"
+    );
+
 
   const btn =
-    document.getElementById("btn");
+    document.getElementById(
+      "btn"
+    );
 
 
   if(!foto){
@@ -667,9 +1489,13 @@ async function procurar(){
   }
 
 
-  btn.disabled = true;
+  btn.disabled =
+    true;
 
-  area.innerHTML = "";
+
+  area.innerHTML =
+    "";
+
 
   status.innerText =
     "Iniciando busca...";
@@ -682,7 +1508,9 @@ async function procurar(){
     */
 
     const ref =
-      await assinatura(foto);
+      await assinatura(
+        foto
+      );
 
 
     const todos = [];
@@ -722,7 +1550,9 @@ async function procurar(){
 
 
       const arquivos =
-        Object.keys(zip.files);
+        Object.keys(
+          zip.files
+        );
 
 
       /*
@@ -732,7 +1562,9 @@ async function procurar(){
       const imagens =
         arquivos.filter(
           n =>
-            n.startsWith("ppt/media/") &&
+            n.startsWith(
+              "ppt/media/"
+            ) &&
             /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i
               .test(n)
         );
@@ -770,17 +1602,19 @@ async function procurar(){
         )
 
         .sort(
-          (a,b) => {
+          (a,b)=>{
 
             const na =
               +(a.match(
                 /slide(\d+)\.xml/i
               ) || [,0])[1];
 
+
             const nb =
               +(b.match(
                 /slide(\d+)\.xml/i
               ) || [,0])[1];
+
 
             return na-nb;
           }
@@ -791,7 +1625,9 @@ async function procurar(){
         Ler cada slide
       */
 
-      for(const slide of slides){
+      for(
+        const slide of slides
+      ){
 
         const num =
           +(slide.match(
@@ -860,7 +1696,9 @@ async function procurar(){
           );
 
 
-        for(const blip of blips){
+        for(
+          const blip of blips
+        ){
 
           const rid =
             blip.getAttribute(
@@ -1018,7 +1856,8 @@ async function procurar(){
     );
 
 
-    area.innerHTML = "";
+    area.innerHTML =
+      "";
 
 
     if(!todos.length){
@@ -1090,12 +1929,12 @@ async function procurar(){
         div.innerHTML =
 
           '<div class="tag">'+
-          'Resultado '+
-          (i+1)+
+          r.score.toFixed(1)+
+          '%'+
           '</div>'+
 
           '<div class="desenho">'+
-          '<b>📋 Desenho:</b><br>'+
+          '<b>Desenho:</b><br>'+
           escapeHtml(
             desenho
           )+
@@ -1103,14 +1942,14 @@ async function procurar(){
 
           '<div class="dados">'+
 
-          '<b>📁 PowerPoint:</b> '+
+          '<b>PowerPoint:</b> '+
           escapeHtml(
             r.arquivo
           )+
 
           '<br>'+
 
-          '<b>📄 Slide:</b> '+
+          '<b>Slide:</b> '+
           (
             r.slides.length
             ? r.slides.join(", ")
@@ -1119,7 +1958,7 @@ async function procurar(){
 
           '<br>'+
 
-          '<b>🔎 Semelhança visual:</b> '+
+          '<b>Semelhança:</b> '+
           r.score.toFixed(1)+
           '%'+
 
@@ -1162,7 +2001,7 @@ async function procurar(){
 
 
         abrir.innerText =
-          "🖼️ Abrir imagem encontrada";
+          "🖼️ Abrir imagem";
 
 
         abrir.onclick =
