@@ -2,2977 +2,1250 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Localizador de Fotos - IVECO</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Localizador de Fotos</title>
 
 <style>
-
-:root{
-    --bg:#020914;
-    --panel:#071d31;
-    --panel2:#061626;
-    --border:#17496c;
-    --blue:#078fff;
-    --cyan:#21d7ff;
-    --green:#4cffbf;
-    --text:#f3f8fc;
-    --muted:#88a4b8;
-}
-
-*{
-    box-sizing:border-box;
-}
-
-html,
 body{
-    margin:0;
-    padding:0;
-    min-height:100%;
+  font-family:Arial,sans-serif;
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+  background:#f3f4f6;
+  color:#111827
 }
 
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    color:var(--text);
-
-    background:
-        radial-gradient(
-            circle at 75% 0%,
-            rgba(0,130,255,.16),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            #01050b,
-            #031421 55%,
-            #020811
-        );
-
-    overflow-x:hidden;
-}
-
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
-
-.sidebar{
-
-    position:fixed;
-
-    left:0;
-    top:0;
-    bottom:0;
-
-    width:220px;
-
-    padding:16px 12px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #020b14,
-            #041a2b
-        );
-
-    border-right:1px solid #174565;
-
-    box-shadow:
-        10px 0 35px rgba(0,0,0,.35);
-
-    z-index:20;
-}
-
-
-.logo{
-
-    height:60px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:31px;
-    font-weight:900;
-
-    letter-spacing:1px;
-
-    color:#fff;
-}
-
-
-.logo span{
-    color:#18aaff;
-}
-
-
-.menu{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:6px;
-
-    margin-top:18px;
-}
-
-
-.menu-item{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:11px 12px;
-
-    border-radius:8px;
-
-    color:#a7bfce;
-
-    text-decoration:none;
-
-    font-size:11px;
-
-    border:1px solid transparent;
-
-    transition:.2s;
-}
-
-
-.menu-item:hover,
-.menu-item.active{
-
-    color:#fff;
-
-    background:
-        linear-gradient(
-            90deg,
-            #087fe0,
-            #07599e
-        );
-
-    border-color:#249fe8;
-
-    box-shadow:
-        0 5px 15px rgba(0,140,255,.20);
-}
-
-
-.menu-icon{
-
-    width:18px;
-
-    text-align:center;
-
-    color:#fff;
-
-    font-size:14px;
-}
-
-
-.side-note{
-
-    position:absolute;
-
-    left:20px;
-    right:20px;
-
-    bottom:30px;
-
-    text-align:center;
-
-    color:#91afc2;
-
-    font-size:10px;
-
-    line-height:1.45;
-}
-
-
-.side-note span{
-
-    color:#18caff;
-}
-
-
-/* =====================================================
-   CONTEÚDO PRINCIPAL
-===================================================== */
-
-.main{
-
-    margin-left:220px;
-
-    padding:12px 14px 20px;
-
-    max-width:1600px;
-}
-
-
-/* =====================================================
-   CABEÇALHO - IMAGEM REAL
-===================================================== */
-
-.hero{
-
-    position:relative;
-
-    width:100%;
-
-    height:150px;
-
-    overflow:hidden;
-
-    border:1px solid #216087;
-
-    border-radius:8px;
-
-    background:#061a2a;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.35);
-}
-
-
-/*
-    AQUI ESTÁ A IMAGEM REAL QUE VOCÊ ENVIOU.
-*/
-
-.hero-image{
-
-    position:absolute;
-
-    inset:0;
-
-    width:100%;
-
-    height:100%;
-
-    display:block;
-
-    object-fit:cover;
-
-    object-position:center;
-}
-
-
-/* =====================================================
-   CARDS SUPERIORES
-===================================================== */
-
-.toolbar{
-
-    display:grid;
-
-    grid-template-columns:
-        1.05fr
-        1.05fr
-        .78fr;
-
-    gap:8px;
-
-    margin-top:8px;
-}
-
-
-.card{
-
-    position:relative;
-
-    min-height:150px;
-
-    padding:10px;
-
-    border:1px solid #195172;
-
-    border-radius:8px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #0a2943,
-            #061a2b
-        );
-
-    box-shadow:
-        0 7px 20px rgba(0,0,0,.30);
-}
-
-
-/* =====================================================
-   TÍTULOS DOS CARDS
-===================================================== */
-
-.card-label{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:7px;
-
-    font-size:9px;
-
-    color:#fff;
-}
-
-
-.card-label strong{
-
-    font-size:10px;
-}
-
-
-.card-label span{
-
-    color:#7897aa;
-
-    font-size:7px;
-}
-
-
-/* =====================================================
-   FOTO
-===================================================== */
-
-.file-box{
-
-    position:relative;
-
-    height:82px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    border:1px dashed #286889;
-
-    border-radius:6px;
-
-    background:#051827;
-
-    overflow:hidden;
-}
-
-
-.file-box input{
-
-    position:absolute;
-
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-    opacity:0;
-
-    cursor:pointer;
-
-    z-index:5;
-}
-
-
-.file-info{
-
-    text-align:center;
-
-    color:#9bb4c4;
-
-    font-size:8px;
-}
-
-
-.file-info strong{
-
-    display:block;
-
-    color:#fff;
-
-    margin-bottom:4px;
-}
-
-
-.file-info small{
-
-    color:#718da1;
-
-    font-size:7px;
-}
-
-
-.file-icon{
-
-    position:absolute;
-
-    top:8px;
-
-    left:8px;
-
-    width:22px;
-    height:22px;
-
-    display:grid;
-
-    place-items:center;
-
-    border-radius:5px;
-
-    background:#078fe7;
-
-    color:#fff;
-
-    font-size:12px;
-}
-
-
-#preview{
-
-    display:none;
-
-    width:100%;
-
-    height:75px;
-
-    margin-top:5px;
-
-    object-fit:contain;
-
-    background:#020d18;
-
-    border-radius:5px;
-}
-
-
-/* =====================================================
-   POWERPOINTS
-===================================================== */
-
-.ppt-input{
-
-    position:relative;
-
-    height:55px;
-
-    border:1px dashed #286889;
-
-    border-radius:6px;
-
-    background:#051827;
-
-    overflow:hidden;
-}
-
-
-.ppt-input input{
-
-    position:absolute;
-
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-    opacity:0;
-
-    cursor:pointer;
-
-    z-index:5;
-}
-
-
-.ppt-input-content{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-
-    height:100%;
-
-    padding:7px 10px;
-
-    color:#8ea8ba;
-
-    font-size:8px;
-}
-
-
-.ppt-input-content strong{
-
-    color:#fff;
-
-    font-size:8px;
-}
-
-
-.ppt-input-content small{
-
-    color:#6f8b9f;
-
-    font-size:7px;
-}
-
-
-.ppt-list{
-
-    max-height:60px;
-
-    overflow:auto;
-
-    margin-top:5px;
-}
-
-
-.ppt-row{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:5px;
-
-    padding:3px 2px;
-
-    border-bottom:1px solid #123d58;
-
-    color:#9eb6c5;
-
-    font-size:7px;
-}
-
-
-.ppt-row strong{
-
-    flex:1;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
-    white-space:nowrap;
-}
-
-
-.ppt-row small{
-
-    color:#718a9b;
-}
-
-
-/* =====================================================
-   CARD DE BUSCA
-===================================================== */
-
-.info-card{
-
-    min-height:150px;
-
-    overflow:hidden;
-}
-
-
-.info-card:after{
-
-    content:"";
-
-    position:absolute;
-
-    width:130px;
-
-    height:130px;
-
-    right:-50px;
-
-    bottom:-70px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(30,210,255,.20);
-}
-
-
-.info-icon{
-
-    color:#25d9ff;
-
-    font-size:18px;
-
-    margin-bottom:4px;
-}
-
-
-.info-card h3{
-
-    margin:0 0 5px;
-
-    font-size:10px;
-}
-
-
-.info-card p{
-
-    margin:0;
-
-    color:#829fb3;
-
-    font-size:7px;
-
-    line-height:1.45;
-}
-
-
-.info-card button{
-
-    position:absolute;
-
-    left:10px;
-    right:10px;
-    bottom:10px;
-
-    width:calc(100% - 20px);
-
-    padding:7px;
-
-    border:1px solid #20aaff;
-
-    border-radius:5px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #0b9cff,
-            #066de1
-        );
-
-    color:#fff;
-
-    font-size:8px;
-
-    font-weight:900;
-
-    cursor:pointer;
-}
-
-
-.info-card button:hover{
-
-    filter:brightness(1.12);
-}
-
-
-.info-card button:disabled{
-
-    opacity:.6;
-
-    cursor:wait;
-}
-
-
-.status-mini{
-
-    position:absolute;
-
-    left:10px;
-
-    right:10px;
-
-    bottom:31px;
-
-    font-size:7px !important;
-
-    color:#7895a7 !important;
-}
-
-
-/* =====================================================
-   BARRA DE INFORMAÇÕES
-===================================================== */
-
-.status-bar{
-
-    display:grid;
-
-    grid-template-columns:
-        1.4fr
-        1fr
-        .8fr
-        .8fr;
-
-    gap:8px;
-
-    margin-top:8px;
-
-    padding:8px 10px;
-
-    border:1px solid #174e70;
-
-    border-radius:7px;
-
-    background:#061e31;
-
-    font-size:7px;
-
-    color:#7898aa;
-}
-
-
-.status-item strong{
-
-    display:block;
-
-    color:#dcecf6;
-
-    font-size:8px;
-
-    margin-bottom:2px;
-}
-
-
-/* =====================================================
-   RESULTADOS
-===================================================== */
-
-.results-box{
-
-    margin-top:8px;
-}
-
-
-.results-header{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:7px;
-}
-
-
-.results-header h2{
-
-    margin:0;
-
-    font-size:13px;
-}
-
-
-.results-header p{
-
-    margin:2px 0 0;
-
-    color:#718d9f;
-
-    font-size:7px;
-}
-
-
-.results-count{
-
-    padding:4px 7px;
-
-    border:1px solid #2a6c8e;
-
-    border-radius:20px;
-
-    background:#08263d;
-
-    color:#9cb8c9;
-
-    font-size:7px;
-}
-
-
-/* =====================================================
-   GRID DE RESULTADOS
-===================================================== */
-
-.results{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(5,minmax(0,1fr));
-
-    gap:7px;
-}
-
-
-.empty{
-
-    grid-column:1/-1;
-
-    padding:25px;
-
-    text-align:center;
-
-    color:#708b9d;
-
-    font-size:9px;
-
-    border:1px dashed #245a78;
-
-    border-radius:6px;
-}
-
-
-.empty-icon{
-
-    font-size:20px;
-
-    margin-bottom:5px;
-}
-
-
-/* =====================================================
-   CARD RESULTADO
-===================================================== */
-
-.result-card{
-
-    position:relative;
-
-    min-width:0;
-
-    overflow:hidden;
-
-    padding:6px;
-
-    border-radius:7px;
-
-    border:1px solid #18537b;
-
-    background:
-        linear-gradient(
-            180deg,
-            #0a2b47,
-            #051a2b
-        );
-
-    box-shadow:
-        0 5px 14px rgba(0,0,0,.35);
-
-    transition:.2s;
-}
-
-
-.result-card:hover{
-
-    border-color:#2496d5;
-
-    transform:translateY(-1px);
+.caixa{
+  background:white;
+  padding:22px;
+  margin-bottom:15px;
+  border-radius:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06)
 }
-
-
-.similarity{
-
-    position:absolute;
-
-    z-index:3;
-
-    left:5px;
-    top:5px;
-
-    background:#49f2bd;
 
-    color:#063629;
-
-    padding:3px 5px;
-
-    border-radius:10px;
-
-    font-size:7px;
-
-    font-weight:900;
+h1{
+  text-align:center;
+  margin-top:0
 }
-
-
-.result-image{
-
-    width:100%;
-
-    height:72px;
 
-    object-fit:contain;
-
-    display:block;
-
-    margin:4px auto 5px;
-
-    border-radius:4px;
-
-    background:#020d18;
+button{
+  background:#2563eb;
+  color:white;
+  border:0;
+  padding:14px;
+  margin:8px 0;
+  border-radius:8px;
+  font-size:16px;
+  width:100%;
+  cursor:pointer
 }
-
-
-.result-title{
-
-    font-size:7px;
-
-    color:#e6f3fb;
 
-    line-height:1.25;
-
-    min-height:30px;
+button:disabled{
+  opacity:.6;
+  cursor:wait
 }
-
-
-.meta{
-
-    font-size:6.5px;
 
-    color:#8faabd;
-
-    line-height:1.35;
-
-    min-height:34px;
+input{
+  width:100%;
+  margin:10px 0
 }
-
-
-.meta b{
 
-    color:#dceaf4;
+.pequeno{
+  color:#555;
+  font-size:14px
 }
 
-
-.result-card button{
-
-    width:100%;
-
-    padding:5px;
-
-    margin-top:4px;
-
-    border:1px solid #21aaff;
-
-    border-radius:4px;
-
-    background:#087fe0;
-
-    color:#fff;
-
-    font-size:7px;
-
-    cursor:pointer;
+.resultado{
+  background:#f9fafb;
+  border:1px solid #ddd;
+  padding:15px;
+  margin:14px 0;
+  border-radius:12px
 }
-
-
-/* =====================================================
-   RODAPÉ
-===================================================== */
-
-.footer{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin-top:8px;
 
-    padding:7px 2px;
-
-    border-top:1px solid #164560;
-
-    color:#668396;
-
-    font-size:7px;
+.dados{
+  line-height:1.6;
+  margin-bottom:12px
 }
-
 
-.footer-brand{
-
-    color:#a8bdca;
-
-    font-weight:900;
+.desenho{
+  background:#eff6ff;
+  border-left:4px solid #2563eb;
+  padding:12px;
+  margin:12px 0;
+  border-radius:6px;
+  font-size:16px
 }
-
-
-.footer-dot{
 
-    display:inline-block;
-
-    width:5px;
-    height:5px;
-
-    margin-right:4px;
-
-    border-radius:50%;
-
-    background:#4cffbf;
+.imagem-encontrada{
+  max-width:240px;
+  max-height:160px;
+  display:block;
+  margin:12px auto;
+  border-radius:6px
 }
-
-
-/* =====================================================
-   RESPONSIVO
-===================================================== */
-
-@media(max-width:1100px){
-
-    .results{
 
-        grid-template-columns:
-            repeat(4,minmax(0,1fr));
-    }
-
+.tag{
+  display:inline-block;
+  background:#dcfce7;
+  color:#166534;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:8px
 }
-
-
-@media(max-width:900px){
-
-    .sidebar{
-
-        width:170px;
-    }
-
-    .main{
-
-        margin-left:170px;
-    }
-
-    .toolbar{
 
-        grid-template-columns:1fr 1fr;
-    }
-
-    .info-card{
-
-        grid-column:1/-1;
-    }
-
+.nota{
+  background:#eff6ff;
+  border-left:4px solid #2563eb;
+  padding:10px;
+  margin-top:10px;
+  border-radius:6px;
+  color:#1e3a8a
 }
-
-
-@media(max-width:650px){
-
-    .sidebar{
-
-        display:none;
-    }
-
-    .main{
 
-        margin-left:0;
-
-        padding:8px;
-    }
-
-    .hero{
-
-        height:110px;
-    }
-
-    .toolbar{
-
-        grid-template-columns:1fr;
-    }
-
-    .info-card{
-
-        grid-column:auto;
-    }
-
-    .status-bar{
-
-        grid-template-columns:1fr 1fr;
-    }
-
-    .results{
-
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
-
+.erro{
+  color:#991b1b;
+  background:#fee2e2;
+  padding:10px;
+  border-radius:6px
 }
 
-
-@media(max-width:430px){
-
-    .results{
-
-        grid-template-columns:1fr;
-    }
-
+.separador{
+  height:1px;
+  background:#e5e7eb;
+  margin:18px 0
 }
-
 </style>
 </head>
 
-
 <body>
 
+<div class="caixa">
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+<h1>🔎 Localizador de Fotos</h1>
 
-<aside class="sidebar">
+<p>
+Escolha a foto que você procura e depois os PowerPoints onde deseja procurar.
+</p>
 
-    <div class="logo">
-        IVE<span>CO</span>
-    </div>
+<b>1. Foto para procurar</b>
 
+<input type="file" id="foto" accept="image/*">
 
-    <nav class="menu">
+<img
+  id="preview"
+  style="display:none;max-width:250px;max-height:180px;margin:10px auto"
+>
 
-        <a href="#" class="menu-item">
-            <span class="menu-icon">⌂</span>
-            <span>Início</span>
-        </a>
+<b>2. PowerPoints</b>
 
+<input type="file" id="ppt" accept=".pptx" multiple>
 
-        <a href="#" class="menu-item active">
-            <span class="menu-icon">⌕</span>
-            <span>Localizar Fotos</span>
-        </a>
+<p>
+Você pode selecionar vários PowerPoints de uma vez.
+</p>
 
+<button id="btn">
+🔎 PROCURAR FOTO
+</button>
 
-        <a href="#" class="menu-item">
-            <span class="menu-icon">◷</span>
-            <span>Histórico</span>
-        </a>
+<p id="status"></p>
 
+<div class="nota">
+📌 O resultado mostrará:
+<br><br>
+<b>📋 Desenho:</b> &V 001 - 3800395 - TIRANTE
+<br>
+<b>📁 PowerPoint:</b> nome do PowerPoint
+<br>
+<b>📄 Slide:</b> número do slide
+<br>
+<b>🔎 Semelhança:</b> percentual encontrado
+</div>
 
-        <a href="#" class="menu-item">
-            <span class="menu-icon">⚙️</span>
-            <span>Configurações</span>
-        </a>
+<p class="pequeno">
+A busca é feita no próprio computador.
+Os PowerPoints não são enviados para um servidor.
+</p>
 
-    </nav>
+</div>
 
 
-    <div class="side-note">
+<div class="caixa">
 
-        Mais tecnologia<br>
-        para o seu<br>
-        <span>dia a dia.</span>
+<h2>Resultados</h2>
 
-    </div>
+<div id="resultados">
+Os resultados aparecerão aqui.
+</div>
 
-</aside>
+</div>
 
-
-
-<!-- =====================================================
-     CONTEÚDO
-===================================================== -->
-
-<main class="main">
-
-
-    <!-- =================================================
-         CABEÇALHO
-    ================================================== -->
-
-    <section class="hero">
-
-        <!--
-            ESTA É A IMAGEM EXATA DO BANNER QUE VOCÊ ENVIOU.
-
-            Deixe IMG_6447.jpeg na mesma pasta deste HTML.
-        -->
-
-        <img
-            class="hero-image"
-            src="IMG_6447.jpeg"
-            alt="IVECO - Localizador de Fotos"
-        >
-
-    </section>
-
-
-
-    <!-- =================================================
-         CARDS
-    ================================================== -->
-
-    <section class="toolbar">
-
-
-        <!-- FOTO DE REFERÊNCIA -->
-
-        <div class="card">
-
-            <div class="card-label">
-
-                <strong>
-                    Foto para procurar
-                </strong>
-
-                <span>
-                    Imagem de referência
-                </span>
-
-            </div>
-
-
-            <div class="file-box">
-
-                <input
-                    type="file"
-                    id="foto"
-                    accept="image/*"
-                >
-
-
-                <div class="file-icon">
-                    ▧
-                </div>
-
-
-                <div class="file-info">
-
-                    <strong>
-                        Selecionar foto
-                    </strong>
-
-                    <small id="nomeFoto">
-                        Nenhuma imagem selecionada
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <img
-                id="preview"
-                alt="Pré-visualização"
-            >
-
-        </div>
-
-
-
-        <!-- POWERPOINTS -->
-
-        <div class="card">
-
-            <div class="card-label">
-
-                <strong>
-                    PowerPoints
-                </strong>
-
-                <span>
-                    Arquivos de busca
-                </span>
-
-            </div>
-
-
-            <div class="ppt-input">
-
-                <input
-                    type="file"
-                    id="ppt"
-                    accept=".pptx"
-                    multiple
-                >
-
-
-                <div class="ppt-input-content">
-
-                    <div>
-                        ▣
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Selecionar PowerPoints
-                        </strong>
-
-                        <small id="nomePpts">
-                            Você pode selecionar vários arquivos
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                id="pptList"
-                class="ppt-list"
-            ></div>
-
-        </div>
-
-
-
-        <!-- BUSCA -->
-
-        <div class="card info-card">
-
-            <div class="info-icon">
-                ✦
-            </div>
-
-
-            <h3>
-                Busca com precisão e agilidade
-            </h3>
-
-
-            <p>
-                Nossa ferramenta encontra as imagens
-                que você procura com rapidez e precisão.
-            </p>
-
-
-            <button id="btn">
-                ⌕ &nbsp; PROCURAR FOTO
-            </button>
-
-
-            <p
-                id="status"
-                class="status-mini"
-            >
-                Pronto para procurar.
-            </p>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         INFORMAÇÕES
-    ================================================== -->
-
-    <section class="status-bar">
-
-        <div class="status-item">
-
-            <strong>
-                O resultado mostrará:
-            </strong>
-
-            Desenho encontrado
-
-        </div>
-
-
-        <div class="status-item">
-
-            <strong>
-                PowerPoint
-            </strong>
-
-            Nome do arquivo
-
-        </div>
-
-
-        <div class="status-item">
-
-            <strong>
-                Slide
-            </strong>
-
-            Número do slide
-
-        </div>
-
-
-        <div class="status-item">
-
-            <strong>
-                Semelhança
-            </strong>
-
-            % encontrado
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         RESULTADOS
-    ================================================== -->
-
-    <section class="card results-box">
-
-        <div class="results-header">
-
-            <div>
-
-                <h2>
-                    Resultados
-                </h2>
-
-                <p>
-                    As imagens mais semelhantes encontradas
-                    nos PowerPoints.
-                </p>
-
-            </div>
-
-
-            <div class="results-count">
-
-                Top 10 melhores resultados
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="results"
-            id="resultados"
-        >
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ◉
-                </div>
-
-                Selecione uma foto e os PowerPoints
-                para iniciar a busca.
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =================================================
-         RODAPÉ
-    ================================================== -->
-
-    <footer class="footer">
-
-        <div class="footer-brand">
-            IVECO
-        </div>
-
-
-        <div>
-
-            <span class="footer-dot"></span>
-
-            Tudo processado no seu computador.
-
-        </div>
-
-    </footer>
-
-</main>
-
-
-
-<!-- =====================================================
-     JSZIP
-===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
 
 <script>
 
-
-/* =====================================================
-   VARIÁVEIS
-===================================================== */
-
 let foto = null;
-
 
 
 /* =====================================================
    FOTO DE REFERÊNCIA
 ===================================================== */
 
-document
-    .getElementById("foto")
-    .addEventListener("change", function(){
+document.getElementById("foto").onchange = function(){
 
-        foto = this.files[0];
+  foto = this.files[0];
 
-        const nome =
-            document.getElementById("nomeFoto");
+  if(foto){
 
-        const preview =
-            document.getElementById("preview");
+    const img = document.getElementById("preview");
 
+    img.src = URL.createObjectURL(foto);
 
-        if(foto){
+    img.style.display = "block";
 
-            nome.textContent =
-                foto.name;
+  }
 
-
-            preview.src =
-                URL.createObjectURL(foto);
-
-
-            preview.style.display =
-                "block";
-
-        }else{
-
-            nome.textContent =
-                "Nenhuma imagem selecionada";
-
-
-            preview.style.display =
-                "none";
-
-        }
-
-    });
-
-
-
-/* =====================================================
-   POWERPOINTS
-===================================================== */
-
-document
-    .getElementById("ppt")
-    .addEventListener("change", function(){
-
-        const files =
-            Array.from(
-                this.files || []
-            );
-
-
-        const nome =
-            document.getElementById(
-                "nomePpts"
-            );
-
-
-        const lista =
-            document.getElementById(
-                "pptList"
-            );
-
-
-        if(!files.length){
-
-            nome.textContent =
-                "Você pode selecionar vários arquivos";
-
-            lista.innerHTML = "";
-
-            return;
-        }
-
-
-        nome.textContent =
-            files.length +
-            " PowerPoint(s) selecionado(s)";
-
-
-        lista.innerHTML =
-            files
-                .slice(0,5)
-                .map(function(file){
-
-                    const tamanho =
-                        (
-                            file.size /
-                            1048576
-                        ).toFixed(1);
-
-
-                    return `
-
-                        <div class="ppt-row">
-
-                            <span>▣</span>
-
-                            <strong>
-                                ${escapeHtml(file.name)}
-                            </strong>
-
-                            <small>
-                                ${tamanho} MB
-                            </small>
-
-                        </div>
-
-                    `;
-
-                })
-                .join("");
-
-    });
-
+};
 
 
 /* =====================================================
    NORMALIZAR CAMINHO
 ===================================================== */
 
-function normalizarCaminho(
-    base,
-    target
-){
+function normalizarCaminho(base,target){
 
-    const partes =
-        (base + "/" + target)
-        .split("/");
+  const partes =
+    (base + "/" + target).split("/");
 
+  const saida = [];
 
-    const saida = [];
+  for(const p of partes){
 
+    if(!p || p === ".")
+      continue;
 
-    for(
-        const parte
-        of partes
-    ){
+    if(p === "..")
+      saida.pop();
 
-        if(
-            !parte ||
-            parte === "."
-        ){
-            continue;
-        }
+    else
+      saida.push(p);
+  }
 
-
-        if(
-            parte === ".."
-        ){
-
-            saida.pop();
-
-        }else{
-
-            saida.push(
-                parte
-            );
-
-        }
-
-    }
-
-
-    return saida.join("/");
+  return saida.join("/");
 }
-
 
 
 /* =====================================================
    LER TEXTO DO ZIP
 ===================================================== */
 
-async function texto(
-    zip,
-    nome
-){
+async function texto(zip,nome){
 
-    if(
-        !zip.files[nome]
-    ){
+  if(!zip.files[nome])
+    return "";
 
-        return "";
-    }
-
-
-    return await zip
-        .files[nome]
-        .async("text");
+  return await zip.files[nome].async("text");
 }
 
 
-
 /* =====================================================
-   RELACIONAMENTOS
+   RELACIONAMENTOS DO POWERPOINT
 ===================================================== */
 
-function extrairRelacionamentos(
-    xml
-){
+function extrairRelacionamentos(xml){
 
-    const mapa = {};
+  const mapa = {};
 
+  const doc =
+    new DOMParser()
+    .parseFromString(xml,"application/xml");
 
-    const doc =
-        new DOMParser()
-        .parseFromString(
-            xml,
-            "application/xml"
-        );
-
-
-    const relacoes =
-        Array.from(
-            doc.getElementsByTagName(
-                "Relationship"
-            )
-        );
-
-
-    for(
-        const rel
-        of relacoes
-    ){
-
-        const id =
-            rel.getAttribute("Id");
-
-
-        const target =
-            rel.getAttribute("Target");
-
-
-        if(
-            id &&
-            target
-        ){
-
-            mapa[id] =
-                target;
-
-        }
-
-    }
-
-
-    return mapa;
-}
-
-
-
-/* =====================================================
-   TEXTOS DO SLIDE
-===================================================== */
-
-function extrairTextosDoSlide(
-    xml
-){
-
-    const doc =
-        new DOMParser()
-        .parseFromString(
-            xml,
-            "application/xml"
-        );
-
-
-    const textos = [];
-
-
-    const paragrafos =
-        Array.from(
-            doc.getElementsByTagName(
-                "a:p"
-            )
-        );
-
-
-    for(
-        const p
-        of paragrafos
-    ){
-
-        const partes =
-            Array.from(
-                p.getElementsByTagName(
-                    "a:t"
-                )
-            );
-
-
-        let texto =
-            "";
-
-
-        for(
-            const t
-            of partes
-        ){
-
-            texto +=
-                t.textContent ||
-                "";
-
-        }
-
-
-        texto =
-            texto
-            .replace(
-                /\s+/g,
-                " "
-            )
-            .trim();
-
-
-        if(texto){
-
-            textos.push(
-                texto
-            );
-
-        }
-
-    }
-
-
-    return textos;
-}
-
-
-
-/* =====================================================
-   ENCONTRAR DESENHO
-===================================================== */
-
-function encontrarDesenho(
-    xml
-){
-
-    const textos =
-        extrairTextosDoSlide(
-            xml
-        );
-
-
-    for(
-        const textoOriginal
-        of textos
-    ){
-
-        const texto =
-            textoOriginal.trim();
-
-
-        if(
-            /^Desenho\s*\/?/i
-            .test(texto)
-        ){
-
-            let conteudo =
-                texto
-                .replace(
-                    /^Desenho\s*\/?\s*/i,
-                    ""
-                )
-                .trim();
-
-
-            const partes =
-                conteudo.split(
-                    /\s+-\s+/
-                );
-
-
-            if(
-                partes.length >= 3
-            ){
-
-                conteudo =
-                    partes
-                    .slice(0,3)
-                    .join(" - ")
-                    .trim();
-
-            }
-
-
-            return conteudo;
-
-        }
-
-    }
-
-
-    return "Desenho não identificado";
-}
-
-
-
-/* =====================================================
-   TRANSFORMAR IMAGEM EM OBJETO
-===================================================== */
-
-async function imagemDoBlob(
-    blob
-){
-
-    return await new Promise(
-        function(resolve,reject){
-
-            const url =
-                URL.createObjectURL(
-                    blob
-                );
-
-
-            const img =
-                new Image();
-
-
-            img.onload =
-                function(){
-
-                    URL.revokeObjectURL(
-                        url
-                    );
-
-                    resolve(img);
-
-                };
-
-
-            img.onerror =
-                function(){
-
-                    URL.revokeObjectURL(
-                        url
-                    );
-
-                    reject(
-                        new Error(
-                            "Imagem inválida"
-                        )
-                    );
-
-                };
-
-
-            img.src =
-                url;
-
-        }
+  const relacoes =
+    Array.from(
+      doc.getElementsByTagName("Relationship")
     );
 
+  for(const rel of relacoes){
+
+    const id =
+      rel.getAttribute("Id");
+
+    const target =
+      rel.getAttribute("Target");
+
+    if(id && target)
+      mapa[id] = target;
+  }
+
+  return mapa;
 }
 
 
-
 /* =====================================================
-   ASSINATURA DA IMAGEM
+   PEGAR TEXTOS DO SLIDE
 ===================================================== */
 
-async function assinatura(
-    blob
-){
+function extrairTextosDoSlide(xml){
 
-    const img =
-        await imagemDoBlob(
-            blob
+  const doc =
+    new DOMParser()
+    .parseFromString(xml,"application/xml");
+
+  const textos = [];
+
+  const paragrafos =
+    Array.from(
+      doc.getElementsByTagName("a:p")
+    );
+
+  for(const p of paragrafos){
+
+    const partes =
+      Array.from(
+        p.getElementsByTagName("a:t")
+      );
+
+    let texto = "";
+
+    for(const t of partes){
+
+      texto +=
+        t.textContent || "";
+    }
+
+    texto =
+      texto
+      .replace(/\s+/g," ")
+      .trim();
+
+    if(texto)
+      textos.push(texto);
+  }
+
+  return textos;
+}
+
+
+/* =====================================================
+   ENCONTRAR O CAMPO DESENHO
+===================================================== */
+
+function encontrarDesenho(xml){
+
+  const textos =
+    extrairTextosDoSlide(xml);
+
+  for(const textoOriginal of textos){
+
+    const texto =
+      textoOriginal.trim();
+
+    /*
+      Procura uma linha que comece com:
+
+      Desenho /
+
+      ou
+
+      Desenho
+    */
+
+    if(/^Desenho\s*\/?/i.test(texto)){
+
+      let conteudo =
+        texto.replace(
+          /^Desenho\s*\/?\s*/i,
+          ""
+        ).trim();
+
+
+      /*
+        Exemplo original:
+
+        &V 001 - 3800395 - TIRANTE -
+        8400 AE D1 TWB10 A2/8400 AE D1 TWB10 A3 -
+        | &V - PD - QVER
+      */
+
+      const partes =
+        conteudo.split(/\s+-\s+/);
+
+
+      /*
+        Mantém somente:
+
+        &V 001
+        3800395
+        TIRANTE
+
+        formando:
+
+        &V 001 - 3800395 - TIRANTE
+      */
+
+      if(partes.length >= 3){
+
+        conteudo =
+          partes
+          .slice(0,3)
+          .join(" - ")
+          .trim();
+      }
+
+      return conteudo;
+    }
+  }
+
+  return "Desenho não identificado";
+}
+
+
+/* =====================================================
+   TRANSFORMAR IMAGEM EM ASSINATURA
+===================================================== */
+
+async function imagemDoBlob(blob){
+
+  return await new Promise(
+    (resolve,reject)=>{
+
+      const url =
+        URL.createObjectURL(blob);
+
+      const img =
+        new Image();
+
+      img.onload = ()=>{
+
+        URL.revokeObjectURL(url);
+
+        resolve(img);
+      };
+
+      img.onerror = ()=>{
+
+        URL.revokeObjectURL(url);
+
+        reject(
+          new Error("Imagem inválida")
         );
+      };
+
+      img.src = url;
+
+    }
+  );
+}
 
 
-    const w = 48;
-    const h = 48;
+async function assinatura(blob){
+
+  const img =
+    await imagemDoBlob(blob);
+
+  const w = 48;
+  const h = 48;
+
+  const canvas =
+    document.createElement("canvas");
+
+  canvas.width = w;
+  canvas.height = h;
+
+  const ctx =
+    canvas.getContext(
+      "2d",
+      {willReadFrequently:true}
+    );
+
+  ctx.fillStyle = "#fff";
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
+  );
 
 
-    const canvas =
-        document.createElement(
-            "canvas"
-        );
-
-
-    canvas.width =
-        w;
-
-    canvas.height =
-        h;
-
-
-    const ctx =
-        canvas.getContext(
-            "2d",
-            {
-                willReadFrequently:true
-            }
-        );
-
-
-    ctx.fillStyle =
-        "#fff";
-
-
-    ctx.fillRect(
-        0,
-        0,
-        w,
-        h
+  const escala =
+    Math.min(
+      w / img.naturalWidth,
+      h / img.naturalHeight
     );
 
 
-    const escala =
-        Math.min(
-            w / img.naturalWidth,
-            h / img.naturalHeight
-        );
+  const dw =
+    img.naturalWidth * escala;
+
+  const dh =
+    img.naturalHeight * escala;
 
 
-    const dw =
-        img.naturalWidth *
-        escala;
+  ctx.drawImage(
+    img,
+    (w-dw)/2,
+    (h-dh)/2,
+    dw,
+    dh
+  );
 
 
-    const dh =
-        img.naturalHeight *
-        escala;
+  const data =
+    ctx.getImageData(
+      0,
+      0,
+      w,
+      h
+    ).data;
 
 
-    ctx.drawImage(
-        img,
-        (w-dw)/2,
-        (h-dh)/2,
-        dw,
-        dh
-    );
+  const cinza =
+    new Float32Array(w*h);
 
 
-    const data =
-        ctx.getImageData(
-            0,
-            0,
-            w,
-            h
-        ).data;
+  let media = 0;
 
 
-    const cinza =
-        new Float32Array(
-            w*h
-        );
+  for(
+    let i=0,p=0;
+    i<data.length;
+    i+=4,p++
+  ){
+
+    const v =
+      .299*data[i] +
+      .587*data[i+1] +
+      .114*data[i+2];
+
+    cinza[p] = v;
+
+    media += v;
+  }
 
 
-    let media = 0;
+  media /=
+    cinza.length;
 
 
-    for(
-        let i=0,
-        p=0;
-
-        i<data.length;
-
-        i+=4,
-        p++
-    ){
-
-        const valor =
-            .299 * data[i] +
-            .587 * data[i+1] +
-            .114 * data[i+2];
+  let vari = 0;
 
 
-        cinza[p] =
-            valor;
+  for(const v of cinza){
+
+    vari +=
+      (v-media)*(v-media);
+  }
 
 
-        media +=
-            valor;
-
-    }
-
-
-    media /=
-        cinza.length;
+  const desvio =
+    Math.sqrt(
+      vari/cinza.length
+    ) || 1;
 
 
-    let variancia =
-        0;
+  for(
+    let i=0;
+    i<cinza.length;
+    i++
+  ){
+
+    cinza[i] =
+      (cinza[i]-media)/desvio;
+  }
 
 
-    for(
-        const valor
-        of cinza
-    ){
-
-        variancia +=
-            (valor-media) *
-            (valor-media);
-
-    }
-
-
-    const desvio =
-        Math.sqrt(
-            variancia /
-            cinza.length
-        ) || 1;
-
-
-    for(
-        let i=0;
-        i<cinza.length;
-        i++
-    ){
-
-        cinza[i] =
-            (cinza[i]-media) /
-            desvio;
-
-    }
-
-
-    return cinza;
+  return cinza;
 }
-
 
 
 /* =====================================================
    DISTÂNCIA
 ===================================================== */
 
-function distancia(
-    a,
-    b
-){
+function distancia(a,b){
 
-    let soma =
-        0;
+  let soma = 0;
 
+  for(
+    let i=0;
+    i<a.length;
+    i++
+  ){
 
-    for(
-        let i=0;
-        i<a.length;
-        i++
-    ){
+    const d =
+      a[i]-b[i];
 
-        const d =
-            a[i]-b[i];
+    soma += d*d;
+  }
 
-
-        soma +=
-            d*d;
-
-    }
-
-
-    return Math.sqrt(
-        soma/a.length
-    );
+  return Math.sqrt(
+    soma/a.length
+  );
 }
-
 
 
 /* =====================================================
    SIMILARIDADE
 ===================================================== */
 
-function similaridade(
-    dist
-){
+function similaridade(dist){
 
-    return Math.max(
-        0,
-        Math.min(
-            100,
-            100 *
-            Math.exp(
-                -dist / 2.2
-            )
-        )
-    );
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      100*Math.exp(-dist/2.2)
+    )
+  );
 }
-
 
 
 /* =====================================================
    ESCAPAR HTML
 ===================================================== */
 
-function escapeHtml(
-    text
-){
+function escapeHtml(text){
 
-    return String(text)
+  return String(text)
 
-        .replace(
-            /&/g,
-            "&amp;"
-        )
+    .replace(/&/g,"&amp;")
 
-        .replace(
-            /</g,
-            "&lt;"
-        )
+    .replace(/</g,"&lt;")
 
-        .replace(
-            />/g,
-            "&gt;"
-        )
+    .replace(/>/g,"&gt;")
 
-        .replace(
-            /"/g,
-            "&quot;"
-        )
+    .replace(/"/g,"&quot;")
 
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
+    .replace(/'/g,"&#039;");
 }
 
 
-
 /* =====================================================
-   BUSCA PRINCIPAL
+   PROCURAR
 ===================================================== */
 
 async function procurar(){
 
-    const ppts =
-        Array.from(
-            document
-            .getElementById("ppt")
-            .files
+  const ppts =
+    Array.from(
+      document.getElementById("ppt").files
+    );
+
+  const status =
+    document.getElementById("status");
+
+  const area =
+    document.getElementById("resultados");
+
+  const btn =
+    document.getElementById("btn");
+
+
+  if(!foto){
+
+    alert(
+      "Escolha a foto primeiro."
+    );
+
+    return;
+  }
+
+
+  if(!ppts.length){
+
+    alert(
+      "Escolha pelo menos um PowerPoint."
+    );
+
+    return;
+  }
+
+
+  btn.disabled = true;
+
+  area.innerHTML = "";
+
+  status.innerText =
+    "Iniciando busca...";
+
+
+  try{
+
+    /*
+      Assinatura da foto procurada
+    */
+
+    const ref =
+      await assinatura(foto);
+
+
+    const todos = [];
+
+
+    /*
+      Percorrer PowerPoints
+    */
+
+    for(
+      let p=0;
+      p<ppts.length;
+      p++
+    ){
+
+      const ppt =
+        ppts[p];
+
+
+      status.innerText =
+        "Lendo PowerPoint "+
+        (p+1)+
+        " de "+
+        ppts.length+
+        ": "+
+        ppt.name;
+
+
+      const buffer =
+        await ppt.arrayBuffer();
+
+
+      const zip =
+        await JSZip.loadAsync(
+          buffer
         );
 
 
-    const status =
-        document.getElementById(
-            "status"
+      const arquivos =
+        Object.keys(zip.files);
+
+
+      /*
+        Todas as imagens
+      */
+
+      const imagens =
+        arquivos.filter(
+          n =>
+            n.startsWith("ppt/media/") &&
+            /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i
+              .test(n)
         );
 
 
-    const area =
-        document.getElementById(
-            "resultados"
+      /*
+        Relação:
+
+        imagem -> slides
+      */
+
+      const usos = {};
+
+
+      /*
+        Relação:
+
+        slide -> desenho
+      */
+
+      const desenhos = {};
+
+
+      /*
+        Localizar slides
+      */
+
+      const slides =
+        arquivos
+
+        .filter(
+          n =>
+            /^ppt\/slides\/slide\d+\.xml$/i
+              .test(n)
+        )
+
+        .sort(
+          (a,b) => {
+
+            const na =
+              +(a.match(
+                /slide(\d+)\.xml/i
+              ) || [,0])[1];
+
+            const nb =
+              +(b.match(
+                /slide(\d+)\.xml/i
+              ) || [,0])[1];
+
+            return na-nb;
+          }
         );
 
 
-    const btn =
-        document.getElementById(
-            "btn"
-        );
+      /*
+        Ler cada slide
+      */
+
+      for(const slide of slides){
+
+        const num =
+          +(slide.match(
+            /slide(\d+)\.xml/i
+          ) || [,0])[1];
 
 
-    if(!foto){
+        /*
+          XML do slide
+        */
 
-        alert(
-            "Escolha a foto primeiro."
-        );
-
-        return;
-    }
-
-
-    if(!ppts.length){
-
-        alert(
-            "Escolha pelo menos um PowerPoint."
-        );
-
-        return;
-    }
+        const slideXml =
+          await texto(
+            zip,
+            slide
+          );
 
 
-    btn.disabled =
-        true;
+        /*
+          PEGAR DESENHO
+        */
+
+        desenhos[num] =
+          encontrarDesenho(
+            slideXml
+          );
 
 
-    area.innerHTML =
-        "";
+        /*
+          Relações do slide
+        */
+
+        const relXml =
+          await texto(
+            zip,
+            "ppt/slides/_rels/slide"+
+            num+
+            ".xml.rels"
+          );
 
 
-    status.innerText =
-        "Iniciando busca...";
+        const rels =
+          extrairRelacionamentos(
+            relXml
+          );
 
 
-    try{
+        /*
+          Encontrar imagens utilizadas
+          pelo slide
+        */
 
-        /* ---------------------------------------------
-           ASSINATURA DA FOTO DE REFERÊNCIA
-        --------------------------------------------- */
+        const doc =
+          new DOMParser()
+          .parseFromString(
+            slideXml,
+            "application/xml"
+          );
 
-        const ref =
-            await assinatura(
-                foto
+
+        const blips =
+          Array.from(
+            doc.getElementsByTagName(
+              "a:blip"
+            )
+          );
+
+
+        for(const blip of blips){
+
+          const rid =
+            blip.getAttribute(
+              "r:embed"
+            ) ||
+            blip.getAttribute(
+              "embed"
             );
 
 
-        const todos = [];
+          if(
+            !rid ||
+            !rels[rid]
+          )
+            continue;
 
 
-        /* ---------------------------------------------
-           PERCORRER POWERPOINTS
-        --------------------------------------------- */
+          const target =
+            normalizarCaminho(
+              "ppt/slides",
+              rels[rid]
+            );
 
-        for(
-            let p=0;
-            p<ppts.length;
-            p++
-        ){
 
-            const ppt =
-                ppts[p];
+          if(
+            !target.startsWith(
+              "ppt/media/"
+            )
+          )
+            continue;
 
 
-            status.innerText =
-                "Lendo PowerPoint " +
-                (p+1) +
-                " de " +
-                ppts.length +
-                ": " +
-                ppt.name;
+          if(!usos[target])
+            usos[target] = [];
 
 
-            const buffer =
-                await ppt.arrayBuffer();
+          if(
+            !usos[target].includes(
+              num
+            )
+          ){
 
-
-            const zip =
-                await JSZip.loadAsync(
-                    buffer
-                );
-
-
-            const arquivos =
-                Object.keys(
-                    zip.files
-                );
-
-
-            /* -----------------------------------------
-               IMAGENS
-            ----------------------------------------- */
-
-            const imagens =
-                arquivos.filter(
-                    function(nome){
-
-                        return (
-                            nome.startsWith(
-                                "ppt/media/"
-                            )
-                            &&
-                            /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i
-                            .test(nome)
-                        );
-
-                    }
-                );
-
-
-            /* -----------------------------------------
-               IMAGEM -> SLIDES
-            ----------------------------------------- */
-
-            const usos = {};
-
-
-            /* -----------------------------------------
-               SLIDE -> DESENHO
-            ----------------------------------------- */
-
-            const desenhos = {};
-
-
-            /* -----------------------------------------
-               SLIDES
-            ----------------------------------------- */
-
-            const slides =
-                arquivos
-
-                .filter(
-                    function(nome){
-
-                        return /^ppt\/slides\/slide\d+\.xml$/i
-                            .test(nome);
-
-                    }
-                )
-
-                .sort(
-                    function(a,b){
-
-                        const na =
-                            +(
-                                a.match(
-                                    /slide(\d+)\.xml/i
-                                )
-                                ||
-                                [,0]
-                            )[1];
-
-
-                        const nb =
-                            +(
-                                b.match(
-                                    /slide(\d+)\.xml/i
-                                )
-                                ||
-                                [,0]
-                            )[1];
-
-
-                        return na-nb;
-
-                    }
-                );
-
-
-            /* -----------------------------------------
-               LER CADA SLIDE
-            ----------------------------------------- */
-
-            for(
-                const slide
-                of slides
-            ){
-
-                const numero =
-                    +(
-                        slide.match(
-                            /slide(\d+)\.xml/i
-                        )
-                        ||
-                        [,0]
-                    )[1];
-
-
-                const slideXml =
-                    await texto(
-                        zip,
-                        slide
-                    );
-
-
-                desenhos[numero] =
-                    encontrarDesenho(
-                        slideXml
-                    );
-
-
-                const relXml =
-                    await texto(
-                        zip,
-                        "ppt/slides/_rels/slide" +
-                        numero +
-                        ".xml.rels"
-                    );
-
-
-                const rels =
-                    extrairRelacionamentos(
-                        relXml
-                    );
-
-
-                const doc =
-                    new DOMParser()
-                    .parseFromString(
-                        slideXml,
-                        "application/xml"
-                    );
-
-
-                const blips =
-                    Array.from(
-                        doc.getElementsByTagName(
-                            "a:blip"
-                        )
-                    );
-
-
-                for(
-                    const blip
-                    of blips
-                ){
-
-                    const rid =
-                        blip.getAttribute(
-                            "r:embed"
-                        )
-                        ||
-                        blip.getAttribute(
-                            "embed"
-                        );
-
-
-                    if(
-                        !rid ||
-                        !rels[rid]
-                    ){
-
-                        continue;
-                    }
-
-
-                    const target =
-                        normalizarCaminho(
-                            "ppt/slides",
-                            rels[rid]
-                        );
-
-
-                    if(
-                        !target.startsWith(
-                            "ppt/media/"
-                        )
-                    ){
-
-                        continue;
-                    }
-
-
-                    if(
-                        !usos[target]
-                    ){
-
-                        usos[target] =
-                            [];
-
-                    }
-
-
-                    if(
-                        !usos[target]
-                        .includes(
-                            numero
-                        )
-                    ){
-
-                        usos[target]
-                        .push(
-                            numero
-                        );
-
-                    }
-
-                }
-
-            }
-
-
-            /* -----------------------------------------
-               COMPARAR IMAGENS
-            ----------------------------------------- */
-
-            for(
-                let i=0;
-                i<imagens.length;
-                i++
-            ){
-
-                status.innerText =
-                    "Analisando " +
-                    ppt.name +
-                    " — imagem " +
-                    (i+1) +
-                    " de " +
-                    imagens.length +
-                    "...";
-
-
-                try{
-
-                    const nome =
-                        imagens[i];
-
-
-                    const blob =
-                        await zip
-                        .files[nome]
-                        .async("blob");
-
-
-                    const sig =
-                        await assinatura(
-                            blob
-                        );
-
-
-                    const score =
-                        similaridade(
-                            distancia(
-                                ref,
-                                sig
-                            )
-                        );
-
-
-                    const slidesDaImagem =
-                        usos[nome] ||
-                        [];
-
-
-                    const desenhosEncontrados =
-                        slidesDaImagem.map(
-                            function(slide){
-
-                                return (
-                                    desenhos[slide]
-                                    ||
-                                    "Desenho não identificado"
-                                );
-
-                            }
-                        );
-
-
-                    todos.push({
-
-                        arquivo:
-                            ppt.name,
-
-                        nome:
-                            nome
-                            .split("/")
-                            .pop(),
-
-                        blob:
-                            blob,
-
-                        score:
-                            score,
-
-                        slides:
-                            slidesDaImagem,
-
-                        desenhos:
-                            desenhosEncontrados
-
-                    });
-
-
-                }
-                catch(erroImagem){
-
-                    console.warn(
-                        "Imagem ignorada:",
-                        erroImagem
-                    );
-
-                }
-
-            }
-
+            usos[target].push(
+              num
+            );
+          }
         }
+      }
 
 
-        /* ---------------------------------------------
-           ORDENAR
-        --------------------------------------------- */
+      /*
+        Comparar cada imagem
+      */
 
-        todos.sort(
-            function(a,b){
-
-                return b.score-a.score;
-
-            }
-        );
-
-
-        area.innerHTML =
-            "";
-
-
-        /* ---------------------------------------------
-           SEM RESULTADOS
-        --------------------------------------------- */
-
-        if(!todos.length){
-
-            area.innerHTML = `
-
-                <div class="empty">
-
-                    <div class="empty-icon">
-                        ◉
-                    </div>
-
-                    Nenhuma imagem foi encontrada
-                    nos PowerPoints selecionados.
-
-                </div>
-
-            `;
-
-        }
-
-
-        /* ---------------------------------------------
-           TOP 10
-        --------------------------------------------- */
-
-        else{
-
-            const exibidos =
-                todos.slice(
-                    0,
-                    10
-                );
-
-
-            for(
-                let i=0;
-                i<exibidos.length;
-                i++
-            ){
-
-                const resultado =
-                    exibidos[i];
-
-
-                let desenho =
-                    "Desenho não identificado";
-
-
-                if(
-                    resultado.desenhos &&
-                    resultado.desenhos.length
-                ){
-
-                    desenho =
-                        resultado.desenhos.find(
-                            function(valor){
-
-                                return (
-                                    valor &&
-                                    valor !==
-                                    "Desenho não identificado"
-                                );
-
-                            }
-                        )
-                        ||
-                        resultado.desenhos[0];
-
-                }
-
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                card.className =
-                    "result-card";
-
-
-                /* -------------------------------------
-                   PERCENTUAL
-                ------------------------------------- */
-
-                const similarity =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                similarity.className =
-                    "similarity";
-
-
-                similarity.innerText =
-                    resultado.score.toFixed(1) +
-                    "%";
-
-
-                card.appendChild(
-                    similarity
-                );
-
-
-                /* -------------------------------------
-                   IMAGEM
-                ------------------------------------- */
-
-                const imagem =
-                    document.createElement(
-                        "img"
-                    );
-
-
-                imagem.className =
-                    "result-image";
-
-
-                imagem.src =
-                    URL.createObjectURL(
-                        resultado.blob
-                    );
-
-
-                imagem.alt =
-                    "Imagem encontrada";
-
-
-                card.appendChild(
-                    imagem
-                );
-
-
-                /* -------------------------------------
-                   DESENHO
-                ------------------------------------- */
-
-                const titulo =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                titulo.className =
-                    "result-title";
-
-
-                titulo.innerHTML =
-                    "<b>Desenho:</b><br>" +
-                    escapeHtml(
-                        desenho
-                    );
-
-
-                card.appendChild(
-                    titulo
-                );
-
-
-                /* -------------------------------------
-                   METADADOS
-                ------------------------------------- */
-
-                const meta =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                meta.className =
-                    "meta";
-
-
-                meta.innerHTML =
-
-                    "<b>PowerPoint:</b> " +
-                    escapeHtml(
-                        resultado.arquivo
-                    ) +
-
-                    "<br>" +
-
-                    "<b>Slide:</b> " +
-                    (
-                        resultado.slides.length
-                        ?
-                        resultado.slides.join(", ")
-                        :
-                        "não identificado"
-                    ) +
-
-                    "<br>" +
-
-                    "<b>Semelhança:</b> " +
-                    resultado.score.toFixed(1) +
-                    "%";
-
-
-                card.appendChild(
-                    meta
-                );
-
-
-                /* -------------------------------------
-                   BOTÃO
-                ------------------------------------- */
-
-                const abrir =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                abrir.innerText =
-                    "🖼️ Abrir imagem";
-
-
-                abrir.onclick =
-                    function(){
-
-                        window.open(
-                            imagem.src,
-                            "_blank"
-                        );
-
-                    };
-
-
-                card.appendChild(
-                    abrir
-                );
-
-
-                area.appendChild(
-                    card
-                );
-
-            }
-
-        }
-
+      for(
+        let i=0;
+        i<imagens.length;
+        i++
+      ){
 
         status.innerText =
-            "Busca concluída. " +
-            ppts.length +
-            " PowerPoint(s) analisado(s).";
+          "Analisando "+
+          ppt.name+
+          " — imagem "+
+          (i+1)+
+          " de "+
+          imagens.length+
+          "...";
 
 
+        try{
+
+          const nome =
+            imagens[i];
+
+
+          const blob =
+            await zip.files[nome]
+              .async("blob");
+
+
+          const sig =
+            await assinatura(
+              blob
+            );
+
+
+          const score =
+            similaridade(
+              distancia(
+                ref,
+                sig
+              )
+            );
+
+
+          const slidesDaImagem =
+            usos[nome] || [];
+
+
+          /*
+            Pegar desenho do slide
+          */
+
+          const desenhosEncontrados =
+            slidesDaImagem.map(
+              slide =>
+                desenhos[slide] ||
+                "Desenho não identificado"
+            );
+
+
+          todos.push({
+
+            arquivo:
+              ppt.name,
+
+            nome:
+              nome.split("/").pop(),
+
+            blob:
+              blob,
+
+            score:
+              score,
+
+            slides:
+              slidesDaImagem,
+
+            desenhos:
+              desenhosEncontrados
+
+          });
+
+
+        }catch(e){
+
+          console.warn(
+            "Imagem ignorada",
+            e
+          );
+
+        }
+      }
     }
-    catch(erro){
 
-        console.error(
-            erro
+
+    /*
+      Ordenar pelos melhores
+    */
+
+    todos.sort(
+      (a,b) =>
+        b.score-a.score
+    );
+
+
+    area.innerHTML = "";
+
+
+    if(!todos.length){
+
+      area.innerHTML =
+        "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
+
+    }else{
+
+      /*
+        Mostrar 10 melhores
+      */
+
+      const exibidos =
+        todos.slice(
+          0,
+          10
         );
 
 
-        status.innerHTML =
-            '<span style="color:#ff8f9b">' +
-            'Erro ao ler o PowerPoint: ' +
-            escapeHtml(
-                erro.message ||
-                erro
-            ) +
-            '</span>';
+      for(
+        let i=0;
+        i<exibidos.length;
+        i++
+      ){
 
+        const r =
+          exibidos[i];
+
+
+        const div =
+          document.createElement(
+            "div"
+          );
+
+
+        div.className =
+          "resultado";
+
+
+        /*
+          Desenho
+        */
+
+        let desenho =
+          "Desenho não identificado";
+
+
+        if(
+          r.desenhos &&
+          r.desenhos.length
+        ){
+
+          desenho =
+            r.desenhos.find(
+              x =>
+                x &&
+                x !==
+                "Desenho não identificado"
+            ) ||
+            r.desenhos[0];
+        }
+
+
+        /*
+          Informações
+        */
+
+        div.innerHTML =
+
+          '<div class="tag">'+
+          'Resultado '+
+          (i+1)+
+          '</div>'+
+
+          '<div class="desenho">'+
+          '<b>📋 Desenho:</b><br>'+
+          escapeHtml(
+            desenho
+          )+
+          '</div>'+
+
+          '<div class="dados">'+
+
+          '<b>📁 PowerPoint:</b> '+
+          escapeHtml(
+            r.arquivo
+          )+
+
+          '<br>'+
+
+          '<b>📄 Slide:</b> '+
+          (
+            r.slides.length
+            ? r.slides.join(", ")
+            : "não identificado"
+          )+
+
+          '<br>'+
+
+          '<b>🔎 Semelhança visual:</b> '+
+          r.score.toFixed(1)+
+          '%'+
+
+          '</div>';
+
+
+        /*
+          Imagem encontrada
+        */
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+
+        img.className =
+          "imagem-encontrada";
+
+
+        img.src =
+          URL.createObjectURL(
+            r.blob
+          );
+
+
+        div.appendChild(
+          img
+        );
+
+
+        /*
+          Botão da imagem
+        */
+
+        const abrir =
+          document.createElement(
+            "button"
+          );
+
+
+        abrir.innerText =
+          "🖼️ Abrir imagem encontrada";
+
+
+        abrir.onclick =
+          () =>
+            window.open(
+              img.src,
+              "_blank"
+            );
+
+
+        div.appendChild(
+          abrir
+        );
+
+
+        area.appendChild(
+          div
+        );
+
+
+        if(
+          i <
+          exibidos.length-1
+        ){
+
+          const sep =
+            document.createElement(
+              "div"
+            );
+
+          sep.className =
+            "separador";
+
+          area.appendChild(
+            sep
+          );
+        }
+      }
     }
-    finally{
 
-        btn.disabled =
-            false;
 
-    }
+    status.innerText =
+      "✅ Busca concluída em "+
+      ppts.length+
+      " PowerPoint(s). "+
+      "Foram mostrados os 10 melhores resultados.";
 
+
+  }catch(erro){
+
+    console.error(
+      erro
+    );
+
+
+    status.innerHTML =
+      '<span class="erro">'+
+      '❌ Erro ao ler o PowerPoint: '+
+      escapeHtml(
+        erro.message ||
+        erro
+      )+
+      '</span>';
+
+
+  }finally{
+
+    btn.disabled =
+      false;
+  }
 }
 
 
-
 /* =====================================================
-   BOTÃO DE BUSCA
+   BOTÃO
 ===================================================== */
 
 document
-    .getElementById("btn")
-    .addEventListener(
-        "click",
-        procurar
-    );
+  .getElementById("btn")
+  .addEventListener(
+    "click",
+    procurar
+  );
 
 </script>
 
