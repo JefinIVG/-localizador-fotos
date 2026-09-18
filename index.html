@@ -2,1551 +2,1202 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Localizador de Fotos</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
 <style>
 :root{
-  --bg:#03111d;
-  --bg2:#061b2b;
-  --panel:rgba(10,31,48,.82);
-  --panel2:rgba(8,26,41,.92);
-  --border:rgba(82,150,190,.22);
+  --bg:#03101d;
+  --panel:#09233a;
+  --panel2:#061a2c;
+  --line:#1b5277;
   --blue:#008cff;
-  --cyan:#00cfff;
-  --green:#23d18b;
+  --cyan:#22d8ff;
+  --green:#4dffc3;
   --text:#f2f7fb;
-  --muted:#8ca8ba;
-  --danger:#ff5964;
+  --muted:#8ba8bb
 }
 
 *{
-  box-sizing:border-box;
+  box-sizing:border-box
+}
+
+html,body{
   margin:0;
-  padding:0;
-}
-
-body{
-  font-family:Inter,Segoe UI,Arial,sans-serif;
-  background:
-    radial-gradient(circle at 80% 10%,rgba(0,140,255,.13),transparent 28%),
-    radial-gradient(circle at 20% 90%,rgba(0,207,255,.07),transparent 25%),
-    linear-gradient(135deg,#020b13,#061a2a 50%,#03111d);
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
   color:var(--text);
-  min-height:100vh;
+  background:
+    radial-gradient(
+      circle at 80% 15%,
+      #06345a 0,
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #020b14,
+      #061b2d 55%,
+      #03111d
+    );
+  overflow-x:hidden
 }
 
-button,
-input{
-  font:inherit;
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      rgba(34,216,255,.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(34,216,255,.025) 1px,
+      transparent 1px
+    );
+  background-size:30px 30px
 }
 
-/* =========================
-   LAYOUT
-========================= */
 
-.app{
-  min-height:100vh;
-  display:flex;
-}
-
-/* =========================
+/* =====================================================
    SIDEBAR
-========================= */
+===================================================== */
 
 .sidebar{
-  width:220px;
-  min-height:100vh;
   position:fixed;
+  z-index:5;
   left:0;
   top:0;
   bottom:0;
-  z-index:10;
-
-  padding:25px 16px;
-
+  width:220px;
+  padding:16px 12px;
   background:
     linear-gradient(
       180deg,
-      rgba(3,18,30,.97),
-      rgba(3,13,23,.98)
+      #03111e,
+      #041a2b
     );
-
-  border-right:1px solid rgba(77,151,195,.18);
-
-  box-shadow:
-    10px 0 40px rgba(0,0,0,.25);
+  border-right:1px solid #1c4e70;
+  box-shadow:10px 0 35px #0006
 }
 
 .logo{
-  height:52px;
+  height:54px;
   display:flex;
   align-items:center;
   justify-content:center;
-  margin-bottom:38px;
-}
-
-.logo-text{
-  color:#fff;
-  font-size:29px;
+  font-size:27px;
   font-weight:900;
-  letter-spacing:3px;
-  font-style:italic;
-
-  text-shadow:
-    0 0 15px rgba(0,151,255,.2);
+  letter-spacing:1px;
+  color:#fff
 }
 
-.logo-text span{
-  color:#198fd0;
+.logo span{
+  color:#18a7ff
 }
 
-.menu{
+.nav{
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:5px;
+  margin-top:8px
 }
 
-.menu-item{
+.nav a{
   display:flex;
   align-items:center;
-  gap:13px;
-
-  padding:14px 15px;
-
-  border-radius:12px;
-
-  color:#7e9caf;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:7px;
+  color:#b6c9d6;
   text-decoration:none;
-
-  font-size:14px;
-  font-weight:600;
-
-  border:1px solid transparent;
-
-  transition:.2s ease;
+  font-size:11px;
+  border:1px solid transparent
 }
 
-.menu-item:hover{
-  color:#fff;
-  background:rgba(0,140,255,.07);
-  border-color:rgba(0,140,255,.13);
-}
-
-.menu-item.active{
-  color:#fff;
-
+.nav a.active,
+.nav a:hover{
   background:
     linear-gradient(
       90deg,
-      rgba(0,140,255,.22),
-      rgba(0,140,255,.06)
+      #087fe0,
+      #095ca8
     );
-
-  border-color:rgba(0,151,255,.25);
-
-  box-shadow:
-    inset 3px 0 0 var(--blue),
-    0 8px 25px rgba(0,0,0,.15);
+  border-color:#38b8ff;
+  color:#fff;
+  box-shadow:0 5px 16px #008cff33
 }
 
-.menu-icon{
-  width:20px;
+.nav i{
+  font-style:normal;
+  width:18px;
   text-align:center;
-  font-size:16px;
+  color:#fff
 }
 
-/* =========================
+.side-note{
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:28px;
+  text-align:center;
+  color:#94b0c3;
+  font-size:10px;
+  line-height:1.45
+}
+
+.side-note strong{
+  color:#19bfff;
+  font-size:10px
+}
+
+
+/* =====================================================
    MAIN
-========================= */
+===================================================== */
 
 .main{
-  width:calc(100% - 220px);
   margin-left:220px;
-  padding:24px 28px 30px;
+  padding:12px 14px 22px;
+  max-width:1500px
 }
 
-/* =========================
-   HERO
-========================= */
+
+/* =====================================================
+   CABEÇALHO
+===================================================== */
 
 .hero{
+  height:106px;
   position:relative;
-  min-height:190px;
-
   overflow:hidden;
-
-  border-radius:22px;
-
-  border:1px solid rgba(67,145,188,.25);
-
-  background:
-    linear-gradient(
-      110deg,
-      rgba(4,22,36,.98),
-      rgba(5,28,46,.91)
-    );
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.25);
-
-  padding:32px 40px;
-
-  margin-bottom:22px;
-}
-
-.hero:before{
-  content:"";
-  position:absolute;
-  inset:0;
-
+  border:1px solid #226087;
+  border-radius:8px;
   background:
     linear-gradient(
       90deg,
-      rgba(3,16,27,.98) 0%,
-      rgba(3,18,31,.88) 40%,
-      rgba(3,18,31,.25) 75%,
-      transparent 100%
+      #082945,
+      #0b3555 55%,
+      #051625
     );
-
-  pointer-events:none;
+  box-shadow:0 10px 30px #0005
 }
 
-.hero-content{
-  position:relative;
-  z-index:2;
-  max-width:570px;
+.hero:after{
+  content:"";
+  position:absolute;
+  right:3%;
+  top:-35px;
+  width:38%;
+  height:180px;
+  background:
+    linear-gradient(
+      125deg,
+      transparent 42%,
+      #087be9 43%,
+      #087be9 50%,
+      transparent 51%
+    );
+  opacity:.75;
+  transform:skewX(-10deg)
 }
 
-.hero-kicker{
-  color:var(--cyan);
-  font-size:11px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:2.2px;
-  margin-bottom:10px;
+.hero-copy{
+  position:absolute;
+  left:145px;
+  top:22px;
+  z-index:3
+}
+
+.kicker{
+  font-size:8px;
+  letter-spacing:2px;
+  color:#20d8ff;
+  font-weight:900;
+  margin-bottom:5px
 }
 
 .hero h1{
-  font-size:34px;
-  line-height:1.1;
-  font-weight:800;
-  margin-bottom:10px;
+  margin:0;
+  font-size:24px;
+  line-height:1;
+  color:#fff
 }
 
 .hero p{
-  color:#8faabd;
-  font-size:14px;
-  line-height:1.6;
-  max-width:500px;
+  margin:5px 0 0;
+  font-size:8px;
+  color:#9eb6c7
 }
+
+
+/* =====================================================
+   CAMINHÃO DO CABEÇALHO
+===================================================== */
 
 .hero-truck{
   position:absolute;
-  inset:0;
-  pointer-events:none;
+  left:20px;
+  top:6px;
+  width:145px;
+  height:94px;
+  z-index:2
 }
-
-/* =========================
-   CAMINHÃO
-   MANTIDO IGUAL AO MODELO ANTERIOR
-========================= */
 
 .truck-art{
   position:absolute;
-  right:55px;
-  bottom:18px;
-  width:430px;
-  height:120px;
-  filter:drop-shadow(0 0 20px rgba(0,151,255,.22));
+  left:0;
+  bottom:3px;
+  width:145px;
+  height:90px;
+  filter:drop-shadow(
+    0 0 10px #008cff55
+  );
+  transform:scale(.9)
 }
 
 .truck-art .cab{
   position:absolute;
-  right:5px;
-  bottom:24px;
-  width:125px;
-  height:72px;
-  border:2px solid #397da7;
-  border-radius:12px 16px 4px 4px;
-  background:linear-gradient(145deg,#153d5a,#061a2a);
+  right:0;
+  bottom:18px;
+  width:52px;
+  height:47px;
+  border:2px solid #4b91b8;
+  border-radius:8px 9px 3px 3px;
+  background:
+    linear-gradient(
+      145deg,
+      #175173,
+      #061b2b
+    )
 }
 
 .truck-art .cab:after{
   content:"IVECO";
   position:absolute;
-  right:12px;
-  top:18px;
-  font-size:12px;
+  right:5px;
+  top:13px;
+  font-size:6px;
   font-weight:900;
-  letter-spacing:1px;
-  color:#fff;
+  color:#fff
 }
 
 .truck-art .window{
   position:absolute;
-  right:17px;
-  top:10px;
-  width:54px;
-  height:25px;
-  border:1px solid #4d91b8;
-  border-radius:5px;
-  background:#061421;
+  right:7px;
+  top:7px;
+  width:23px;
+  height:14px;
+  border:1px solid #6aa4c3;
+  border-radius:3px;
+  background:#061421
 }
 
 .truck-art .body{
   position:absolute;
-  left:15px;
-  bottom:24px;
-  width:315px;
-  height:48px;
+  left:6px;
+  bottom:18px;
+  width:112px;
+  height:32px;
   border:2px solid #286489;
-  border-radius:6px;
-  background:linear-gradient(180deg,#113c5b,#09243a);
+  border-radius:5px;
+  background:
+    linear-gradient(
+      180deg,
+      #164a6b,
+      #09253c
+    )
 }
 
 .truck-art .wheel{
   position:absolute;
   bottom:0;
-  width:36px;
-  height:36px;
-  border:7px solid #07111a;
+  width:24px;
+  height:24px;
+  border:5px solid #07111a;
   border-radius:50%;
-  background:#607a8c;
-  box-shadow:0 0 0 2px #244b63;
+  background:#70899a;
+  box-shadow:
+    0 0 0 1px #244b63
 }
 
 .truck-art .w1{
-  left:70px;
+  left:24px
 }
 
 .truck-art .w2{
-  left:275px;
+  left:99px
 }
 
 .truck-art .light{
   position:absolute;
-  right:7px;
-  bottom:40px;
-  width:7px;
-  height:9px;
+  right:0;
+  bottom:28px;
+  width:4px;
+  height:6px;
   background:var(--cyan);
-  box-shadow:0 0 14px var(--cyan);
-}
-
-/* =========================
-   TOOLBAR
-========================= */
-
-.toolbar{
-  display:grid;
-  grid-template-columns:1.1fr 1.1fr .9fr;
-  gap:16px;
-  margin-bottom:20px;
-}
-
-.card{
-  background:
-    linear-gradient(
-      145deg,
-      rgba(12,37,57,.88),
-      rgba(6,23,37,.86)
-    );
-
-  border:1px solid var(--border);
-
-  border-radius:17px;
-
-  padding:20px;
-
   box-shadow:
-    0 15px 40px rgba(0,0,0,.18);
-
-  backdrop-filter:blur(12px);
+    0 0 9px var(--cyan)
 }
 
-.card-label{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:13px;
-}
-
-.card-label strong{
-  font-size:14px;
-}
-
-.card-label span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-/* =========================
-   FILE INPUT
-========================= */
-
-.file-box{
-  position:relative;
-  min-height:86px;
-
-  display:flex;
-  align-items:center;
-  gap:15px;
-
-  padding:14px;
-
-  border-radius:12px;
-
-  background:rgba(0,0,0,.18);
-
-  border:1px dashed rgba(74,151,194,.32);
-}
-
-.file-box input{
+.scan-line{
   position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  opacity:0;
-  cursor:pointer;
-}
-
-.file-icon{
-  width:47px;
-  height:47px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:12px;
-
-  background:rgba(0,140,255,.12);
-  border:1px solid rgba(0,140,255,.2);
-
-  color:var(--cyan);
-
-  font-size:20px;
-}
-
-.file-info{
-  min-width:0;
-}
-
-.file-info strong{
-  display:block;
-  font-size:13px;
-  margin-bottom:4px;
-}
-
-.file-info small{
-  display:block;
-  color:#6f8a9c;
-  font-size:11px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-/* =========================
-   PREVIEW
-========================= */
-
-.preview-wrap{
-  height:86px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  overflow:hidden;
-
-  border-radius:12px;
-
-  background:#020b12;
-
-  border:1px solid rgba(73,146,187,.18);
-}
-
-#preview{
-  max-width:100%;
-  max-height:100%;
-  object-fit:contain;
-  display:none;
-}
-
-.preview-empty{
-  color:#5f7889;
-  font-size:11px;
-}
-
-/* =========================
-   POWERPOINT
-========================= */
-
-.ppt-input{
-  width:100%;
-  min-height:86px;
-
-  position:relative;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border:1px dashed rgba(74,151,194,.32);
-  border-radius:12px;
-
-  background:rgba(0,0,0,.18);
-
-  cursor:pointer;
-}
-
-.ppt-input input{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  cursor:pointer;
-}
-
-.ppt-input-content{
-  text-align:center;
-}
-
-.ppt-input-content div{
-  font-size:23px;
-  margin-bottom:6px;
-}
-
-.ppt-input-content strong{
-  display:block;
-  font-size:12px;
-}
-
-.ppt-input-content small{
-  color:#698395;
-  font-size:10px;
-}
-
-/* =========================
-   INFO CARD
-========================= */
-
-.info-card{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-
-  min-height:145px;
-
-  background:
-    radial-gradient(
-      circle at 100% 0,
-      rgba(0,207,255,.13),
-      transparent 50%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(8,40,62,.9),
-      rgba(5,22,35,.9)
-    );
-}
-
-.info-icon{
-  width:42px;
-  height:42px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:12px;
-
-  background:rgba(0,207,255,.1);
-
-  color:var(--cyan);
-
-  font-size:19px;
-
-  margin-bottom:12px;
-}
-
-.info-card h3{
-  font-size:14px;
-  margin-bottom:7px;
-}
-
-.info-card p{
-  color:#7894a6;
-  font-size:11px;
-  line-height:1.5;
-}
-
-/* =========================
-   SEARCH BUTTON
-========================= */
-
-.search-row{
-  display:flex;
-  justify-content:flex-end;
-  margin-bottom:20px;
-}
-
-#btnBuscar{
-  border:none;
-  border-radius:12px;
-
-  padding:13px 24px;
-
-  color:white;
-
-  font-weight:800;
-  font-size:13px;
-
-  cursor:pointer;
-
-  background:
-    linear-gradient(
-      135deg,
-      #008cff,
-      #0068c9
-    );
-
-  box-shadow:
-    0 10px 30px rgba(0,140,255,.22);
-
-  transition:.2s ease;
-}
-
-#btnBuscar:hover{
-  transform:translateY(-1px);
-
-  box-shadow:
-    0 14px 35px rgba(0,140,255,.3);
-}
-
-#btnBuscar:active{
-  transform:translateY(0);
-}
-
-/* =========================
-   STATUS
-========================= */
-
-.status{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  gap:20px;
-
-  padding:15px 18px;
-
-  margin-bottom:20px;
-
-  border-radius:14px;
-
+  bottom:0;
+  left:0;
+  right:0;
+  height:1px;
   background:
     linear-gradient(
       90deg,
-      rgba(0,140,255,.09),
-      rgba(0,207,255,.035)
+      transparent,
+      var(--cyan),
+      transparent
     );
-
-  border:1px solid rgba(0,140,255,.15);
-
-  color:#8da7b8;
-
-  font-size:12px;
+  opacity:.6
 }
 
-.status strong{
-  color:#fff;
-}
 
-.status-right{
-  color:#608096;
-}
+/* =====================================================
+   CARDS SUPERIORES
+===================================================== */
 
-/* =========================
-   RESULTADOS
-========================= */
-
-.results-header{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-
-  margin-bottom:14px;
-}
-
-.results-header h2{
-  font-size:18px;
-}
-
-.results-header p{
-  color:#668397;
-  font-size:11px;
-  margin-top:4px;
-}
-
-.results-count{
-  color:var(--cyan);
-  font-size:12px;
-  font-weight:700;
-}
-
-.results{
+.toolbar{
   display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:15px;
+  grid-template-columns:
+    1.05fr
+    1.05fr
+    .8fr;
+  gap:8px;
+  margin-top:8px
 }
 
-/* =========================
-   RESULT CARD
-========================= */
-
-.result-card{
-  overflow:hidden;
-
-  border-radius:15px;
-
+.caixa{
+  padding:10px;
+  border:1px solid #1b5277;
+  border-radius:8px;
   background:
     linear-gradient(
       145deg,
-      rgba(11,34,52,.95),
-      rgba(5,21,34,.95)
+      #0a2a44,
+      #061b2c
     );
-
-  border:1px solid rgba(71,137,174,.18);
-
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.2);
-
-  transition:.2s ease;
+  box-shadow:0 7px 20px #0004
 }
 
-.result-card:hover{
-  transform:translateY(-3px);
-
-  border-color:
-    rgba(0,151,255,.38);
-
-  box-shadow:
-    0 18px 40px rgba(0,0,0,.3);
+.input-card{
+  min-height:138px
 }
 
-.result-image{
-  height:145px;
-
-  position:relative;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  overflow:hidden;
-
-  background:#020b12;
-}
-
-.result-image img{
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  display:block;
-}
-
-.similarity{
-  position:absolute;
-
-  top:10px;
-  right:10px;
-
-  padding:5px 8px;
-
-  border-radius:7px;
-
-  background:rgba(16,188,117,.94);
-
-  color:#fff;
-
-  font-size:10px;
-  font-weight:900;
-
-  box-shadow:
-    0 5px 14px rgba(0,0,0,.25);
-}
-
-.result-body{
-  padding:13px;
-}
-
-.result-title{
-  font-size:12px;
-  font-weight:800;
-
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-
-  margin-bottom:9px;
-}
-
-.meta{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-
-  margin-bottom:12px;
-}
-
-.meta-row{
-  display:flex;
-  align-items:center;
-  gap:6px;
-
-  color:#718b9d;
-
-  font-size:10px;
-}
-
-.meta-row strong{
-  color:#b8c9d4;
-  font-weight:600;
-
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.open-image{
-  width:100%;
-
-  padding:8px;
-
-  border-radius:8px;
-
-  border:1px solid rgba(0,140,255,.2);
-
-  background:rgba(0,140,255,.07);
-
-  color:#5fbaff;
-
-  font-size:10px;
-  font-weight:800;
-
-  cursor:pointer;
-
-  transition:.2s ease;
-}
-
-.open-image:hover{
-  background:rgba(0,140,255,.15);
-}
-
-/* =========================
-   EMPTY STATE
-========================= */
-
-.empty{
-  grid-column:1/-1;
-
-  padding:45px 20px;
-
-  text-align:center;
-
-  border-radius:15px;
-
-  border:1px dashed rgba(71,137,174,.2);
-
-  background:rgba(5,21,34,.45);
-
-  color:#688296;
-
-  font-size:12px;
-}
-
-.empty-icon{
-  font-size:28px;
-  margin-bottom:10px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer{
-  margin-top:30px;
-
-  padding:18px 4px;
-
-  border-top:1px solid rgba(70,133,170,.12);
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  color:#526c7c;
-
-  font-size:10px;
-}
-
-.footer-brand{
-  color:#718b9d;
-  font-weight:900;
-  letter-spacing:2px;
-  font-style:italic;
-}
-
-.footer-status{
+.card-title{
   display:flex;
   align-items:center;
   gap:7px;
+  font-size:10px;
+  font-weight:800;
+  margin-bottom:7px
 }
 
-.footer-dot{
-  width:6px;
-  height:6px;
+.card-title .num{
+  width:19px;
+  height:19px;
+  display:grid;
+  place-items:center;
   border-radius:50%;
-  background:#23d18b;
-  box-shadow:0 0 8px rgba(35,209,139,.5);
+  background:#087fe0;
+  color:#fff;
+  font-size:9px
 }
 
-/* =========================
+
+/* =====================================================
+   INPUT DE ARQUIVOS
+===================================================== */
+
+.input-card input[type=file]{
+  width:100%;
+  padding:10px;
+  border:1px dashed #2b6d93;
+  border-radius:6px;
+  background:#061a2a;
+  color:#b9cddb;
+  font-size:9px
+}
+
+.input-card input[type=file]::file-selector-button{
+  background:#087fe0;
+  color:#fff;
+  border:0;
+  border-radius:4px;
+  padding:6px 8px;
+  margin-right:6px;
+  font-size:9px
+}
+
+.helper{
+  font-size:8px;
+  color:#7895a9;
+  line-height:1.4
+}
+
+.nota{
+  margin-top:6px;
+  padding:6px;
+  background:#06213a;
+  border-left:2px solid #18bfff;
+  color:#8ea9ba;
+  font-size:7px;
+  line-height:1.4
+}
+
+
+/* =====================================================
+   CARD TÉCNICO
+===================================================== */
+
+.tech-card{
+  min-height:138px;
+  position:relative
+}
+
+.tech-icon{
+  font-size:19px;
+  color:var(--cyan);
+  float:left;
+  margin:1px 8px 20px 0
+}
+
+.tech-card h3{
+  font-size:11px;
+  margin:2px 0 6px
+}
+
+.tech-card p{
+  font-size:8px;
+  color:#88a4b8;
+  line-height:1.35
+}
+
+.tech-stats{
+  display:none
+}
+
+.tech-card button{
+  position:absolute;
+  bottom:10px;
+  left:10px;
+  right:10px;
+  width:calc(100% - 20px);
+  margin:0;
+  padding:7px;
+  border:1px solid #21aaff;
+  border-radius:5px;
+  background:
+    linear-gradient(
+      180deg,
+      #0b9cff,
+      #066de1
+    );
+  color:#fff;
+  font-size:8px;
+  font-weight:900;
+  cursor:pointer
+}
+
+.tech-card button:hover{
+  filter:brightness(1.12)
+}
+
+.tech-card button:disabled{
+  opacity:.6;
+  cursor:wait
+}
+
+.tech-card #status{
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:-18px;
+  font-size:8px
+}
+
+
+/* =====================================================
+   RESULTADOS
+===================================================== */
+
+.results-box{
+  margin-top:8px;
+  padding:10px
+}
+
+.results-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:7px
+}
+
+.results-head h2{
+  font-size:13px;
+  margin:0
+}
+
+.status-pill{
+  padding:4px 7px;
+  border:1px solid #2b6e91;
+  border-radius:20px;
+  color:#a7c4d4;
+  background:#08253b;
+  font-size:7px
+}
+
+.results-box #resultados{
+  display:grid;
+  grid-template-columns:
+    repeat(5,minmax(0,1fr));
+  gap:7px
+}
+
+
+/* =====================================================
+   CARD DE RESULTADO
+===================================================== */
+
+.resultado{
+  position:relative;
+  min-width:0;
+  overflow:hidden;
+  padding:6px;
+  border-radius:7px;
+  border:1px solid #18537b;
+  background:
+    linear-gradient(
+      180deg,
+      #0a2b47,
+      #051a2b
+    );
+  box-shadow:0 5px 14px #0004
+}
+
+.resultado:hover{
+  border-color:#2496d5;
+  transform:translateY(-1px)
+}
+
+.resultado .tag{
+  position:absolute;
+  left:5px;
+  top:5px;
+  background:var(--green);
+  color:#063629;
+  padding:3px 5px;
+  border-radius:10px;
+  font-size:7px;
+  font-weight:900
+}
+
+.resultado .desenho{
+  padding-top:30px;
+  color:#e6f3fb;
+  font-size:7px;
+  line-height:1.25
+}
+
+.resultado .dados{
+  margin:5px 0;
+  font-size:6.5px;
+  line-height:1.35;
+  color:#8faabd
+}
+
+.resultado .dados b{
+  color:#dceaf4
+}
+
+.resultado .imagem-encontrada{
+  width:100%;
+  height:72px;
+  object-fit:contain;
+  display:block;
+  margin:3px auto 5px;
+  border-radius:4px;
+  background:#020d18
+}
+
+.resultado button{
+  width:100%;
+  padding:5px;
+  margin:0;
+  border:1px solid #21aaff;
+  border-radius:4px;
+  background:#087fe0;
+  color:#fff;
+  font-size:7px;
+  cursor:pointer
+}
+
+.resultado button:hover{
+  background:#0a92ff
+}
+
+
+/* =====================================================
+   RODAPÉ
+===================================================== */
+
+.footer{
+  margin-top:7px;
+  padding:7px 3px;
+  display:flex;
+  justify-content:space-between;
+  color:#617e92;
+  font-size:7px;
+  border-top:1px solid #154562
+}
+
+.footer strong{
+  color:#9bb4c4
+}
+
+.erro{
+  color:#ff8f9b
+}
+
+
+/* =====================================================
    RESPONSIVO
-========================= */
-
-@media(max-width:1400px){
-  .results{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-  }
-
-  .toolbar{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .info-card{
-    grid-column:1/-1;
-  }
-}
+===================================================== */
 
 @media(max-width:1050px){
-  .sidebar{
-    width:185px;
+
+  .results-box #resultados{
+    grid-template-columns:
+      repeat(4,minmax(0,1fr))
   }
 
-  .main{
-    width:calc(100% - 185px);
-    margin-left:185px;
-  }
-
-  .results{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-  }
-
-  .truck-art{
-    right:-80px;
-    opacity:.55;
-  }
 }
 
-@media(max-width:800px){
-  .sidebar{
-    position:relative;
-    width:100%;
-    min-height:auto;
-    border-right:none;
-    border-bottom:1px solid rgba(77,151,195,.18);
-  }
+@media(max-width:850px){
 
-  .app{
-    display:block;
+  .sidebar{
+    width:170px
   }
 
   .main{
-    width:100%;
-    margin-left:0;
-    padding:18px;
+    margin-left:170px
   }
 
-  .sidebar{
-    display:none;
+  .hero-copy{
+    left:130px
   }
 
   .toolbar{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr 1fr
   }
 
-  .info-card{
-    grid-column:auto;
+  .tech-card{
+    grid-column:1/-1
   }
 
-  .results{
-    grid-template-columns:repeat(2,minmax(0,1fr));
+  .results-box #resultados{
+    grid-template-columns:
+      repeat(3,minmax(0,1fr))
   }
 
-  .hero{
-    min-height:210px;
-    padding:25px;
+}
+
+@media(max-width:620px){
+
+  .sidebar{
+    display:none
+  }
+
+  .main{
+    margin-left:0
+  }
+
+  .hero-copy{
+    left:115px
   }
 
   .hero h1{
-    font-size:27px;
+    font-size:20px
   }
 
-  .truck-art{
-    right:-150px;
-    opacity:.35;
-  }
-}
-
-@media(max-width:520px){
-  .results{
-    grid-template-columns:1fr;
+  .toolbar{
+    grid-template-columns:1fr
   }
 
-  .status{
-    flex-direction:column;
-    align-items:flex-start;
+  .tech-card{
+    grid-column:auto
   }
 
-  .footer{
-    flex-direction:column;
-    gap:10px;
-    align-items:flex-start;
+  .results-box #resultados{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr))
   }
+
 }
 </style>
 </head>
 
+
 <body>
 
-<div class="app">
 
-  <!-- =========================
-       SIDEBAR
-  ========================== -->
+<!-- =====================================================
+     MENU LATERAL
+===================================================== -->
 
-  <aside class="sidebar">
+<aside class="sidebar">
 
-    <div class="logo">
-      <div class="logo-text">
-        IVE<span>CO</span>
-      </div>
-    </div>
+  <div class="logo">
+    IVE<span>CO</span>
+  </div>
 
-    <nav class="menu">
+  <nav class="nav">
 
-      <a href="#" class="menu-item">
-        <span class="menu-icon">⌂</span>
-        <span>Início</span>
-      </a>
+    <a href="#">
+      <i>⌂</i>
+      <span>Início</span>
+    </a>
 
-      <a href="#" class="menu-item active">
-        <span class="menu-icon">⌕</span>
-        <span>Localizar Fotos</span>
-      </a>
+    <a class="active" href="#">
+      <i>⌕</i>
+      <span>Localizar Fotos</span>
+    </a>
 
-      <a href="#" class="menu-item">
-        <span class="menu-icon">◷</span>
-        <span>Histórico</span>
-      </a>
+    <a href="#">
+      <i>◷</i>
+      <span>Histórico</span>
+    </a>
 
-      <a href="#" class="menu-item">
-        <span class="menu-icon">⚙️</span>
-        <span>Configurações</span>
-      </a>
+    <a href="#">
+      <i>⚙️</i>
+      <span>Configurações</span>
+    </a>
 
-    </nav>
+  </nav>
 
-  </aside>
+  <div class="side-note">
 
+    <strong>
+      Mais tecnologia<br>
+      para o seu<br>
+      <span style="color:#20d8ff">
+        dia a dia.
+      </span>
+    </strong>
 
-  <!-- =========================
-       MAIN
-  ========================== -->
+  </div>
 
-  <main class="main">
-
-    <!-- HERO -->
-
-    <section class="hero">
-
-      <div class="hero-content">
-
-        <div class="hero-kicker">
-          IVECO • FERRAMENTA INTERNA
-        </div>
-
-        <h1>
-          Localizador de Fotos
-        </h1>
-
-        <p>
-          Encontre rapidamente uma imagem dentro de múltiplos
-          arquivos PowerPoint utilizando comparação visual
-          diretamente no seu computador.
-        </p>
-
-      </div>
+</aside>
 
 
-      <!-- MESMO CAMINHÃO -->
+<!-- =====================================================
+     CONTEÚDO
+===================================================== -->
 
-      <div class="hero-truck">
+<main class="main">
 
-        <div class="truck-art" aria-hidden="true">
 
-          <div class="body"></div>
+  <!-- ===================================================
+       CABEÇALHO
+  ==================================================== -->
 
-          <div class="cab">
-            <div class="window"></div>
-          </div>
+  <section class="hero">
 
-          <div class="wheel w1"></div>
-          <div class="wheel w2"></div>
+    <div class="hero-copy">
 
-          <div class="light"></div>
-
-        </div>
-
+      <div class="kicker">
+        IVECO • FERRAMENTA INTERNA
       </div>
 
-    </section>
+      <h1>
+        Localizador de Fotos
+      </h1>
 
-
-    <!-- =========================
-         CARDS DE ENTRADA
-    ========================== -->
-
-    <section class="toolbar">
-
-
-      <!-- FOTO -->
-
-      <div class="card">
-
-        <div class="card-label">
-
-          <strong>Foto para procurar</strong>
-
-          <span>Imagem de referência</span>
-
-        </div>
-
-
-        <div class="file-box">
-
-          <input
-            type="file"
-            id="foto"
-            accept="image/*"
-          >
-
-          <div class="file-icon">
-            ◉
-          </div>
-
-          <div class="file-info">
-
-            <strong>
-              Selecionar foto
-            </strong>
-
-            <small id="nomeFoto">
-              Nenhuma imagem selecionada
-            </small>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- POWERPOINT -->
-
-      <div class="card">
-
-        <div class="card-label">
-
-          <strong>PowerPoints</strong>
-
-          <span>Arquivos de busca</span>
-
-        </div>
-
-
-        <label class="ppt-input">
-
-          <input
-            type="file"
-            id="ppts"
-            accept=".pptx"
-            multiple
-          >
-
-          <div class="ppt-input-content">
-
-            <div>
-              ▣
-            </div>
-
-            <strong>
-              Selecionar PowerPoints
-            </strong>
-
-            <small id="nomePpts">
-              Você pode selecionar vários arquivos
-            </small>
-
-          </div>
-
-        </label>
-
-      </div>
-
-
-      <!-- INFO -->
-
-      <div class="card info-card">
-
-        <div class="info-icon">
-          ✦
-        </div>
-
-        <h3>
-          Busca com precisão e agilidade
-        </h3>
-
-        <p>
-          A comparação é realizada localmente,
-          sem enviar os arquivos para a internet.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- BOTÃO -->
-
-    <div class="search-row">
-
-      <button id="btnBuscar">
-        🔎 &nbsp; Procurar imagem
-      </button>
+      <p>
+        Encontre rapidamente imagens nos seus PowerPoints.
+      </p>
 
     </div>
 
 
-    <!-- STATUS -->
-
-    <div class="status">
-
-      <div>
-        <strong id="statusTexto">
-          Pronto para iniciar a busca
-        </strong>
-      </div>
-
-      <div class="status-right">
-        Os arquivos permanecem no seu computador
-      </div>
-
-    </div>
-
-
-    <!-- =========================
-         PREVIEW DA FOTO
-    ========================== -->
-
-    <section class="card" style="margin-bottom:20px;">
-
-      <div class="card-label">
-
-        <strong>Pré-visualização</strong>
-
-        <span>Foto selecionada</span>
-
-      </div>
-
-      <div class="preview-wrap">
-
-        <img
-          id="preview"
-          alt="Pré-visualização da imagem"
-        >
-
-        <div
-          class="preview-empty"
-          id="previewEmpty"
-        >
-          Nenhuma foto selecionada
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =========================
-         RESULTADOS
-    ========================== -->
-
-    <div class="results-header">
-
-      <div>
-
-        <h2>
-          Resultados encontrados
-        </h2>
-
-        <p>
-          Imagens mais semelhantes encontradas nos PowerPoints
-        </p>
-
-      </div>
+    <div class="hero-truck">
 
       <div
-        class="results-count"
-        id="resultsCount"
+        class="truck-art"
+        aria-hidden="true"
       >
-        0 resultados
+
+        <div class="body"></div>
+
+        <div class="cab">
+          <div class="window"></div>
+        </div>
+
+        <div class="wheel w1"></div>
+        <div class="wheel w2"></div>
+
+        <div class="light"></div>
+
       </div>
 
     </div>
 
 
-    <section
-      class="results"
-      id="resultados"
-    >
+    <div class="scan-line"></div>
 
-      <div class="empty">
+  </section>
 
-        <div class="empty-icon">
-          ◉
+
+  <!-- ===================================================
+       CARDS
+  ==================================================== -->
+
+  <section class="toolbar">
+
+
+    <!-- FOTO -->
+
+    <div class="caixa input-card">
+
+      <div class="card-title">
+
+        <span class="num">
+          01
+        </span>
+
+        Foto para procurar
+
+      </div>
+
+
+      <input
+        type="file"
+        id="foto"
+        accept="image/*"
+      >
+
+
+      <img
+        id="preview"
+        style="
+          display:none;
+          max-width:250px;
+          max-height:135px;
+          margin:8px auto
+        "
+      >
+
+
+      <p class="helper">
+        Selecione a imagem de referência
+        que será usada na comparação.
+      </p>
+
+    </div>
+
+
+    <!-- POWERPOINTS -->
+
+    <div class="caixa input-card">
+
+      <div class="card-title">
+
+        <span class="num">
+          02
+        </span>
+
+        PowerPoints
+
+      </div>
+
+
+      <input
+        type="file"
+        id="ppt"
+        accept=".pptx"
+        multiple
+      >
+
+
+      <p class="helper">
+        Você pode selecionar vários arquivos
+        <b>.pptx</b> de uma vez.
+      </p>
+
+
+      <div class="nota">
+
+        Os arquivos são lidos diretamente
+        no navegador. Nenhum PowerPoint é
+        enviado para um servidor.
+
+      </div>
+
+    </div>
+
+
+    <!-- BUSCA -->
+
+    <div class="caixa tech-card">
+
+      <div class="tech-icon">
+        ◈
+      </div>
+
+
+      <h3>
+        Busca com precisão e agilidade
+      </h3>
+
+
+      <p>
+        Nossa ferramenta encontra as imagens
+        que você procura com rapidez e precisão.
+      </p>
+
+
+      <div class="tech-stats">
+
+        <div class="tech-stat">
+          <strong>48×48</strong>
+          <span>assinatura</span>
         </div>
 
-        Selecione uma foto e os PowerPoints
-        para iniciar a pesquisa.
+        <div class="tech-stat">
+          <strong>100%</strong>
+          <span>local</span>
+        </div>
 
       </div>
 
-    </section>
+
+      <button id="btn">
+        ⌕ &nbsp; PROCURAR FOTO
+      </button>
 
 
-    <!-- FOOTER -->
+      <p id="status"></p>
 
-    <footer class="footer">
+    </div>
 
-      <div class="footer-brand">
-        IVECO
+  </section>
+
+
+  <!-- ===================================================
+       RESULTADOS
+  ==================================================== -->
+
+  <section class="caixa results-box">
+
+    <div class="results-head">
+
+      <h2>
+        Resultados
+      </h2>
+
+
+      <div class="status-pill">
+        Top 10 encontrados
       </div>
 
-      <div class="footer-status">
+    </div>
 
-        <span class="footer-dot"></span>
 
-        Tudo processado no seu computador.
+    <div id="resultados">
+      Os resultados aparecerão aqui.
+    </div>
 
-      </div>
+  </section>
 
-    </footer>
 
-  </main>
+  <!-- ===================================================
+       RODAPÉ
+  ==================================================== -->
 
-</div>
+  <footer class="footer">
+
+    <span>
+      <strong>IVECO</strong>
+      • Localizador de Fotos
+    </span>
+
+    <span>
+      ⚡ Tudo processado no seu computador.
+    </span>
+
+  </footer>
+
+</main>
+
+
+<!-- =====================================================
+     JSZIP
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
 
 <script>
 
-/* =========================================================
-   LOCALIZADOR DE FOTOS
-   LÓGICA DE BUSCA MANTIDA
-========================================================= */
+/* =====================================================
+   VARIÁVEIS
+===================================================== */
 
 let foto = null;
 
 
-/* =========================================================
+/* =====================================================
    FOTO DE REFERÊNCIA
-========================================================= */
+===================================================== */
 
-document.getElementById("foto").addEventListener(
-  "change",
-  function(){
+document
+  .getElementById("foto")
+  .onchange = function(){
 
-    foto = this.files[0] || null;
-
-    const nomeFoto =
-      document.getElementById("nomeFoto");
-
-    const preview =
-      document.getElementById("preview");
-
-    const previewEmpty =
-      document.getElementById("previewEmpty");
+    foto =
+      this.files[0];
 
 
-    if(!foto){
+    if(foto){
 
-      nomeFoto.textContent =
-        "Nenhuma imagem selecionada";
+      const img =
+        document.getElementById(
+          "preview"
+        );
 
-      preview.style.display =
-        "none";
 
-      preview.removeAttribute("src");
+      img.src =
+        URL.createObjectURL(
+          foto
+        );
 
-      previewEmpty.style.display =
+
+      img.style.display =
         "block";
 
-      return;
     }
 
-
-    nomeFoto.textContent =
-      foto.name;
+  };
 
 
-    const url =
-      URL.createObjectURL(foto);
+/* =====================================================
+   NORMALIZAR CAMINHO
+===================================================== */
 
-    preview.src = url;
-
-    preview.style.display =
-      "block";
-
-    previewEmpty.style.display =
-      "none";
-
-  }
-);
-
-
-/* =========================================================
-   POWERPOINTS
-========================================================= */
-
-document.getElementById("ppts").addEventListener(
-  "change",
-  function(){
-
-    const nomePpts =
-      document.getElementById("nomePpts");
-
-    const quantidade =
-      this.files.length;
-
-
-    if(!quantidade){
-
-      nomePpts.textContent =
-        "Você pode selecionar vários arquivos";
-
-      return;
-    }
-
-
-    nomePpts.textContent =
-      quantidade === 1
-        ? "1 PowerPoint selecionado"
-        : ${quantidade} PowerPoints selecionados;
-
-  }
-);
-
-
-/* =========================================================
-   NORMALIZA CAMINHO
-========================================================= */
-
-function normalizarCaminho(base, target){
+function normalizarCaminho(
+  base,
+  target
+){
 
   const partes =
-    base.split("/");
-
-  partes.pop();
-
-  const alvo =
-    target.split("/");
+    (base + "/" + target)
+      .split("/");
 
 
-  for(const parte of alvo){
+  const saida = [];
 
-    if(!parte || parte === ".")
+
+  for(const p of partes){
+
+    if(
+      !p ||
+      p === "."
+    )
       continue;
 
-    if(parte === "..")
-      partes.pop();
+
+    if(p === "..")
+      saida.pop();
 
     else
-      partes.push(parte);
+      saida.push(p);
+
   }
 
 
-  return partes.join("/");
+  return saida.join("/");
 
 }
 
 
-/* =========================================================
-   TEXTO DO ZIP
-========================================================= */
+/* =====================================================
+   LER TEXTO DO ZIP
+===================================================== */
 
-async function texto(zip, nome){
+async function texto(
+  zip,
+  nome
+){
 
-  const arq =
-    zip.file(nome);
-
-  if(!arq)
+  if(!zip.files[nome])
     return "";
 
-  return await arq.async("text");
+
+  return await zip.files[nome]
+    .async("text");
 
 }
 
 
-/* =========================================================
+/* =====================================================
    RELACIONAMENTOS
-========================================================= */
+===================================================== */
 
-function extrairRelacionamentos(xml){
-
-  const parser =
-    new DOMParser();
-
-  const doc =
-    parser.parseFromString(
-      xml,
-      "application/xml"
-    );
+function extrairRelacionamentos(
+  xml
+){
 
   const mapa = {};
 
-  const relationships =
-    doc.getElementsByTagName("Relationship");
+
+  const doc =
+    new DOMParser()
+      .parseFromString(
+        xml,
+        "application/xml"
+      );
 
 
-  for(const rel of relationships){
+  const relacoes =
+    Array.from(
+      doc.getElementsByTagName(
+        "Relationship"
+      )
+    );
+
+
+  for(
+    const rel
+    of relacoes
+  ){
 
     const id =
-      rel.getAttribute("Id");
+      rel.getAttribute(
+        "Id"
+      );
+
 
     const target =
-      rel.getAttribute("Target");
+      rel.getAttribute(
+        "Target"
+      );
 
 
-    if(id && target)
-      mapa[id] = target;
+    if(
+      id &&
+      target
+    ){
+
+      mapa[id] =
+        target;
+
+    }
 
   }
 
@@ -1556,34 +1207,73 @@ function extrairRelacionamentos(xml){
 }
 
 
-/* =========================================================
+/* =====================================================
    TEXTOS DO SLIDE
-========================================================= */
+===================================================== */
 
-function extrairTextosDoSlide(xml){
-
-  const parser =
-    new DOMParser();
+function extrairTextosDoSlide(
+  xml
+){
 
   const doc =
-    parser.parseFromString(
-      xml,
-      "application/xml"
-    );
+    new DOMParser()
+      .parseFromString(
+        xml,
+        "application/xml"
+      );
+
 
   const textos = [];
 
-  const nodes =
-    doc.getElementsByTagName("a:t");
+
+  const paragrafos =
+    Array.from(
+      doc.getElementsByTagName(
+        "a:p"
+      )
+    );
 
 
-  for(const node of nodes){
+  for(
+    const p
+    of paragrafos
+  ){
 
-    const valor =
-      node.textContent?.trim();
+    const partes =
+      Array.from(
+        p.getElementsByTagName(
+          "a:t"
+        )
+      );
 
-    if(valor)
-      textos.push(valor);
+
+    let texto =
+      "";
+
+
+    for(
+      const t
+      of partes
+    ){
+
+      texto +=
+        t.textContent ||
+        "";
+
+    }
+
+
+    texto =
+      texto
+        .replace(
+          /\s+/g,
+          " "
+        )
+        .trim();
+
+
+    if(texto)
+      textos.push(texto);
 
   }
 
@@ -1593,73 +1283,102 @@ function extrairTextosDoSlide(xml){
 }
 
 
-/* =========================================================
-   ENCONTRA DESENHO
-========================================================= */
+/* =====================================================
+   ENCONTRAR DESENHO
+===================================================== */
 
-function encontrarDesenho(xml){
+function encontrarDesenho(
+  xml
+){
 
   const textos =
-    extrairTextosDoSlide(xml);
+    extrairTextosDoSlide(
+      xml
+    );
 
 
-  for(let i=0;i<textos.length;i++){
+  for(
+    const textoOriginal
+    of textos
+  ){
 
-    const textoAtual =
-      textos[i].trim();
+    const texto =
+      textoOriginal.trim();
 
 
     if(
-      textoAtual.toLowerCase()
-        .includes("desenho")
+      /^Desenho\s*\/?/i
+        .test(texto)
     ){
 
+      let conteudo =
+        texto.replace(
+          /^Desenho\s*\/?\s*/i,
+          ""
+        ).trim();
+
+
       const partes =
-        textoAtual.split(":");
+        conteudo.split(
+          /\s+-\s+/
+        );
 
 
-      if(partes.length > 1){
+      if(
+        partes.length >= 3
+      ){
 
-        return partes
-          .slice(1)
-          .join(":")
-          .trim();
+        conteudo =
+          partes
+            .slice(0,3)
+            .join(" - ")
+            .trim();
 
       }
 
 
-      if(textos[i+1])
-        return textos[i+1].trim();
+      return conteudo;
 
     }
 
   }
 
 
-  return "";
+  return "Desenho não identificado";
 
 }
 
 
-/* =========================================================
-   CONVERTE BLOB EM IMAGEM
-========================================================= */
+/* =====================================================
+   IMAGEM
+===================================================== */
 
-function imagemDoBlob(blob){
+async function imagemDoBlob(
+  blob
+){
 
-  return new Promise(
-    (resolve,reject)=>{
+  return await new Promise(
+    (
+      resolve,
+      reject
+    )=>{
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
 
       const img =
         new Image();
 
-      const url =
-        URL.createObjectURL(blob);
-
 
       img.onload = ()=>{
 
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(
+          url
+        );
+
 
         resolve(img);
 
@@ -1668,16 +1387,22 @@ function imagemDoBlob(blob){
 
       img.onerror = ()=>{
 
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(
+          url
+        );
+
 
         reject(
-          new Error("Erro ao carregar imagem")
+          new Error(
+            "Imagem inválida"
+          )
         );
 
       };
 
 
-      img.src = url;
+      img.src =
+        url;
 
     }
   );
@@ -1685,33 +1410,78 @@ function imagemDoBlob(blob){
 }
 
 
-/* =========================================================
+/* =====================================================
    ASSINATURA DA IMAGEM
-========================================================= */
+===================================================== */
 
-async function assinatura(blob){
+async function assinatura(
+  blob
+){
 
   const img =
-    await imagemDoBlob(blob);
+    await imagemDoBlob(
+      blob
+    );
+
+
+  const w = 48;
+  const h = 48;
 
 
   const canvas =
-    document.createElement("canvas");
+    document.createElement(
+      "canvas"
+    );
 
-  canvas.width = 48;
-  canvas.height = 48;
+
+  canvas.width = w;
+  canvas.height = h;
 
 
   const ctx =
-    canvas.getContext("2d");
+    canvas.getContext(
+      "2d",
+      {
+        willReadFrequently:true
+      }
+    );
+
+
+  ctx.fillStyle =
+    "#fff";
+
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  const escala =
+    Math.min(
+      w / img.naturalWidth,
+      h / img.naturalHeight
+    );
+
+
+  const dw =
+    img.naturalWidth *
+    escala;
+
+
+  const dh =
+    img.naturalHeight *
+    escala;
 
 
   ctx.drawImage(
     img,
-    0,
-    0,
-    48,
-    48
+    (w-dw)/2,
+    (h-dh)/2,
+    dw,
+    dh
   );
 
 
@@ -1719,205 +1489,217 @@ async function assinatura(blob){
     ctx.getImageData(
       0,
       0,
-      48,
-      48
+      w,
+      h
     ).data;
 
 
-  const valores = [];
+  const cinza =
+    new Float32Array(
+      w*h
+    );
 
 
-  for(let i=0;i<data.length;i+=4){
-
-    const r =
-      data[i];
-
-    const g =
-      data[i+1];
-
-    const b =
-      data[i+2];
+  let media = 0;
 
 
-    const gray =
-      0.299*r +
-      0.587*g +
-      0.114*b;
+  for(
+    let i=0,p=0;
+    i<data.length;
+    i+=4,p++
+  ){
+
+    const v =
+      .299 * data[i] +
+      .587 * data[i+1] +
+      .114 * data[i+2];
 
 
-    valores.push(gray);
+    cinza[p] =
+      v;
+
+
+    media +=
+      v;
 
   }
 
 
-  const media =
-    valores.reduce(
-      (a,b)=>a+b,
-      0
-    ) / valores.length;
+  media /=
+    cinza.length;
+
+
+  let vari = 0;
+
+
+  for(
+    const v
+    of cinza
+  ){
+
+    vari +=
+      (v-media) *
+      (v-media);
+
+  }
 
 
   const desvio =
     Math.sqrt(
-      valores.reduce(
-        (s,v)=>s+Math.pow(v-media,2),
-        0
-      ) / valores.length
+      vari / cinza.length
     ) || 1;
 
 
-  return valores.map(
-    v => (v-media)/desvio
+  for(
+    let i=0;
+    i<cinza.length;
+    i++
+  ){
+
+    cinza[i] =
+      (cinza[i]-media) /
+      desvio;
+
+  }
+
+
+  return cinza;
+
+}
+
+
+/* =====================================================
+   DISTÂNCIA
+===================================================== */
+
+function distancia(
+  a,
+  b
+){
+
+  let soma = 0;
+
+
+  for(
+    let i=0;
+    i<a.length;
+    i++
+  ){
+
+    const d =
+      a[i]-b[i];
+
+
+    soma +=
+      d*d;
+
+  }
+
+
+  return Math.sqrt(
+    soma/a.length
   );
 
 }
 
 
-/* =========================================================
-   DISTÂNCIA
-========================================================= */
-
-function distancia(a,b){
-
-  let soma = 0;
-
-
-  const n =
-    Math.min(
-      a.length,
-      b.length
-    );
-
-
-  for(let i=0;i<n;i++){
-
-    const d =
-      a[i]-b[i];
-
-    soma += d*d;
-
-  }
-
-
-  return Math.sqrt(soma/n);
-
-}
-
-
-/* =========================================================
+/* =====================================================
    SIMILARIDADE
-========================================================= */
+===================================================== */
 
-function similaridade(dist){
+function similaridade(
+  dist
+){
 
   return Math.max(
     0,
     Math.min(
       100,
-      100/(1+dist)
+      100*Math.exp(
+        -dist/2.2
+      )
     )
   );
 
 }
 
 
-/* =========================================================
-   ESCAPA HTML
-========================================================= */
+/* =====================================================
+   ESCAPAR HTML
+===================================================== */
 
-function escapeHtml(valor){
+function escapeHtml(
+  text
+){
 
-  return String(valor ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  return String(text)
 
-}
+    .replace(
+      /&/g,
+      "&amp;"
+    )
 
+    .replace(
+      /</g,
+      "&lt;"
+    )
 
-/* =========================================================
-   ABRIR IMAGEM
-========================================================= */
+    .replace(
+      />/g,
+      "&gt;"
+    )
 
-function abrirImagem(url){
+    .replace(
+      /"/g,
+      "&quot;"
+    )
 
-  const win =
-    window.open();
-
-  if(win){
-
-    win.document.write(`
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Imagem</title>
-
-        <style>
-          html,body{
-            margin:0;
-            width:100%;
-            height:100%;
-            background:#050b11;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-          }
-
-          img{
-            max-width:96%;
-            max-height:96%;
-            object-fit:contain;
-          }
-        </style>
-
-      </head>
-
-      <body>
-
-        <img src="${url}">
-
-      </body>
-      </html>
-    `);
-
-    win.document.close();
-
-  }
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
 
-/* =========================================================
-   BUSCA PRINCIPAL
-========================================================= */
+/* =====================================================
+   BUSCA
+===================================================== */
 
 async function procurar(){
 
-  const statusTexto =
-    document.getElementById("statusTexto");
+  const ppts =
+    Array.from(
+      document
+        .getElementById(
+          "ppt"
+        )
+        .files
+    );
 
-  const resultados =
-    document.getElementById("resultados");
 
-  const resultsCount =
-    document.getElementById("resultsCount");
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+
+  const area =
+    document.getElementById(
+      "resultados"
+    );
+
 
   const btn =
-    document.getElementById("btnBuscar");
-
-
-  const arquivos =
-    Array.from(
-      document.getElementById("ppts").files
+    document.getElementById(
+      "btn"
     );
 
 
   if(!foto){
 
     alert(
-      "Selecione primeiro a foto que deseja procurar."
+      "Escolha a foto primeiro."
     );
 
     return;
@@ -1925,10 +1707,10 @@ async function procurar(){
   }
 
 
-  if(!arquivos.length){
+  if(!ppts.length){
 
     alert(
-      "Selecione pelo menos um arquivo PowerPoint."
+      "Escolha pelo menos um PowerPoint."
     );
 
     return;
@@ -1936,42 +1718,54 @@ async function procurar(){
   }
 
 
-  btn.disabled = true;
-
-  btn.style.opacity = ".6";
-
-  btn.textContent =
-    "⏳ Procurando...";
+  btn.disabled =
+    true;
 
 
-  statusTexto.textContent =
-    "Preparando imagem de referência...";
+  area.innerHTML =
+    "";
 
 
-  resultados.innerHTML = "";
+  status.innerText =
+    "Iniciando busca...";
 
 
   try{
 
-    const assinaturaFoto =
-      await assinatura(foto);
+    /*
+      Assinatura da foto
+    */
+
+    const ref =
+      await assinatura(
+        foto
+      );
 
 
-    const encontrados = [];
+    const todos = [];
 
+
+    /*
+      Percorrer PowerPoints
+    */
 
     for(
-      let indicePpt=0;
-      indicePpt<arquivos.length;
-      indicePpt++
+      let p=0;
+      p<ppts.length;
+      p++
     ){
 
       const ppt =
-        arquivos[indicePpt];
+        ppts[p];
 
 
-      statusTexto.textContent =
-        Analisando ${indicePpt+1} de ${arquivos.length}: ${ppt.name};
+      status.innerText =
+        "Lendo PowerPoint " +
+        (p+1) +
+        " de " +
+        ppts.length +
+        ": " +
+        ppt.name;
 
 
       const buffer =
@@ -1979,54 +1773,135 @@ async function procurar(){
 
 
       const zip =
-        await JSZip.loadAsync(buffer);
+        await JSZip.loadAsync(
+          buffer
+        );
 
 
-      const mediaArquivos =
-        Object.keys(zip.files)
+      const arquivos =
+        Object.keys(
+          zip.files
+        );
+
+
+      /*
+        Imagens do PowerPoint
+      */
+
+      const imagens =
+        arquivos.filter(
+          n =>
+            n.startsWith(
+              "ppt/media/"
+            ) &&
+            /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i
+              .test(n)
+        );
+
+
+      /*
+        imagem -> slides
+      */
+
+      const usos = {};
+
+
+      /*
+        slide -> desenho
+      */
+
+      const desenhos = {};
+
+
+      /*
+        Slides
+      */
+
+      const slides =
+        arquivos
+
           .filter(
-            nome =>
-              nome.startsWith("ppt/media/")
-              &&
-              !zip.files[nome].dir
+            n =>
+              /^ppt\/slides\/slide\d+\.xml$/i
+                .test(n)
+          )
+
+          .sort(
+            (a,b)=>{
+
+              const na =
+                +(
+                  a.match(
+                    /slide(\d+)\.xml/i
+                  ) ||
+                  [,0]
+                )[1];
+
+
+              const nb =
+                +(
+                  b.match(
+                    /slide(\d+)\.xml/i
+                  ) ||
+                  [,0]
+                )[1];
+
+
+              return na-nb;
+
+            }
           );
 
 
       /*
-       * Mapeamento das imagens para slides
-       */
+        Ler slides
+      */
 
-      const imagemSlides = {};
+      for(
+        const slide
+        of slides
+      ){
+
+        const num =
+          +(
+            slide.match(
+              /slide(\d+)\.xml/i
+            ) ||
+            [,0]
+          )[1];
 
 
-      const slideArquivos =
-        Object.keys(zip.files)
-          .filter(
-            nome =>
-              /^ppt\/slides\/slide\d+\.xml$/.test(nome)
-          );
-
-
-      for(const slidePath of slideArquivos){
+        /*
+          XML
+        */
 
         const slideXml =
           await texto(
             zip,
-            slidePath
+            slide
           );
 
 
-        const relPath =
-          slidePath.replace(
-            "ppt/slides/",
-            "ppt/slides/_rels/"
-          ) + ".rels";
+        /*
+          Desenho
+        */
 
+        desenhos[num] =
+          encontrarDesenho(
+            slideXml
+          );
+
+
+        /*
+          Relacionamentos
+        */
 
         const relXml =
           await texto(
             zip,
-            relPath
+            "ppt/slides/_rels/slide" +
+            num +
+            ".xml.rels"
           );
 
 
@@ -2036,83 +1911,79 @@ async function procurar(){
           );
 
 
-        const parser =
-          new DOMParser();
-
+        /*
+          Documento XML
+        */
 
         const doc =
-          parser.parseFromString(
-            slideXml,
-            "application/xml"
-          );
+          new DOMParser()
+            .parseFromString(
+              slideXml,
+              "application/xml"
+            );
 
+
+        /*
+          Imagens
+        */
 
         const blips =
-          doc.getElementsByTagName(
-            "a:blip"
+          Array.from(
+            doc.getElementsByTagName(
+              "a:blip"
+            )
           );
 
 
-        const slideNumero =
-          (
-            slidePath.match(
-              /slide(\d+)\.xml/
-            ) || []
-          )[1] || "";
-
-
-        const desenho =
-          encontrarDesenho(
-            slideXml
-          );
-
-
-        for(const blip of blips){
+        for(
+          const blip
+          of blips
+        ){
 
           const rid =
             blip.getAttribute(
               "r:embed"
-            );
-
-
-          if(!rid)
-            continue;
-
-
-          const target =
-            rels[rid];
-
-
-          if(!target)
-            continue;
-
-
-          const caminho =
-            normalizarCaminho(
-              slidePath,
-              target
+            ) ||
+            blip.getAttribute(
+              "embed"
             );
 
 
           if(
-            caminho.startsWith(
+            !rid ||
+            !rels[rid]
+          )
+            continue;
+
+
+          const target =
+            normalizarCaminho(
+              "ppt/slides",
+              rels[rid]
+            );
+
+
+          if(
+            !target.startsWith(
               "ppt/media/"
+            )
+          )
+            continue;
+
+
+          if(!usos[target])
+            usos[target] = [];
+
+
+          if(
+            !usos[target].includes(
+              num
             )
           ){
 
-            if(!imagemSlides[caminho])
-              imagemSlides[caminho] = [];
-
-
-            imagemSlides[caminho].push({
-
-              slide:
-                slideNumero,
-
-              desenho:
-                desenho
-
-            });
+            usos[target].push(
+              num
+            );
 
           }
 
@@ -2122,99 +1993,96 @@ async function procurar(){
 
 
       /*
-       * Compara cada imagem do PowerPoint
-       */
+        Comparar imagens
+      */
 
-      for(const mediaPath of mediaArquivos){
+      for(
+        let i=0;
+        i<imagens.length;
+        i++
+      ){
+
+        status.innerText =
+          "Analisando " +
+          ppt.name +
+          " — imagem " +
+          (i+1) +
+          " de " +
+          imagens.length +
+          "...";
+
 
         try{
 
+          const nome =
+            imagens[i];
+
+
           const blob =
-            await zip
-              .file(mediaPath)
-              .async("blob");
+            await zip.files[nome]
+              .async(
+                "blob"
+              );
 
 
-          const assinaturaImagem =
-            await assinatura(blob);
-
-
-          const dist =
-            distancia(
-              assinaturaFoto,
-              assinaturaImagem
+          const sig =
+            await assinatura(
+              blob
             );
 
 
           const score =
-            similaridade(dist);
+            similaridade(
+              distancia(
+                ref,
+                sig
+              )
+            );
 
 
-          const usos =
-            imagemSlides[mediaPath] || [];
+          const slidesDaImagem =
+            usos[nome] || [];
 
 
-          /*
-           * Se a imagem não estiver associada
-           * diretamente a um slide, ainda
-           * adicionamos o resultado.
-           */
+          const desenhosEncontrados =
+            slidesDaImagem.map(
+              slide =>
+                desenhos[slide] ||
+                "Desenho não identificado"
+            );
 
-          if(!usos.length){
 
-            encontrados.push({
+          todos.push({
 
-              score,
+            arquivo:
+              ppt.name,
+
+            nome:
+              nome
+                .split("/")
+                .pop(),
+
+            blob:
               blob,
-              ppt:
-                ppt.name,
 
-              slide:
-                "-",
+            score:
+              score,
 
-              desenho:
-                "",
+            slides:
+              slidesDaImagem,
 
-              media:
-                mediaPath
+            desenhos:
+              desenhosEncontrados
 
-            });
+          });
 
-          }
-          else{
-
-            for(const uso of usos){
-
-              encontrados.push({
-
-                score,
-                blob,
-
-                ppt:
-                  ppt.name,
-
-                slide:
-                  uso.slide,
-
-                desenho:
-                  uso.desenho,
-
-                media:
-                  mediaPath
-
-              });
-
-            }
-
-          }
 
         }
-        catch(erro){
+        catch(e){
 
           console.warn(
-            "Não foi possível analisar:",
-            mediaPath,
-            erro
+            "Imagem ignorada",
+            e
           );
 
         }
@@ -2225,214 +2093,215 @@ async function procurar(){
 
 
     /*
-     * Ordenação
-     */
+      Ordenar
+    */
 
-    encontrados.sort(
+    todos.sort(
       (a,b)=>
         b.score-a.score
     );
 
 
-    /*
-     * Top 10
-     */
-
-    const top =
-      encontrados.slice(
-        0,
-        10
-      );
+    area.innerHTML =
+      "";
 
 
-    resultsCount.textContent =
-      ${top.length} resultados;
+    if(!todos.length){
 
-
-    if(!top.length){
-
-      resultados.innerHTML = `
-
-        <div class="empty">
-
-          <div class="empty-icon">
-            ◌
-          </div>
-
-          Nenhuma imagem foi encontrada
-          nos PowerPoints selecionados.
-
-        </div>
-
-      `;
-
-      statusTexto.textContent =
-        "Busca concluída. Nenhum resultado encontrado.";
-
-      return;
+      area.innerHTML =
+        "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
 
     }
+    else{
 
+      /*
+        Top 10
+      */
 
-    /*
-     * Monta cards
-     */
-
-    resultados.innerHTML = "";
-
-
-    for(const item of top){
-
-      const url =
-        URL.createObjectURL(
-          item.blob
+      const exibidos =
+        todos.slice(
+          0,
+          10
         );
 
 
-      const card =
-        document.createElement(
-          "article"
-        );
+      for(
+        let i=0;
+        i<exibidos.length;
+        i++
+      ){
+
+        const r =
+          exibidos[i];
 
 
-      card.className =
-        "result-card";
+        const div =
+          document.createElement(
+            "div"
+          );
 
 
-      card.innerHTML = `
-
-        <div class="result-image">
-
-          <img
-            src="${url}"
-            alt="Imagem encontrada"
-          >
-
-          <div class="similarity">
-            ${item.score.toFixed(1)}%
-          </div>
-
-        </div>
+        div.className =
+          "resultado";
 
 
-        <div class="result-body">
+        /*
+          Desenho
+        */
 
-          <div class="result-title">
-            ${escapeHtml(
-              item.desenho ||
-              "Imagem encontrada"
-            )}
-          </div>
+        let desenho =
+          "Desenho não identificado";
 
 
-          <div class="meta">
+        if(
+          r.desenhos &&
+          r.desenhos.length
+        ){
 
-            <div class="meta-row">
+          desenho =
+            r.desenhos.find(
+              x =>
+                x &&
+                x !==
+                "Desenho não identificado"
+            ) ||
+            r.desenhos[0];
 
-              <span>▣</span>
-
-              <strong
-                title="${escapeHtml(item.ppt)}"
-              >
-                ${escapeHtml(item.ppt)}
-              </strong>
-
-            </div>
-
-
-            <div class="meta-row">
-
-              <span>▤</span>
-
-              <strong>
-                Slide ${escapeHtml(item.slide)}
-              </strong>
-
-            </div>
-
-
-            <div class="meta-row">
-
-              <span>◉</span>
-
-              <strong
-                title="${escapeHtml(item.media)}"
-              >
-                ${escapeHtml(item.media)}
-              </strong>
-
-            </div>
-
-          </div>
-
-
-          <button
-            class="open-image"
-            type="button"
-          >
-            Abrir imagem
-          </button>
-
-        </div>
-
-      `;
-
-
-      const button =
-        card.querySelector(
-          ".open-image"
-        );
-
-
-      button.addEventListener(
-        "click",
-        ()=>{
-          abrirImagem(url);
         }
-      );
 
 
-      resultados.appendChild(
-        card
-      );
+        /*
+          Dados
+        */
+
+        div.innerHTML =
+
+          '<div class="tag">' +
+          r.score.toFixed(1) +
+          '%</div>' +
+
+          '<div class="desenho">' +
+          '<b>Desenho:</b><br>' +
+          escapeHtml(
+            desenho
+          ) +
+          '</div>' +
+
+          '<div class="dados">' +
+
+          '<b>PowerPoint:</b> ' +
+          escapeHtml(
+            r.arquivo
+          ) +
+
+          '<br>' +
+
+          '<b>Slide:</b> ' +
+          (
+            r.slides.length
+              ? r.slides.join(", ")
+              : "não identificado"
+          ) +
+
+          '<br>' +
+
+          '<b>Imagem:</b> ' +
+          escapeHtml(
+            r.nome
+          ) +
+
+          '</div>';
+
+
+        /*
+          Imagem
+        */
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+
+        img.className =
+          "imagem-encontrada";
+
+
+        img.src =
+          URL.createObjectURL(
+            r.blob
+          );
+
+
+        img.alt =
+          "Imagem encontrada";
+
+
+        div.appendChild(
+          img
+        );
+
+
+        /*
+          Botão
+        */
+
+        const abrir =
+          document.createElement(
+            "button"
+          );
+
+
+        abrir.innerText =
+          "🖼️ Abrir imagem encontrada";
+
+
+        abrir.onclick =
+          ()=>{
+            window.open(
+              img.src,
+              "_blank"
+            );
+          };
+
+
+        div.appendChild(
+          abrir
+        );
+
+
+        area.appendChild(
+          div
+        );
+
+      }
 
     }
 
 
-    statusTexto.textContent =
-      Busca concluída. ${encontrados.length} ocorrência(s) analisada(s).;
+    status.innerText =
+      "✅ Busca concluída em " +
+      ppts.length +
+      " PowerPoint(s). " +
+      "Foram mostrados os 10 melhores resultados.";
 
 
   }
   catch(erro){
 
-    console.error(erro);
-
-
-    statusTexto.textContent =
-      "Ocorreu um erro durante a busca.";
-
-
-    resultados.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          ⚠️
-        </div>
-
-        Não foi possível concluir a busca.
-        Verifique os arquivos selecionados.
-
-      </div>
-
-    `;
-
-
-    alert(
-      "Erro durante a busca: " +
-      erro.message
+    console.error(
+      erro
     );
+
+
+    status.innerHTML =
+      '<span class="erro">' +
+      '❌ Erro ao ler o PowerPoint: ' +
+      escapeHtml(
+        erro.message ||
+        erro
+      ) +
+      '</span>';
 
   }
   finally{
@@ -2440,23 +2309,17 @@ async function procurar(){
     btn.disabled =
       false;
 
-    btn.style.opacity =
-      "1";
-
-    btn.textContent =
-      "🔎  Procurar imagem";
-
   }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    BOTÃO
-========================================================= */
+===================================================== */
 
 document
-  .getElementById("btnBuscar")
+  .getElementById("btn")
   .addEventListener(
     "click",
     procurar
