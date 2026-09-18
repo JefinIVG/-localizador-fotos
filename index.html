@@ -1,510 +1,1150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Localizador de Fotos</title>
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+  Localizador de Fotos | IVECO
+</title>
+
 
 <style>
+
+/* =========================================================
+   CONFIGURAÇÕES GERAIS
+========================================================= */
+
+:root{
+
+  --azul:#071b2d;
+  --azul2:#0a2942;
+  --azul3:#0d3b60;
+
+  --azul-brilho:#078fff;
+  --azul-claro:#28c7ff;
+
+  --verde:#45efb1;
+
+  --branco:#ffffff;
+  --texto:#dceaf4;
+  --texto-fraco:#87a2b7;
+
+  --borda:rgba(70,180,230,.18);
+
+  --sombra:
+    0 15px 45px
+    rgba(0,0,0,.22);
+}
+
 
 *{
   box-sizing:border-box;
 }
 
-:root{
-  --azul:#0878ff;
-  --azul2:#0758cf;
-  --fundo:#031525;
-  --painel:#061d31;
-  --painel2:#08263e;
-  --borda:#14517c;
-  --texto:#f5f9ff;
-  --texto2:#b8c9d9;
-  --verde:#50e3bd;
+
+html,
+body{
+
+  margin:0;
+
+  padding:0;
+
+  min-height:100%;
+
 }
 
-html,body{
-  margin:0;
-  min-height:100%;
-}
 
 body{
-  font-family:Arial,sans-serif;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:var(--texto);
+
   background:
+
     radial-gradient(
-      circle at 70% 0%,
-      rgba(0,100,220,.20),
-      transparent 32%
+      circle at 75% 5%,
+      rgba(0,143,255,.14),
+      transparent 30%
     ),
+
     linear-gradient(
       135deg,
-      #021321,
-      #061e33 55%,
-      #031321
+      #020b14 0%,
+      #061827 55%,
+      #03101c 100%
     );
-  color:var(--texto);
-  min-height:100vh;
+
+  overflow-x:hidden;
 }
 
-/* =====================================================
-   CABEÇALHO
-===================================================== */
 
-.main{
-  width:100%;
-  min-width:0;
-}
+/* =========================================================
+   FUNDO TÉCNICO
+========================================================= */
 
-.hero{
-  height:205px;
-  position:relative;
-  overflow:hidden;
+body::before{
 
-  display:flex;
-  align-items:center;
-
-  padding:25px 7%;
-
-  border-bottom:1px solid #17527d;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(2,18,31,.90),
-      rgba(2,18,31,.38)
-    ),
-    url("hero.jpg")
-    center/cover no-repeat;
-}
-
-.hero:after{
   content:"";
 
-  position:absolute;
-
-  right:6%;
-  top:-80px;
-
-  width:145px;
-  height:340px;
-
-  background:
-    linear-gradient(
-      145deg,
-      transparent 0 38%,
-      #0a70ec 39% 55%,
-      transparent 56%
-    );
-
-  opacity:.75;
-
-  transform:skewX(-18deg);
-}
-
-.hero-logo{
-  position:absolute;
-
-  left:30px;
-  top:25px;
-
-  width:125px;
-  height:auto;
-
-  z-index:2;
-}
-
-.hero-logo-right{
-  position:absolute;
-
-  right:28px;
-  top:40px;
-
-  width:170px;
-  height:auto;
-
-  z-index:2;
-}
-
-.hero-copy{
-  position:relative;
-
-  z-index:3;
-
-  margin-left:23%;
-
-  max-width:700px;
-}
-
-.hero h1{
-  margin:0;
-
-  font-size:42px;
-
-  letter-spacing:-1.5px;
-}
-
-.hero h1 span{
-  color:#0878ff;
-}
-
-.hero p{
-  margin:7px 0 0;
-
-  color:#c4d4e2;
-
-  font-size:16px;
-}
-
-/* =====================================================
-   CONTEÚDO
-===================================================== */
-
-.content{
-  padding:17px 3% 28px;
-
-  max-width:1280px;
-
-  margin:auto;
-}
-
-.top-grid{
-  display:grid;
-
-  grid-template-columns:
-    1fr 1fr 270px;
-
-  gap:10px;
-}
-
-/* =====================================================
-   CAIXAS
-===================================================== */
-
-.caixa{
-  background:
-    linear-gradient(
-      145deg,
-      rgba(7,32,52,.98),
-      rgba(4,23,40,.98)
-    );
-
-  padding:16px;
-
-  border-radius:10px;
-
-  border:1px solid var(--borda);
-
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.22);
-
-  margin:0 0 10px;
-}
-
-/* =====================================================
-   ETAPAS
-===================================================== */
-
-.step-title{
-  display:flex;
-
-  align-items:center;
-
-  gap:10px;
-
-  margin-bottom:12px;
-
-  font-weight:bold;
-}
-
-.step{
-  width:31px;
-  height:31px;
-
-  border-radius:50%;
-
-  background:#0878ff;
-
-  display:grid;
-
-  place-items:center;
-
-  font-weight:900;
-
-  flex:none;
-}
-
-/* =====================================================
-   ÁREA DE UPLOAD
-===================================================== */
-
-.upload{
-  min-height:96px;
-
-  border:1px dashed #347eae;
-
-  border-radius:9px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  text-align:center;
-
-  color:#bfd0df;
-
-  padding:15px;
-
-  background:
-    rgba(0,90,150,.08);
-
-  position:relative;
-}
-
-.upload input{
-  position:absolute;
+  position:fixed;
 
   inset:0;
 
-  opacity:0;
+  pointer-events:none;
 
-  cursor:pointer;
+  opacity:.35;
 
-  width:100%;
-  height:100%;
+  background-image:
 
-  margin:0;
-}
-
-.upload-icon{
-  font-size:28px;
-
-  margin-bottom:5px;
-}
-
-input[type=file]{
-  width:100%;
-
-  margin:0;
-
-  color:#bfd0df;
-}
-
-#preview{
-  display:none;
-
-  max-width:120px;
-  max-height:85px;
-
-  margin:10px 0 0;
-
-  border:1px solid #5685a9;
-
-  border-radius:7px;
-}
-
-.pequeno{
-  color:#91a9bd;
-
-  font-size:12px;
-
-  margin:7px 0 0;
-}
-
-/* =====================================================
-   CARD INFORMATIVO
-===================================================== */
-
-.info-card{
-  text-align:center;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  align-items:center;
-
-  min-height:250px;
-
-  background:
     linear-gradient(
-      rgba(3,28,48,.88),
-      rgba(3,28,48,.97)
-    );
-}
+      rgba(50,160,210,.025) 1px,
+      transparent 1px
+    ),
 
-.info-icon{
-  font-size:38px;
-
-  margin-bottom:7px;
-}
-
-.info-card h3{
-  margin:0 0 8px;
-
-  font-size:16px;
-}
-
-.info-card p{
-  color:#b9cad9;
-
-  font-size:13px;
-
-  line-height:1.45;
-
-  max-width:210px;
-}
-
-/* =====================================================
-   BOTÕES
-===================================================== */
-
-button{
-  background:
     linear-gradient(
-      135deg,
-      #0878ff,
-      #0759d0
+      90deg,
+      rgba(50,160,210,.025) 1px,
+      transparent 1px
     );
 
-  color:white;
+  background-size:
+    36px 36px;
 
-  border:0;
+}
 
-  padding:12px 14px;
 
-  margin:8px 0 0;
+/* =========================================================
+   CONTAINER
+========================================================= */
 
-  border-radius:7px;
-
-  font-size:14px;
-
-  font-weight:bold;
+.container{
 
   width:100%;
 
-  cursor:pointer;
+  max-width:1550px;
 
-  box-shadow:
-    0 6px 16px rgba(0,105,255,.22);
+  margin:0 auto;
 
-  transition:.15s;
+  padding:
+    0 28px 30px;
+
 }
 
-button:hover{
-  filter:brightness(1.08);
-}
 
-button:disabled{
-  opacity:.6;
+/* =========================================================
+   CABEÇALHO
+========================================================= */
 
-  cursor:wait;
-}
+.header{
 
-/* =====================================================
-   STATUS
-===================================================== */
+  position:relative;
 
-#status{
-  min-height:20px;
+  height:82px;
 
-  color:#73e7bd;
-
-  font-size:13px;
-
-  text-align:center;
-}
-
-/* =====================================================
-   INFORMAÇÕES
-===================================================== */
-
-.nota{
-  background:#071d30;
-
-  border:1px solid #14517c;
-
-  padding:13px 18px;
-
-  margin:0 0 10px;
-
-  border-radius:9px;
-
-  color:#c3d4e4;
-
-  font-size:12px;
-
-  line-height:1.55;
-
-  display:grid;
-
-  grid-template-columns:
-    1.3fr
-    1.1fr
-    1fr
-    1fr;
-
-  gap:10px;
-}
-
-.nota b{
-  color:#e8f3ff;
-}
-
-/* =====================================================
-   RESULTADOS
-===================================================== */
-
-.results-box{
-  background:
-    linear-gradient(
-      145deg,
-      #061b2d,
-      #041728
-    );
-
-  border:1px solid #14517c;
-
-  border-radius:10px;
-
-  padding:15px;
-
-  box-shadow:
-    0 8px 25px rgba(0,0,0,.18);
-}
-
-.results-head{
   display:flex;
 
   align-items:center;
 
   justify-content:space-between;
 
-  margin-bottom:13px;
+  border-bottom:
+    1px solid
+    rgba(60,160,210,.14);
+
+  margin-bottom:20px;
+
 }
 
-.results-head h2{
-  margin:0;
 
-  font-size:22px;
+/* =========================================================
+   LOGO IVECO
+========================================================= */
+
+.logo{
+
+  font-size:34px;
+
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  color:#fff;
+
+  text-shadow:
+    0 0 18px
+    rgba(0,145,255,.15);
+
 }
 
-.badge{
-  background:#0c4676;
 
-  border-radius:20px;
+.logo span{
 
-  padding:7px 11px;
+  color:
+    var(--azul-brilho);
+
+}
+
+
+/* =========================================================
+   IDENTIFICAÇÃO DO SISTEMA
+========================================================= */
+
+.header-right{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:20px;
+
+}
+
+
+.system-status{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:
+    8px 13px;
+
+  border:
+    1px solid
+    rgba(69,239,177,.18);
+
+  border-radius:30px;
+
+  background:
+    rgba(69,239,177,.035);
+
+  color:
+    #9bc6b7;
+
+  font-size:10px;
+
+  text-transform:uppercase;
+
+  letter-spacing:1.3px;
+
+}
+
+
+.status-dot{
+
+  width:7px;
+
+  height:7px;
+
+  border-radius:50%;
+
+  background:
+    var(--verde);
+
+  box-shadow:
+    0 0 10px
+    var(--verde);
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+  position:relative;
+
+  min-height:300px;
+
+  overflow:hidden;
+
+  border:
+    1px solid
+    rgba(40,190,245,.18);
+
+  border-radius:15px;
+
+  background:
+
+    radial-gradient(
+      ellipse at 80% 65%,
+      rgba(0,145,255,.23),
+      transparent 38%
+    ),
+
+    linear-gradient(
+      105deg,
+      #09263e 0%,
+      #061a2d 52%,
+      #020c16 100%
+    );
+
+  box-shadow:
+    var(--sombra);
+
+}
+
+
+/* =========================================================
+   EFEITO DE LINHAS
+========================================================= */
+
+.hero::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+
+    linear-gradient(
+      120deg,
+      transparent 35%,
+      rgba(40,199,255,.045) 36%,
+      transparent 37%
+    );
+
+  background-size:
+    85px 85px;
+
+  opacity:.6;
+
+}
+
+
+/* =========================================================
+   TEXTO DO HERO
+========================================================= */
+
+.hero-content{
+
+  position:relative;
+
+  z-index:2;
+
+  padding:
+    55px 50px;
+
+  width:55%;
+
+}
+
+
+.hero-small{
+
+  color:
+    var(--azul-claro);
 
   font-size:11px;
 
-  color:#dceeff;
+  font-weight:800;
+
+  letter-spacing:3px;
+
+  text-transform:uppercase;
+
+  margin-bottom:12px;
+
 }
 
+
+.hero h1{
+
+  margin:0;
+
+  color:#fff;
+
+  font-size:46px;
+
+  line-height:1.05;
+
+  letter-spacing:-1.5px;
+
+}
+
+
+.hero p{
+
+  max-width:540px;
+
+  margin:
+    16px 0 0;
+
+  color:#9bb4c6;
+
+  font-size:15px;
+
+  line-height:1.65;
+
+}
+
+
+/* =========================================================
+   CAMINHÃO
+========================================================= */
+
+.truck-area{
+
+  position:absolute;
+
+  right:0;
+
+  bottom:0;
+
+  width:57%;
+
+  height:100%;
+
+}
+
+
+.truck-glow{
+
+  position:absolute;
+
+  right:80px;
+
+  bottom:25px;
+
+  width:550px;
+
+  height:210px;
+
+  border-radius:50%;
+
+  background:
+
+    radial-gradient(
+      ellipse,
+      rgba(0,145,255,.24),
+      transparent 65%
+    );
+
+  filter:
+    blur(12px);
+
+}
+
+
+/* =========================================================
+   ILUSTRAÇÃO DO CAMINHÃO
+========================================================= */
+
+.truck{
+
+  position:absolute;
+
+  right:55px;
+
+  bottom:36px;
+
+  width:520px;
+
+  height:165px;
+
+  filter:
+    drop-shadow(
+      0 10px 25px
+      rgba(0,0,0,.5)
+    );
+
+}
+
+
+/* CARRETA */
+
+.truck-body{
+
+  position:absolute;
+
+  left:0;
+
+  bottom:38px;
+
+  width:370px;
+
+  height:68px;
+
+  border:
+    2px solid
+    #39799d;
+
+  border-radius:
+    7px 3px 3px 7px;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #184765,
+      #09263d
+    );
+
+}
+
+
+/* LINHA DA CARRETA */
+
+.truck-body::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:14px;
+
+  right:14px;
+
+  top:10px;
+
+  height:2px;
+
+  background:
+    rgba(77,210,255,.18);
+
+}
+
+
+/* CABINE */
+
+.truck-cab{
+
+  position:absolute;
+
+  right:0;
+
+  bottom:38px;
+
+  width:145px;
+
+  height:105px;
+
+  border:
+    2px solid
+    #4d8db0;
+
+  border-radius:
+    14px 17px 5px 5px;
+
+  background:
+
+    linear-gradient(
+      145deg,
+      #1b4b68,
+      #061b2c
+    );
+
+}
+
+
+/* VIDRO */
+
+.truck-window{
+
+  position:absolute;
+
+  right:17px;
+
+  top:13px;
+
+  width:67px;
+
+  height:34px;
+
+  border:
+    1px solid
+    #5c9abb;
+
+  border-radius:6px;
+
+  background:
+    #061421;
+
+}
+
+
+/* LOGO NO CAMINHÃO */
+
+.truck-logo{
+
+  position:absolute;
+
+  right:22px;
+
+  top:57px;
+
+  font-size:11px;
+
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  color:#fff;
+
+}
+
+
+/* FAROL */
+
+.truck-light{
+
+  position:absolute;
+
+  right:3px;
+
+  bottom:55px;
+
+  width:8px;
+
+  height:12px;
+
+  background:
+    var(--azul-claro);
+
+  box-shadow:
+    0 0 16px
+    var(--azul-claro);
+
+}
+
+
+/* RODAS */
+
+.wheel{
+
+  position:absolute;
+
+  bottom:13px;
+
+  width:43px;
+
+  height:43px;
+
+  border-radius:50%;
+
+  border:
+    8px solid
+    #07121b;
+
+  background:
+    #607a8c;
+
+  box-shadow:
+    0 0 0 2px
+    #244c64;
+
+}
+
+
+.wheel1{
+  left:75px;
+}
+
+
+.wheel2{
+  right:75px;
+}
+
+
+/* =========================================================
+   ÁREA DOS CARDS
+========================================================= */
+
+.cards{
+
+  display:grid;
+
+  grid-template-columns:
+    1fr
+    1fr
+    .75fr;
+
+  gap:15px;
+
+  margin-top:16px;
+
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card{
+
+  min-height:210px;
+
+  padding:22px;
+
+  border:
+    1px solid
+    var(--borda);
+
+  border-radius:13px;
+
+  background:
+
+    linear-gradient(
+      145deg,
+      rgba(7,30,48,.96),
+      rgba(3,17,29,.96)
+    );
+
+  box-shadow:
+    0 10px 35px
+    rgba(0,0,0,.15);
+
+}
+
+
+/* =========================================================
+   CABEÇALHO DO CARD
+========================================================= */
+
+.card-header{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:11px;
+
+  margin-bottom:17px;
+
+}
+
+
+.card-number{
+
+  width:29px;
+
+  height:29px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:7px;
+
+  border:
+    1px solid
+    rgba(0,145,255,.35);
+
+  background:
+    rgba(0,145,255,.10);
+
+  color:
+    var(--azul-claro);
+
+  font-size:11px;
+
+  font-weight:900;
+
+}
+
+
+.card-title{
+
+  color:#fff;
+
+  font-size:15px;
+
+  font-weight:800;
+
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+input[type=file]{
+
+  width:100%;
+
+  padding:13px;
+
+  border:
+    1px dashed
+    #276487;
+
+  border-radius:8px;
+
+  background:
+    #041725;
+
+  color:#c7d9e5;
+
+  font-size:12px;
+
+}
+
+
+input[type=file]::file-selector-button{
+
+  padding:
+    8px 12px;
+
+  margin-right:10px;
+
+  border:0;
+
+  border-radius:6px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #0a9eff,
+      #076fdf
+    );
+
+  color:#fff;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+#preview{
+
+  display:block;
+
+  max-width:270px;
+
+  max-height:135px;
+
+  margin:
+    12px auto 5px;
+
+  border:
+    1px solid
+    #245a78;
+
+  border-radius:7px;
+
+  background:
+    #020d17;
+
+}
+
+
+/* =========================================================
+   TEXTOS AUXILIARES
+========================================================= */
+
+.helper{
+
+  margin:
+    12px 0 0;
+
+  color:
+    #7691a5;
+
+  font-size:11px;
+
+  line-height:1.55;
+
+}
+
+
+.nota{
+
+  margin-top:12px;
+
+  padding:10px;
+
+  border-left:
+    2px solid
+    var(--azul-claro);
+
+  background:
+    rgba(0,145,255,.045);
+
+  border-radius:6px;
+
+  color:#7893a7;
+
+  font-size:10px;
+
+  line-height:1.55;
+
+}
+
+
+/* =========================================================
+   CARD DE BUSCA
+========================================================= */
+
+.search-card{
+
+  position:relative;
+
+  overflow:hidden;
+
+}
+
+
+.search-card::after{
+
+  content:"SEARCH";
+
+  position:absolute;
+
+  right:-20px;
+
+  bottom:-14px;
+
+  font-size:46px;
+
+  font-weight:900;
+
+  letter-spacing:3px;
+
+  color:
+    rgba(40,199,255,.025);
+
+  transform:
+    rotate(-8deg);
+
+}
+
+
+.search-icon{
+
+  font-size:30px;
+
+  color:
+    var(--azul-claro);
+
+  margin-bottom:12px;
+
+  text-shadow:
+    0 0 20px
+    rgba(40,199,255,.35);
+
+}
+
+
+.search-card h3{
+
+  margin:
+    0 0 9px;
+
+  font-size:19px;
+
+  color:#fff;
+
+}
+
+
+.search-card p{
+
+  margin:0;
+
+  color:#819bad;
+
+  font-size:11px;
+
+  line-height:1.6;
+
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+button{
+
+  width:100%;
+
+  padding:
+    13px 15px;
+
+  margin-top:16px;
+
+  border:
+    1px solid
+    #18a7ff;
+
+  border-radius:8px;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #0a9eff,
+      #066edc
+    );
+
+  color:#fff;
+
+  font-size:12px;
+
+  font-weight:900;
+
+  letter-spacing:.5px;
+
+  cursor:pointer;
+
+  transition:
+    .2s ease;
+
+  box-shadow:
+    0 8px 22px
+    rgba(0,145,255,.12);
+
+}
+
+
+button:hover{
+
+  filter:
+    brightness(1.08);
+
+  box-shadow:
+    0 8px 28px
+    rgba(0,145,255,.24);
+
+}
+
+
+button:disabled{
+
+  opacity:.55;
+
+  cursor:wait;
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+#status{
+
+  margin:
+    10px 0 0;
+
+  color:
+    #87a5b8;
+
+  font-size:10px;
+
+  line-height:1.45;
+
+}
+
+
+/* =========================================================
+   RESULTADOS
+========================================================= */
+
+.results{
+
+  margin-top:16px;
+
+  padding:20px;
+
+  border:
+    1px solid
+    var(--borda);
+
+  border-radius:13px;
+
+  background:
+    rgba(4,20,34,.93);
+
+  box-shadow:
+    var(--sombra);
+
+}
+
+
+/* =========================================================
+   CABEÇALHO DOS RESULTADOS
+========================================================= */
+
+.results-header{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:15px;
+
+}
+
+
+.results-header h2{
+
+  margin:0;
+
+  font-size:20px;
+
+  color:#fff;
+
+}
+
+
+.results-info{
+
+  padding:
+    6px 10px;
+
+  border:
+    1px solid
+    rgba(69,239,177,.18);
+
+  border-radius:20px;
+
+  background:
+    rgba(69,239,177,.035);
+
+  color:
+    var(--verde);
+
+  font-size:9px;
+
+  text-transform:uppercase;
+
+  letter-spacing:1px;
+
+}
+
+
+/* =========================================================
+   GRID DOS RESULTADOS
+========================================================= */
+
 #resultados{
+
   display:grid;
 
   grid-template-columns:
@@ -513,351 +1153,622 @@ button:disabled{
       minmax(0,1fr)
     );
 
-  gap:10px;
+  gap:12px;
+
 }
 
-/* =====================================================
-   CARD DO RESULTADO
-===================================================== */
+
+/* =========================================================
+   CARD DE RESULTADO
+========================================================= */
 
 .resultado{
-  background:
-    linear-gradient(
-      160deg,
-      #082844,
-      #051b2d
-    );
 
-  border:1px solid #14517c;
-
-  padding:10px;
-
-  margin:0;
-
-  border-radius:9px;
-
-  min-width:0;
+  position:relative;
 
   overflow:hidden;
 
-  transition:.15s;
-}
-
-.resultado:hover{
-  border-color:#2389dc;
-
-  transform:translateY(-1px);
-}
-
-/* =====================================================
-   TAG
-===================================================== */
-
-.tag{
-  display:inline-block;
-
-  background:var(--verde);
-
-  color:#03271e;
-
-  padding:4px 7px;
-
-  border-radius:12px;
-
-  font-size:10px;
-
-  font-weight:bold;
-
-  margin-bottom:5px;
-}
-
-/* =====================================================
-   DESENHO
-===================================================== */
-
-.desenho{
-  background:transparent;
-
-  border:0;
-
-  padding:0;
-
-  margin:5px 0;
-
-  border-radius:0;
-
-  font-size:11px;
-
-  color:#e7f2fc;
-
-  line-height:1.35;
-}
-
-.desenho b{
-  color:#a9c5dc;
-}
-
-/* =====================================================
-   DADOS
-===================================================== */
-
-.dados{
-  line-height:1.5;
-
-  margin-bottom:4px;
-
-  color:#c2d2df;
-
-  font-size:10px;
-}
-
-.dados b{
-  color:#e7f1fa;
-}
-
-/* =====================================================
-   IMAGEM ENCONTRADA
-===================================================== */
-
-.imagem-encontrada{
-  width:100%;
-
-  height:105px;
-
-  object-fit:contain;
-
-  display:block;
-
-  margin:7px auto;
-
-  border-radius:7px;
-
-  background:#031522;
-}
-
-/* =====================================================
-   SEPARADOR
-===================================================== */
-
-.separador{
-  display:none;
-}
-
-/* =====================================================
-   ERRO
-===================================================== */
-
-.erro{
-  color:#ffb5b5;
-
-  background:#401b22;
-
-  border:1px solid #82363e;
+  min-width:0;
 
   padding:10px;
 
-  border-radius:7px;
+  border:
+    1px solid
+    #164b6b;
+
+  border-radius:10px;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      rgba(7,35,55,.97),
+      rgba(3,18,30,.98)
+    );
+
+  transition:
+    .2s ease;
+
 }
 
-/* =====================================================
-   RODAPÉ
-===================================================== */
+
+.resultado:hover{
+
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgba(40,199,255,.35);
+
+  box-shadow:
+    0 10px 25px
+    rgba(0,120,210,.10);
+
+}
+
+
+.resultado::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+
+  top:0;
+
+  width:35px;
+
+  height:2px;
+
+  background:
+    var(--azul-claro);
+
+  box-shadow:
+    0 0 10px
+    var(--azul-claro);
+
+}
+
+
+/* =========================================================
+   TAG
+========================================================= */
+
+.resultado .tag{
+
+  position:absolute;
+
+  z-index:2;
+
+  top:9px;
+
+  left:9px;
+
+  padding:
+    5px 8px;
+
+  border-radius:20px;
+
+  background:
+    var(--verde);
+
+  color:
+    #033025;
+
+  font-size:10px;
+
+  font-weight:900;
+
+}
+
+
+/* =========================================================
+   DESENHO
+========================================================= */
+
+.resultado .desenho{
+
+  margin:0;
+
+  color:#e4f0f6;
+
+  font-size:10px;
+
+  line-height:1.4;
+
+}
+
+
+.resultado .desenho b{
+
+  font-weight:700;
+
+  color:#fff;
+
+}
+
+
+/* =========================================================
+   DADOS
+========================================================= */
+
+.resultado .dados{
+
+  margin:
+    8px 0;
+
+  color:
+    #7894a7;
+
+  font-size:9px;
+
+  line-height:1.55;
+
+}
+
+
+.resultado .dados b{
+
+  color:
+    #cfe1eb;
+
+}
+
+
+/* =========================================================
+   IMAGEM
+========================================================= */
+
+.resultado .imagem-encontrada{
+
+  display:block;
+
+  width:100%;
+
+  height:110px;
+
+  object-fit:contain;
+
+  margin:
+    25px auto 8px;
+
+  border-radius:6px;
+
+  background:
+    #020b14;
+
+}
+
+
+/* =========================================================
+   BOTÃO RESULTADO
+========================================================= */
+
+.resultado button{
+
+  margin-top:3px;
+
+  padding:
+    8px;
+
+  font-size:9px;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
 
 .footer{
-  border-top:1px solid #16486d;
-
-  padding:11px 4%;
-
-  color:#9db4c8;
-
-  font-size:11px;
 
   display:flex;
 
   justify-content:space-between;
 
   align-items:center;
+
+  margin-top:14px;
+
+  padding:
+    13px 3px;
+
+  border-top:
+    1px solid
+    rgba(50,160,210,.10);
+
+  color:
+    #5e7b8e;
+
+  font-size:9px;
+
 }
 
-.footer-logo{
-  width:78px;
 
-  height:auto;
+.footer strong{
+
+  color:
+    #9cb8c9;
+
 }
 
-/* =====================================================
-   RESPONSIVO
-===================================================== */
 
-@media(max-width:1050px){
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
 
-  .top-grid{
-    grid-template-columns:1fr 1fr;
+@media(max-width:1250px){
+
+  .cards{
+
+    grid-template-columns:
+      1fr 1fr;
+
   }
 
-  .info-card{
-    grid-column:1/-1;
+  .search-card{
 
-    min-height:130px;
+    grid-column:
+      1 / -1;
+
   }
 
   #resultados{
+
+    grid-template-columns:
+      repeat(
+        4,
+        minmax(0,1fr)
+      );
+
+  }
+
+  .truck{
+
+    transform:
+      scale(.85);
+
+    transform-origin:
+      right bottom;
+
+  }
+
+}
+
+
+@media(max-width:1000px){
+
+  .hero-content{
+
+    width:65%;
+
+  }
+
+  .hero h1{
+
+    font-size:38px;
+
+  }
+
+  .truck-area{
+
+    opacity:.65;
+
+  }
+
+  #resultados{
+
     grid-template-columns:
       repeat(
         3,
         minmax(0,1fr)
       );
+
   }
 
 }
 
+
 @media(max-width:760px){
 
+  .container{
+
+    padding:
+      0 15px 20px;
+
+  }
+
+  .header{
+
+    height:70px;
+
+  }
+
+  .header-right{
+
+    gap:0;
+
+  }
+
+  .system-status{
+
+    display:none;
+
+  }
+
+  .logo{
+
+    font-size:28px;
+
+  }
+
   .hero{
-    height:155px;
 
-    padding:20px;
+    min-height:330px;
+
   }
 
-  .hero-logo{
-    left:15px;
+  .hero-content{
 
-    top:18px;
+    width:100%;
 
-    width:90px;
-  }
+    padding:
+      38px 28px;
 
-  .hero-logo-right{
-    right:15px;
-
-    top:24px;
-
-    width:105px;
-  }
-
-  .hero-copy{
-    margin-left:0;
-
-    padding-top:45px;
   }
 
   .hero h1{
-    font-size:29px;
+
+    font-size:34px;
+
   }
 
-  .hero p{
-    font-size:12px;
+  .truck-area{
+
+    width:75%;
+
+    opacity:.28;
+
   }
 
-  .top-grid{
+  .cards{
+
     grid-template-columns:1fr;
+
   }
 
-  .info-card{
+  .search-card{
+
     grid-column:auto;
-  }
 
-  .nota{
-    grid-template-columns:1fr 1fr;
   }
 
   #resultados{
+
     grid-template-columns:
       repeat(
         2,
         minmax(0,1fr)
       );
+
   }
 
 }
 
+
 @media(max-width:480px){
 
-  .content{
-    padding:12px;
+  .hero{
+
+    min-height:340px;
+
   }
 
   .hero h1{
-    font-size:24px;
+
+    font-size:29px;
+
   }
 
   .hero p{
-    font-size:11px;
+
+    font-size:13px;
+
   }
 
-  .hero-logo-right{
-    display:none;
-  }
+  .truck{
 
-  .nota{
-    grid-template-columns:1fr;
+    right:-130px;
+
+    transform:
+      scale(.65);
+
   }
 
   #resultados{
+
     grid-template-columns:1fr;
+
+  }
+
+  .results-header{
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    flex-direction:column;
+
+  }
+
+  .footer{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:5px;
+
   }
 
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<div class="main">
 
-<header class="hero">
+<div class="container">
 
-  <img
-    class="hero-logo"
-    src="logo.jpg"
-    alt="IVECO"
-  >
 
-  <img
-    class="hero-logo-right"
-    src="logo.jpg"
-    alt="IVECO"
-  >
+<!-- =====================================================
+     CABEÇALHO
+====================================================== -->
 
-  <div class="hero-copy">
+<header class="header">
 
-    <h1>
-      Localizador de
-      <span>Fotos</span>
-    </h1>
 
-    <p>
-      Encontre rapidamente imagens nos seus PowerPoints.
-    </p>
+  <div class="logo">
+
+    IVE<span>CO</span>
 
   </div>
+
+
+  <div class="header-right">
+
+    <div class="system-status">
+
+      <span class="status-dot"></span>
+
+      Processamento local
+
+    </div>
+
+  </div>
+
 
 </header>
 
-<div class="content">
 
-<div class="top-grid">
 
 <!-- =====================================================
-     FOTO
-===================================================== -->
+     HERO
+====================================================== -->
 
-<div class="caixa">
+<section class="hero">
 
-  <div class="step-title">
 
-    <div class="step">
-      1
+  <div class="hero-content">
+
+
+    <div class="hero-small">
+
+      IVECO • VISUAL SEARCH
+
     </div>
 
-    <span>
-      Foto para procurar
-    </span>
+
+    <h1>
+
+      Localizador de Fotos
+
+    </h1>
+
+
+    <p>
+
+      Encontre imagens semelhantes dentro
+      dos seus arquivos PowerPoint de forma
+      rápida, precisa e totalmente local.
+
+    </p>
+
 
   </div>
 
-  <div class="upload">
+
+
+  <!-- ===================================================
+       CAMINHÃO
+  ==================================================== -->
+
+  <div class="truck-area">
+
+
+    <div class="truck-glow"></div>
+
+
+    <div class="truck">
+
+
+      <div class="truck-body"></div>
+
+
+      <div class="truck-cab">
+
+        <div class="truck-window"></div>
+
+        <div class="truck-logo">
+
+          IVECO
+
+        </div>
+
+      </div>
+
+
+      <div class="truck-light"></div>
+
+
+      <div class="wheel wheel1"></div>
+
+      <div class="wheel wheel2"></div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CARDS
+====================================================== -->
+
+<section class="cards">
+
+
+  <!-- ===================================================
+       FOTO
+  ==================================================== -->
+
+  <div class="card">
+
+
+    <div class="card-header">
+
+      <div class="card-number">
+
+        01
+
+      </div>
+
+
+      <div class="card-title">
+
+        Foto para procurar
+
+      </div>
+
+    </div>
+
 
     <input
       type="file"
@@ -865,47 +1776,49 @@ button:disabled{
       accept="image/*"
     >
 
-    <div>
 
-      <div class="upload-icon">
-        ▧
+    <img
+      id="preview"
+      style="display:none;"
+    >
+
+
+    <p class="helper">
+
+      Escolha a imagem de referência
+      que será utilizada na busca.
+
+    </p>
+
+
+  </div>
+
+
+
+  <!-- ===================================================
+       POWERPOINTS
+  ==================================================== -->
+
+  <div class="card">
+
+
+    <div class="card-header">
+
+      <div class="card-number">
+
+        02
+
       </div>
 
-      Clique para selecionar uma imagem
-      <br>
 
-      ou arraste aqui
+      <div class="card-title">
+
+        PowerPoints
+
+      </div>
 
     </div>
 
-  </div>
-
-  <img
-    id="preview"
-  >
-
-</div>
-
-
-<!-- =====================================================
-     POWERPOINT
-===================================================== -->
-
-<div class="caixa">
-
-  <div class="step-title">
-
-    <div class="step">
-      2
-    </div>
-
-    <span>
-      PowerPoints
-    </span>
-
-  </div>
-
-  <div class="upload">
 
     <input
       type="file"
@@ -914,130 +1827,98 @@ button:disabled{
       multiple
     >
 
-    <div>
 
-      <div class="upload-icon">
-        ▤
-      </div>
+    <p class="helper">
 
-      Clique para selecionar vários
-      <br>
+      Selecione um ou vários arquivos
+      PowerPoint para realizar a busca.
 
-      PowerPoints (.pptx)
+    </p>
+
+
+    <div class="nota">
+
+      <b>Privacidade:</b>
+
+      os arquivos são processados
+      diretamente no seu computador.
 
     </div>
 
-  </div>
-
-  <p class="pequeno">
-
-    Você pode selecionar vários arquivos
-    de uma vez.
-
-  </p>
-
-</div>
-
-
-<!-- =====================================================
-     BUSCA
-===================================================== -->
-
-<div class="caixa info-card">
-
-  <div class="info-icon">
-    ♢
-  </div>
-
-  <h3>
-    Busca com<br>
-    precisão e agilidade
-  </h3>
-
-  <p>
-    Nossa ferramenta encontra as imagens
-    que você precisa nos seus PowerPoints.
-  </p>
-
-  <button id="btn">
-
-    ⌕ &nbsp;
-    PROCURAR FOTO
-
-  </button>
-
-</div>
-
-</div>
-
-
-<div id="status"></div>
-
-
-<!-- =====================================================
-     NOTA
-===================================================== -->
-
-<div class="nota">
-
-  <div>
-
-    <b>ⓘ Desenho:</b>
-    <br>
-
-    &V 001 - 3800395 - TIRANTE
 
   </div>
 
-  <div>
 
-    <b>PowerPoint:</b>
-    <br>
 
-    nome do PowerPoint
+  <!-- ===================================================
+       BUSCA
+  ==================================================== -->
+
+  <div class="card search-card">
+
+
+    <div class="search-icon">
+
+      ⌕
+
+    </div>
+
+
+    <h3>
+
+      Busca com precisão
+
+    </h3>
+
+
+    <p>
+
+      O sistema compara a imagem selecionada
+      com as imagens existentes nos slides
+      e apresenta os resultados mais semelhantes.
+
+    </p>
+
+
+    <button id="btn">
+
+      PROCURAR FOTO
+
+    </button>
+
+
+    <p id="status"></p>
+
 
   </div>
 
-  <div>
+</section>
 
-    <b>Slide:</b>
-    <br>
-
-    número do slide
-
-  </div>
-
-  <div>
-
-    <b>Semelhança:</b>
-    <br>
-
-    % encontrado
-
-  </div>
-
-</div>
 
 
 <!-- =====================================================
      RESULTADOS
-===================================================== -->
+====================================================== -->
 
-<div class="results-box">
+<section class="results">
 
-  <div class="results-head">
+
+  <div class="results-header">
+
 
     <h2>
-      ▣ &nbsp;
-      Resultados
+
+      Resultados encontrados
+
     </h2>
 
-    <div class="badge">
 
-      ★ &nbsp;
-      10 melhores resultados
+    <div class="results-info">
+
+      Top 10 resultados
 
     </div>
+
 
   </div>
 
@@ -1048,39 +1929,54 @@ button:disabled{
 
   </div>
 
-</div>
 
-</div>
+</section>
+
 
 
 <!-- =====================================================
-     RODAPÉ
-===================================================== -->
+     FOOTER
+====================================================== -->
 
 <footer class="footer">
 
-  <img
-    class="footer-logo"
-    src="logo.jpg"
-    alt="IVECO"
-  >
 
   <span>
-    Tecnologia que move o seu mundo.
+
+    <strong>IVECO</strong>
+
+    • Localizador de Fotos
+
   </span>
 
+
   <span>
-    ♢ &nbsp;
-    Tudo processado no seu computador
+
+    Tudo processado no seu computador.
+
   </span>
+
 
 </footer>
+
 
 </div>
 
 
+
+<!-- =====================================================
+     JSZIP
+====================================================== -->
+
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+
+
 <script>
+
+/* =====================================================
+   FOTO
+===================================================== */
 
 let foto = null;
 
@@ -1089,21 +1985,27 @@ let foto = null;
    FOTO DE REFERÊNCIA
 ===================================================== */
 
-document.getElementById("foto").onchange = function(){
+document
+  .getElementById("foto")
+  .onchange = function(){
 
-  foto = this.files[0];
+    foto = this.files[0];
 
-  if(foto){
+    if(foto){
 
-    const img = document.getElementById("preview");
+      const img =
+        document.getElementById("preview");
 
-    img.src = URL.createObjectURL(foto);
+      img.src =
+        URL.createObjectURL(foto);
 
-    img.style.display = "block";
+      img.style.display =
+        "block";
 
-  }
+    }
 
-};
+  };
+
 
 
 /* =====================================================
@@ -1113,24 +2015,34 @@ document.getElementById("foto").onchange = function(){
 function normalizarCaminho(base,target){
 
   const partes =
-    (base + "/" + target).split("/");
+    (base + "/" + target)
+      .split("/");
 
   const saida = [];
 
+
   for(const p of partes){
 
-    if(!p || p === ".")
+    if(
+      !p ||
+      p === "."
+    )
       continue;
+
 
     if(p === "..")
       saida.pop();
 
     else
       saida.push(p);
+
   }
 
+
   return saida.join("/");
+
 }
+
 
 
 /* =====================================================
@@ -1142,26 +2054,37 @@ async function texto(zip,nome){
   if(!zip.files[nome])
     return "";
 
-  return await zip.files[nome].async("text");
+  return await zip.files[nome]
+    .async("text");
+
 }
 
 
+
 /* =====================================================
-   RELACIONAMENTOS DO POWERPOINT
+   RELACIONAMENTOS
 ===================================================== */
 
 function extrairRelacionamentos(xml){
 
   const mapa = {};
 
+
   const doc =
     new DOMParser()
-    .parseFromString(xml,"application/xml");
+      .parseFromString(
+        xml,
+        "application/xml"
+      );
+
 
   const relacoes =
     Array.from(
-      doc.getElementsByTagName("Relationship")
+      doc.getElementsByTagName(
+        "Relationship"
+      )
     );
+
 
   for(const rel of relacoes){
 
@@ -1171,61 +2094,92 @@ function extrairRelacionamentos(xml){
     const target =
       rel.getAttribute("Target");
 
-    if(id && target)
-      mapa[id] = target;
+
+    if(id && target){
+
+      mapa[id] =
+        target;
+
+    }
+
   }
 
+
   return mapa;
+
 }
 
 
+
 /* =====================================================
-   PEGAR TEXTOS DO SLIDE
+   TEXTOS DO SLIDE
 ===================================================== */
 
 function extrairTextosDoSlide(xml){
 
   const doc =
     new DOMParser()
-    .parseFromString(xml,"application/xml");
+      .parseFromString(
+        xml,
+        "application/xml"
+      );
+
 
   const textos = [];
 
+
   const paragrafos =
     Array.from(
-      doc.getElementsByTagName("a:p")
+      doc.getElementsByTagName(
+        "a:p"
+      )
     );
+
 
   for(const p of paragrafos){
 
     const partes =
       Array.from(
-        p.getElementsByTagName("a:t")
+        p.getElementsByTagName(
+          "a:t"
+        )
       );
 
+
     let texto = "";
+
 
     for(const t of partes){
 
       texto +=
         t.textContent || "";
+
     }
+
 
     texto =
       texto
-      .replace(/\s+/g," ")
-      .trim();
+        .replace(/\s+/g," ")
+        .trim();
 
-    if(texto)
+
+    if(texto){
+
       textos.push(texto);
+
+    }
+
   }
 
+
   return textos;
+
 }
 
 
+
 /* =====================================================
-   ENCONTRAR O CAMPO DESENHO
+   ENCONTRAR DESENHO
 ===================================================== */
 
 function encontrarDesenho(xml){
@@ -1233,12 +2187,19 @@ function encontrarDesenho(xml){
   const textos =
     extrairTextosDoSlide(xml);
 
-  for(const textoOriginal of textos){
+
+  for(
+    const textoOriginal of textos
+  ){
 
     const texto =
       textoOriginal.trim();
 
-    if(/^Desenho\s*\/?/i.test(texto)){
+
+    if(
+      /^Desenho\s*\/?/i
+        .test(texto)
+    ){
 
       let conteudo =
         texto.replace(
@@ -1246,28 +2207,39 @@ function encontrarDesenho(xml){
           ""
         ).trim();
 
+
       const partes =
-        conteudo.split(/\s+-\s+/);
+        conteudo.split(
+          /\s+-\s+/
+        );
+
 
       if(partes.length >= 3){
 
         conteudo =
           partes
-          .slice(0,3)
-          .join(" - ")
-          .trim();
+            .slice(0,3)
+            .join(" - ")
+            .trim();
+
       }
 
+
       return conteudo;
+
     }
+
   }
 
+
   return "Desenho não identificado";
+
 }
 
 
+
 /* =====================================================
-   TRANSFORMAR IMAGEM EM ASSINATURA
+   IMAGEM DO BLOB
 ===================================================== */
 
 async function imagemDoBlob(blob){
@@ -1278,53 +2250,83 @@ async function imagemDoBlob(blob){
       const url =
         URL.createObjectURL(blob);
 
+
       const img =
         new Image();
+
 
       img.onload = ()=>{
 
         URL.revokeObjectURL(url);
 
         resolve(img);
+
       };
+
 
       img.onerror = ()=>{
 
         URL.revokeObjectURL(url);
 
         reject(
-          new Error("Imagem inválida")
+          new Error(
+            "Imagem inválida"
+          )
         );
+
       };
 
-      img.src = url;
+
+      img.src =
+        url;
 
     }
   );
+
 }
 
+
+
+/* =====================================================
+   ASSINATURA 48x48
+===================================================== */
 
 async function assinatura(blob){
 
   const img =
     await imagemDoBlob(blob);
 
+
   const w = 48;
+
   const h = 48;
 
-  const canvas =
-    document.createElement("canvas");
 
-  canvas.width = w;
-  canvas.height = h;
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  canvas.width =
+    w;
+
+  canvas.height =
+    h;
+
 
   const ctx =
     canvas.getContext(
       "2d",
-      {willReadFrequently:true}
+      {
+        willReadFrequently:true
+      }
     );
 
-  ctx.fillStyle = "#fff";
+
+  ctx.fillStyle =
+    "#fff";
+
 
   ctx.fillRect(
     0,
@@ -1342,10 +2344,13 @@ async function assinatura(blob){
 
 
   const dw =
-    img.naturalWidth * escala;
+    img.naturalWidth *
+    escala;
+
 
   const dh =
-    img.naturalHeight * escala;
+    img.naturalHeight *
+    escala;
 
 
   ctx.drawImage(
@@ -1367,7 +2372,9 @@ async function assinatura(blob){
 
 
   const cinza =
-    new Float32Array(w*h);
+    new Float32Array(
+      w*h
+    );
 
 
   let media = 0;
@@ -1384,9 +2391,14 @@ async function assinatura(blob){
       .587*data[i+1] +
       .114*data[i+2];
 
-    cinza[p] = v;
 
-    media += v;
+    cinza[p] =
+      v;
+
+
+    media +=
+      v;
+
   }
 
 
@@ -1400,13 +2412,16 @@ async function assinatura(blob){
   for(const v of cinza){
 
     vari +=
-      (v-media)*(v-media);
+      (v-media) *
+      (v-media);
+
   }
 
 
   const desvio =
     Math.sqrt(
-      vari/cinza.length
+      vari /
+      cinza.length
     ) || 1;
 
 
@@ -1417,12 +2432,16 @@ async function assinatura(blob){
   ){
 
     cinza[i] =
-      (cinza[i]-media)/desvio;
+      (cinza[i]-media) /
+      desvio;
+
   }
 
 
   return cinza;
+
 }
+
 
 
 /* =====================================================
@@ -1433,6 +2452,7 @@ function distancia(a,b){
 
   let soma = 0;
 
+
   for(
     let i=0;
     i<a.length;
@@ -1442,13 +2462,19 @@ function distancia(a,b){
     const d =
       a[i]-b[i];
 
-    soma += d*d;
+
+    soma +=
+      d*d;
+
   }
+
 
   return Math.sqrt(
     soma/a.length
   );
+
 }
+
 
 
 /* =====================================================
@@ -1461,10 +2487,14 @@ function similaridade(dist){
     0,
     Math.min(
       100,
-      100*Math.exp(-dist/2.2)
+      100*Math.exp(
+        -dist/2.2
+      )
     )
   );
+
 }
+
 
 
 /* =====================================================
@@ -1475,16 +2505,33 @@ function escapeHtml(text){
 
   return String(text)
 
-    .replace(/&/g,"&amp;")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
 
-    .replace(/</g,"&lt;")
+    .replace(
+      /</g,
+      "&lt;"
+    )
 
-    .replace(/>/g,"&gt;")
+    .replace(
+      />/g,
+      "&gt;"
+    )
 
-    .replace(/"/g,"&quot;")
+    .replace(
+      /"/g,
+      "&quot;"
+    )
 
-    .replace(/'/g,"&#039;");
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
 }
+
 
 
 /* =====================================================
@@ -1495,17 +2542,25 @@ async function procurar(){
 
   const ppts =
     Array.from(
-      document.getElementById("ppt").files
+      document
+        .getElementById("ppt")
+        .files
     );
 
+
   const status =
-    document.getElementById("status");
+    document
+      .getElementById("status");
+
 
   const area =
-    document.getElementById("resultados");
+    document
+      .getElementById("resultados");
+
 
   const btn =
-    document.getElementById("btn");
+    document
+      .getElementById("btn");
 
 
   if(!foto){
@@ -1515,6 +2570,7 @@ async function procurar(){
     );
 
     return;
+
   }
 
 
@@ -1525,12 +2581,17 @@ async function procurar(){
     );
 
     return;
+
   }
 
 
-  btn.disabled = true;
+  btn.disabled =
+    true;
 
-  area.innerHTML = "";
+
+  area.innerHTML =
+    "";
+
 
   status.innerText =
     "Iniciando busca...";
@@ -1538,12 +2599,24 @@ async function procurar(){
 
   try{
 
+
+    /* ===============================================
+       ASSINATURA DA FOTO
+    =============================================== */
+
     const ref =
-      await assinatura(foto);
+      await assinatura(
+        foto
+      );
 
 
     const todos = [];
 
+
+
+    /* ===============================================
+       PERCORRER POWERPOINTS
+    =============================================== */
 
     for(
       let p=0;
@@ -1575,52 +2648,90 @@ async function procurar(){
 
 
       const arquivos =
-        Object.keys(zip.files);
+        Object.keys(
+          zip.files
+        );
 
+
+
+      /* =============================================
+         IMAGENS
+      ============================================= */
 
       const imagens =
         arquivos.filter(
           n =>
-            n.startsWith("ppt/media/") &&
+
+            n.startsWith(
+              "ppt/media/"
+            )
+
+            &&
+
             /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i
               .test(n)
         );
 
 
+
+      /* =============================================
+         USOS DAS IMAGENS
+      ============================================= */
+
       const usos = {};
 
+
+
+      /* =============================================
+         DESENHOS
+      ============================================= */
 
       const desenhos = {};
 
 
+
+      /* =============================================
+         SLIDES
+      ============================================= */
+
       const slides =
         arquivos
 
-        .filter(
-          n =>
-            /^ppt\/slides\/slide\d+\.xml$/i
-              .test(n)
-        )
+          .filter(
+            n =>
+              /^ppt\/slides\/slide\d+\.xml$/i
+                .test(n)
+          )
 
-        .sort(
-          (a,b) => {
+          .sort(
+            (a,b) => {
 
-            const na =
-              +(a.match(
-                /slide(\d+)\.xml/i
-              ) || [,0])[1];
-
-            const nb =
-              +(b.match(
-                /slide(\d+)\.xml/i
-              ) || [,0])[1];
-
-            return na-nb;
-          }
-        );
+              const na =
+                +(a.match(
+                  /slide(\d+)\.xml/i
+                ) || [,0])[1];
 
 
-      for(const slide of slides){
+              const nb =
+                +(b.match(
+                  /slide(\d+)\.xml/i
+                ) || [,0])[1];
+
+
+              return na-nb;
+
+            }
+          );
+
+
+
+      /* =============================================
+         LER SLIDES
+      ============================================= */
+
+      for(
+        const slide of slides
+      ){
 
         const num =
           +(slide.match(
@@ -1635,11 +2746,15 @@ async function procurar(){
           );
 
 
+        /* DESENHO */
+
         desenhos[num] =
           encontrarDesenho(
             slideXml
           );
 
+
+        /* RELACIONAMENTOS */
 
         const relXml =
           await texto(
@@ -1656,12 +2771,17 @@ async function procurar(){
           );
 
 
+
+        /* =========================================
+           BLIPS / IMAGENS
+        ========================================= */
+
         const doc =
           new DOMParser()
-          .parseFromString(
-            slideXml,
-            "application/xml"
-          );
+            .parseFromString(
+              slideXml,
+              "application/xml"
+            );
 
 
         const blips =
@@ -1672,12 +2792,15 @@ async function procurar(){
           );
 
 
-        for(const blip of blips){
+        for(
+          const blip of blips
+        ){
 
           const rid =
             blip.getAttribute(
               "r:embed"
-            ) ||
+            )
+            ||
             blip.getAttribute(
               "embed"
             );
@@ -1718,10 +2841,18 @@ async function procurar(){
             usos[target].push(
               num
             );
+
           }
+
         }
+
       }
 
+
+
+      /* =============================================
+         COMPARAR IMAGENS
+      ============================================= */
 
       for(
         let i=0;
@@ -1746,7 +2877,8 @@ async function procurar(){
 
 
           const blob =
-            await zip.files[nome]
+            await zip
+              .files[nome]
               .async("blob");
 
 
@@ -1772,7 +2904,8 @@ async function procurar(){
           const desenhosEncontrados =
             slidesDaImagem.map(
               slide =>
-                desenhos[slide] ||
+                desenhos[slide]
+                ||
                 "Desenho não identificado"
             );
 
@@ -1783,7 +2916,8 @@ async function procurar(){
               ppt.name,
 
             nome:
-              nome.split("/").pop(),
+              nome.split("/")
+                .pop(),
 
             blob:
               blob,
@@ -1808,9 +2942,16 @@ async function procurar(){
           );
 
         }
+
       }
+
     }
 
+
+
+    /* ===============================================
+       ORDENAR
+    =============================================== */
 
     todos.sort(
       (a,b) =>
@@ -1818,8 +2959,14 @@ async function procurar(){
     );
 
 
-    area.innerHTML = "";
+    area.innerHTML =
+      "";
 
+
+
+    /* ===============================================
+       NENHUM RESULTADO
+    =============================================== */
 
     if(!todos.length){
 
@@ -1827,6 +2974,11 @@ async function procurar(){
         "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
 
     }else{
+
+
+      /* =============================================
+         TOP 10
+      ============================================= */
 
       const exibidos =
         todos.slice(
@@ -1855,6 +3007,11 @@ async function procurar(){
           "resultado";
 
 
+
+        /* =========================================
+           DESENHO
+        ========================================= */
+
         let desenho =
           "Desenho não identificado";
 
@@ -1870,49 +3027,75 @@ async function procurar(){
                 x &&
                 x !==
                 "Desenho não identificado"
-            ) ||
+            )
+            ||
             r.desenhos[0];
+
         }
 
+
+
+        /* =========================================
+           INFORMAÇÕES
+        ========================================= */
 
         div.innerHTML =
 
           '<div class="tag">'+
+
           'Resultado '+
+
           (i+1)+
+
           '</div>'+
 
+
           '<div class="desenho">'+
+
           '<b>📋 Desenho:</b><br>'+
+
           escapeHtml(
             desenho
           )+
+
           '</div>'+
+
 
           '<div class="dados">'+
 
           '<b>📁 PowerPoint:</b> '+
+
           escapeHtml(
             r.arquivo
           )+
 
           '<br>'+
 
+
           '<b>📄 Slide:</b> '+
+
           (
             r.slides.length
-            ? r.slides.join(", ")
-            : "não identificado"
+              ? r.slides.join(", ")
+              : "não identificado"
           )+
 
           '<br>'+
 
+
           '<b>🔎 Semelhança visual:</b> '+
+
           r.score.toFixed(1)+
+
           '%'+
 
           '</div>';
 
+
+
+        /* =========================================
+           IMAGEM
+        ========================================= */
 
         const img =
           document.createElement(
@@ -1934,6 +3117,11 @@ async function procurar(){
           img
         );
 
+
+
+        /* =========================================
+           BOTÃO
+        ========================================= */
 
         const abrir =
           document.createElement(
@@ -1962,32 +3150,24 @@ async function procurar(){
           div
         );
 
-
-        if(
-          i <
-          exibidos.length-1
-        ){
-
-          const sep =
-            document.createElement(
-              "div"
-            );
-
-          sep.className =
-            "separador";
-
-          area.appendChild(
-            sep
-          );
-        }
       }
+
     }
 
 
+
+    /* ===============================================
+       FINAL
+    =============================================== */
+
     status.innerText =
+
       "✅ Busca concluída em "+
+
       ppts.length+
+
       " PowerPoint(s). "+
+
       "Foram mostrados os 10 melhores resultados.";
 
 
@@ -1999,25 +3179,28 @@ async function procurar(){
 
 
     status.innerHTML =
-      '<span class="erro">'+
-      '❌ Erro ao ler o PowerPoint: '+
+
+      "❌ Erro ao ler o PowerPoint: "+
+
       escapeHtml(
         erro.message ||
         erro
-      )+
-      '</span>';
+      );
 
 
   }finally{
 
     btn.disabled =
       false;
+
   }
+
 }
 
 
+
 /* =====================================================
-   BOTÃO
+   BOTÃO PROCURAR
 ===================================================== */
 
 document
@@ -2028,5 +3211,8 @@ document
   );
 
 </script>
+
+
 </body>
+
 </html>
