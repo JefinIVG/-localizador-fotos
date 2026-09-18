@@ -171,8 +171,6 @@ body{
     );
 }
 
-
-
 .hero-content{
   position:relative;
   z-index:3;
@@ -624,46 +622,6 @@ body{
   margin:0;
 }
 
-.resultado .tag{
-  font-size:0;
-}
-
-.resultado .tag::after{
-  content:"";
-  font-size:11px;
-}
-
-.resultado:nth-child(1) .tag::after{
-  content:"98,7%";
-}
-.resultado:nth-child(2) .tag::after{
-  content:"96,3%";
-}
-.resultado:nth-child(3) .tag::after{
-  content:"94,8%";
-}
-.resultado:nth-child(4) .tag::after{
-  content:"92,5%";
-}
-.resultado:nth-child(5) .tag::after{
-  content:"90,2%";
-}
-.resultado:nth-child(6) .tag::after{
-  content:"88,6%";
-}
-.resultado:nth-child(7) .tag::after{
-  content:"86,4%";
-}
-.resultado:nth-child(8) .tag::after{
-  content:"83,9%";
-}
-.resultado:nth-child(9) .tag::after{
-  content:"81,7%";
-}
-.resultado:nth-child(10) .tag::after{
-  content:"79,2%";
-}
-
 .desenho{
   background:transparent;
   border:0;
@@ -742,6 +700,169 @@ body{
 }
 
 /* =========================
+   TELA DE HISTÓRICO
+========================= */
+
+#telaHistorico{
+  display:none;
+  min-height:calc(100vh - 48px);
+  padding:20px 25px 25px;
+}
+
+.historico-container{
+  background:
+    linear-gradient(145deg,rgba(5,34,58,.96),rgba(3,24,42,.96));
+  border:1px solid rgba(40,126,214,.68);
+  border-radius:10px;
+  padding:20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.025),
+    0 5px 18px rgba(0,0,0,.18);
+}
+
+.historico-topo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  gap:15px;
+}
+
+.historico-titulo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:25px;
+  font-weight:800;
+}
+
+.historico-titulo-icon{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#0878ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+.btn-voltar{
+  width:auto !important;
+  min-width:190px;
+  height:40px !important;
+  margin:0 !important;
+  padding:0 18px !important;
+  background:#0878ff !important;
+  border-radius:8px !important;
+  color:#fff;
+  font-size:12px !important;
+  font-weight:bold;
+}
+
+.btn-limpar-historico{
+  width:auto !important;
+  height:40px !important;
+  margin:0 !important;
+  padding:0 18px !important;
+  background:#263f57 !important;
+  border:1px solid #42617e !important;
+  border-radius:8px !important;
+  color:#fff;
+  font-size:12px !important;
+  font-weight:bold;
+}
+
+.historico-acoes{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.historico-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+}
+
+.historico-item{
+  position:relative;
+  min-width:0;
+  background:
+    linear-gradient(150deg,#06233b,#041a2e);
+  border:1px solid rgba(33,105,163,.68);
+  border-radius:9px;
+  padding:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.historico-numero{
+  position:absolute;
+  top:8px;
+  left:8px;
+  z-index:3;
+  background:#0878ff;
+  color:#fff;
+  border-radius:15px;
+  padding:4px 8px;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.historico-imagem{
+  width:100%;
+  height:145px;
+  object-fit:contain;
+  display:block;
+  background:#031321;
+  border-radius:7px;
+  margin-bottom:10px;
+}
+
+.historico-nome{
+  font-size:11px;
+  font-weight:bold;
+  line-height:1.35;
+  word-break:break-word;
+  color:#fff;
+  min-height:31px;
+}
+
+.historico-data{
+  color:#9fb7ce;
+  font-size:9px;
+  margin-top:7px;
+}
+
+.historico-abrir{
+  width:100% !important;
+  height:30px !important;
+  margin-top:9px !important;
+  background:#0878ff !important;
+  font-size:10px !important;
+}
+
+.historico-vazio{
+  padding:60px 20px;
+  text-align:center;
+  color:#9fb7ce;
+  border:1px dashed #315a7e;
+  border-radius:10px;
+}
+
+.historico-vazio-icon{
+  font-size:45px;
+  margin-bottom:12px;
+}
+
+.historico-vazio-titulo{
+  font-size:18px;
+  font-weight:bold;
+  color:#fff;
+  margin-bottom:7px;
+}
+
+/* =========================
    RODAPÉ
 ========================= */
 
@@ -781,6 +902,7 @@ body{
 ========================= */
 
 @media(max-width:1100px){
+
   .cards-top{
     grid-template-columns:1fr 1fr;
   }
@@ -793,6 +915,10 @@ body{
     grid-template-columns:repeat(3,1fr);
   }
 
+  .historico-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
   .info-strip{
     grid-template-columns:1fr 1fr;
     gap:10px;
@@ -802,9 +928,11 @@ body{
   .info-item:nth-child(4){
     border-left:0;
   }
+
 }
 
 @media(max-width:800px){
+
   .sidebar{
     width:70px;
     min-width:70px;
@@ -862,9 +990,20 @@ body{
   #resultados{
     grid-template-columns:repeat(2,1fr);
   }
+
+  .historico-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .historico-topo{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
 }
 
 @media(max-width:560px){
+
   .workspace{
     padding:8px;
   }
@@ -903,6 +1042,28 @@ body{
     grid-template-columns:1fr;
   }
 
+  .historico-grid{
+    grid-template-columns:1fr;
+  }
+
+  #telaHistorico{
+    padding:8px;
+  }
+
+  .historico-container{
+    padding:12px;
+  }
+
+  .historico-acoes{
+    width:100%;
+    flex-direction:column;
+  }
+
+  .btn-voltar,
+  .btn-limpar-historico{
+    width:100% !important;
+  }
+
   .footer{
     padding:0 10px;
   }
@@ -910,6 +1071,7 @@ body{
   .footer-left{
     gap:10px;
   }
+
 }
 </style>
 </head>
@@ -919,7 +1081,7 @@ body{
 <div class="app">
 
   <!-- =========================
-       SIDEBAR
+       MENU LATERAL
   ========================== -->
 
   <aside class="sidebar">
@@ -930,19 +1092,24 @@ body{
 
     <div class="menu">
 
-      <div class="menu-item active">
+      <!-- INÍCIO -->
+      <div class="menu-item active" id="menuInicio">
+
         <span class="menu-icon">⌂</span>
+
         <span>Início</span>
+
       </div>
 
-     
 
-      <div class="menu-item">
+      <!-- HISTÓRICO -->
+      <div class="menu-item" id="menuHistorico">
+
         <span class="menu-icon">◔</span>
-        <span>Histórico</span>
-      </div>
 
-    
+        <span>Histórico</span>
+
+      </div>
 
     </div>
 
@@ -970,231 +1137,364 @@ body{
 
   <main class="main">
 
-    <!-- HERO -->
-
-    <section class="hero">
-
-      <img
-        class="hero-image"
-        src="IMG_6447.jpeg"
-        alt="Caminhão IVECO"
-      >
-
-     
-      <div class="hero-blue"></div>
-
-      <div class="hero-content">
-
-        <div>
-          <h1 class="hero-title">
-            Localizador de <span>Fotos</span>
-          </h1>
-
-          <p class="hero-subtitle">
-            Encontre rapidamente imagens nos seus PowerPoints.
-          </p>
-        </div>
-
-      </div>
-
-      <div class="hero-logo">
-        IVECO
-      </div>
-
-    </section>
-
-
     <!-- =========================
-         ÁREA DE SELEÇÃO
+         TELA INICIAL
     ========================== -->
 
-    <div class="workspace">
+    <div id="telaInicio">
 
-      <div class="cards-top">
+      <!-- HERO -->
 
+      <section class="hero">
 
-        <!-- FOTO -->
+        <img
+          class="hero-image"
+          src="IMG_6447.jpeg"
+          alt="Caminhão IVECO"
+        >
 
-        <div class="card input-card">
+        <div class="hero-blue"></div>
 
-          <div class="card-title">
-            <div class="number">1</div>
-            <span>Foto para procurar</span>
-          </div>
-
-          <div class="drop-zone">
-
-            <div class="drop-icon">▧</div>
-
-            <div class="drop-text">
-              Clique para selecionar uma imagem<br>
-              ou arraste aqui
-            </div>
-
-            <input
-              class="drop-input"
-              type="file"
-              id="foto"
-              accept="image/*"
-            >
-
-          </div>
-
-          <div class="preview-wrap">
-
-            <img
-              id="preview"
-              alt="Imagem selecionada"
-            >
-
-            <div
-              class="remove-preview"
-              id="removePreview"
-            >
-              ×
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- POWERPOINTS -->
-
-        <div class="card input-card">
-
-          <div class="card-title">
-            <div class="number">2</div>
-            <span>PowerPoints</span>
-          </div>
-
-          <div class="drop-zone ppt-drop">
-
-            <div class="drop-icon">▤</div>
-
-            <div class="drop-text">
-              Clique para selecionar vários<br>
-              PowerPoints (.pptx)
-            </div>
-
-            <input
-              class="drop-input"
-              type="file"
-              id="ppt"
-              accept=".pptx"
-              multiple
-            >
-
-          </div>
-
-          <p class="ppt-help">
-            Você pode selecionar vários arquivos de uma vez.
-          </p>
-
-          <div
-            class="file-list"
-            id="fileList"
-          ></div>
-
-        </div>
-
-
-        <!-- BUSCA -->
-
-        <div class="card search-card">
-
-          <div class="search-bg"></div>
-
-          <div class="search-content">
-
-            <div class="search-icon">
-              ◉
-            </div>
-
-            <div class="search-title">
-              Busca com<br>
-              precisão e agilidade
-            </div>
-
-            <p class="search-description">
-              Nossa ferramenta encontra
-              as imagens que você precisa
-              nos seus PowerPoints.
-            </p>
-
-            <button id="btn">
-              ⌕ &nbsp; PROCURAR FOTO
-            </button>
-
-            <p id="status"></p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- =========================
-           INFORMAÇÕES
-      ========================== -->
-
-      <div class="info-strip">
-
-        <div class="info-header">
-          <div class="info-circle">i</div>
+        <div class="hero-content">
 
           <div>
-            <b>O resultado mostrará:</b>
+
+            <h1 class="hero-title">
+              Localizador de <span>Fotos</span>
+            </h1>
+
+            <p class="hero-subtitle">
+              Encontre rapidamente imagens nos seus PowerPoints.
+            </p>
+
           </div>
+
         </div>
 
-        <div class="info-item">
-          <div class="info-label">Desenho:</div>
-          <div class="info-example">
-            &amp;V 001 - 3800395 - TIRANTE
-          </div>
+        <div class="hero-logo">
+          IVECO
         </div>
 
-        <div class="info-item">
-          <div class="info-label">PowerPoint:</div>
-          <div class="info-example">
-            nome do PowerPoint
+      </section>
+
+
+      <!-- =========================
+           ÁREA DE SELEÇÃO
+      ========================== -->
+
+      <div class="workspace">
+
+        <div class="cards-top">
+
+          <!-- FOTO -->
+
+          <div class="card input-card">
+
+            <div class="card-title">
+
+              <div class="number">
+                1
+              </div>
+
+              <span>
+                Foto para procurar
+              </span>
+
+            </div>
+
+
+            <div class="drop-zone">
+
+              <div class="drop-icon">
+                ▧
+              </div>
+
+              <div class="drop-text">
+
+                Clique para selecionar uma imagem<br>
+                ou arraste aqui
+
+              </div>
+
+              <input
+                class="drop-input"
+                type="file"
+                id="foto"
+                accept="image/*"
+              >
+
+            </div>
+
+
+            <div class="preview-wrap">
+
+              <img
+                id="preview"
+                alt="Imagem selecionada"
+              >
+
+              <div
+                class="remove-preview"
+                id="removePreview"
+              >
+                ×
+              </div>
+
+            </div>
+
           </div>
+
+
+          <!-- POWERPOINTS -->
+
+          <div class="card input-card">
+
+            <div class="card-title">
+
+              <div class="number">
+                2
+              </div>
+
+              <span>
+                PowerPoints
+              </span>
+
+            </div>
+
+
+            <div class="drop-zone ppt-drop">
+
+              <div class="drop-icon">
+                ▤
+              </div>
+
+              <div class="drop-text">
+
+                Clique para selecionar vários<br>
+                PowerPoints (.pptx)
+
+              </div>
+
+              <input
+                class="drop-input"
+                type="file"
+                id="ppt"
+                accept=".pptx"
+                multiple
+              >
+
+            </div>
+
+
+            <p class="ppt-help">
+              Você pode selecionar vários arquivos de uma vez.
+            </p>
+
+
+            <div
+              class="file-list"
+              id="fileList"
+            ></div>
+
+          </div>
+
+
+          <!-- BUSCA -->
+
+          <div class="card search-card">
+
+            <div class="search-bg"></div>
+
+            <div class="search-content">
+
+              <div class="search-icon">
+                ◉
+              </div>
+
+              <div class="search-title">
+
+                Busca com<br>
+                precisão e agilidade
+
+              </div>
+
+
+              <p class="search-description">
+
+                Nossa ferramenta encontra
+                as imagens que você precisa
+                nos seus PowerPoints.
+
+              </p>
+
+
+              <button id="btn">
+
+                ⌕ &nbsp; PROCURAR FOTO
+
+              </button>
+
+
+              <p id="status"></p>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="info-item">
-          <div class="info-label">Slide:</div>
-          <div class="info-example">
-            número do slide
+
+        <!-- =========================
+             INFORMAÇÕES
+        ========================== -->
+
+        <div class="info-strip">
+
+          <div class="info-header">
+
+            <div class="info-circle">
+              i
+            </div>
+
+            <div>
+              <b>O resultado mostrará:</b>
+            </div>
+
           </div>
+
+
+          <div class="info-item">
+
+            <div class="info-label">
+              Desenho:
+            </div>
+
+            <div class="info-example">
+              &amp;V 001 - 3800395 - TIRANTE
+            </div>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <div class="info-label">
+              PowerPoint:
+            </div>
+
+            <div class="info-example">
+              nome do PowerPoint
+            </div>
+
+          </div>
+
+
+          <div class="info-item">
+
+            <div class="info-label">
+              Slide:
+            </div>
+
+            <div class="info-example">
+              número do slide
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             RESULTADOS
+        ========================== -->
+
+        <div class="results-card">
+
+          <div class="results-header">
+
+            <div class="results-title">
+
+              <span class="results-title-icon">
+                ▣
+              </span>
+
+              <span>
+                Resultados
+              </span>
+
+            </div>
+
+
+            <div class="top-results">
+
+              ★ &nbsp; 10 melhores resultados
+
+            </div>
+
+          </div>
+
+
+          <div id="resultados">
+
+            Os resultados aparecerão aqui.
+
+          </div>
+
         </div>
 
       </div>
 
+    </div>
 
-      <!-- =========================
-           RESULTADOS
-      ========================== -->
 
-      <div class="results-card">
+    <!-- ==================================================
+         TELA DE HISTÓRICO
+    ================================================== -->
 
-        <div class="results-header">
+    <div id="telaHistorico">
 
-          <div class="results-title">
-            <span class="results-title-icon">▣</span>
-            <span>Resultados</span>
+      <div class="historico-container">
+
+        <div class="historico-topo">
+
+          <div class="historico-titulo">
+
+            <div class="historico-titulo-icon">
+              ◔
+            </div>
+
+            <div>
+              Histórico
+            </div>
+
           </div>
 
-          <div class="top-results">
-            ★ &nbsp; 10 melhores resultados
+
+          <div class="historico-acoes">
+
+            <button
+              class="btn-limpar-historico"
+              id="btnLimparHistorico"
+            >
+              🗑️ Limpar histórico
+            </button>
+
+            <button
+              class="btn-voltar"
+              id="btnVoltarInicio"
+            >
+              ← Voltar para o início
+            </button>
+
           </div>
 
         </div>
 
-        <div id="resultados">
-          Os resultados aparecerão aqui.
-        </div>
+
+        <div
+          class="historico-grid"
+          id="historicoGrid"
+        ></div>
 
       </div>
 
@@ -1219,11 +1519,15 @@ body{
 
       </div>
 
+
       <div class="footer-right">
+
         ♢
+
         <span>
           Tudo processado no seu computador
         </span>
+
       </div>
 
     </footer>
@@ -1241,211 +1545,762 @@ body{
 <script>
 
 /* ==========================================================
-   CÓDIGO ORIGINAL
-   ========================================================== */
+   VARIÁVEIS
+========================================================== */
 
 let foto = null;
 
-document.getElementById("foto").onchange = function(){
 
-  foto = this.files[0];
+/* ==========================================================
+   HISTÓRICO
+========================================================== */
 
-  if(foto){
+function obterHistorico(){
 
-    const img = document.getElementById("preview");
+  try{
 
-    img.src = URL.createObjectURL(foto);
-    img.style.display = "block";
+    return JSON.parse(
+      localStorage.getItem("historicoFotosIveco") || "[]"
+    );
 
-    // Adiciona automaticamente ao histórico
-    adicionarFotoAoHistorico(foto);
+  }catch(e){
+
+    return [];
+
   }
-};
 
-    document.getElementById("removePreview").style.display = "flex";
+}
+
+
+function salvarHistorico(historico){
+
+  try{
+
+    localStorage.setItem(
+      "historicoFotosIveco",
+      JSON.stringify(historico)
+    );
+
+  }catch(e){
+
+    console.warn(
+      "Não foi possível salvar o histórico.",
+      e
+    );
 
   }
 
-};
+}
+
+
+function adicionarFotoAoHistorico(arquivo){
+
+  if(!arquivo)
+    return;
+
+
+  const leitor = new FileReader();
+
+
+  leitor.onload = function(e){
+
+    const historico = obterHistorico();
+
+
+    const novoItem = {
+
+      nome: arquivo.name,
+
+      imagem: e.target.result,
+
+      data: new Date().toLocaleString("pt-BR")
+
+    };
+
+
+    /*
+      Coloca a imagem mais recente
+      no início do histórico.
+    */
+
+    historico.unshift(novoItem);
+
+
+    /*
+      Evita guardar infinitamente.
+      Aqui ficam as 50 últimas imagens.
+    */
+
+    const limitado =
+      historico.slice(0,50);
+
+
+    salvarHistorico(limitado);
+
+  };
+
+
+  leitor.readAsDataURL(arquivo);
+
+}
+
+
+/* ==========================================================
+   MOSTRAR HISTÓRICO
+========================================================== */
+
+function mostrarHistorico(){
+
+  const telaInicio =
+    document.getElementById("telaInicio");
+
+  const telaHistorico =
+    document.getElementById("telaHistorico");
+
+  const menuInicio =
+    document.getElementById("menuInicio");
+
+  const menuHistorico =
+    document.getElementById("menuHistorico");
+
+
+  telaInicio.style.display = "none";
+
+  telaHistorico.style.display = "block";
+
+
+  menuInicio.classList.remove("active");
+
+  menuHistorico.classList.add("active");
+
+
+  carregarHistorico();
+
+}
+
+
+/* ==========================================================
+   MOSTRAR INÍCIO
+========================================================== */
+
+function mostrarInicio(){
+
+  const telaInicio =
+    document.getElementById("telaInicio");
+
+  const telaHistorico =
+    document.getElementById("telaHistorico");
+
+  const menuInicio =
+    document.getElementById("menuInicio");
+
+  const menuHistorico =
+    document.getElementById("menuHistorico");
+
+
+  telaHistorico.style.display = "none";
+
+  telaInicio.style.display = "block";
+
+
+  menuHistorico.classList.remove("active");
+
+  menuInicio.classList.add("active");
+
+}
+
+
+/* ==========================================================
+   CARREGAR HISTÓRICO NA TELA
+========================================================== */
+
+function carregarHistorico(){
+
+  const area =
+    document.getElementById("historicoGrid");
+
+
+  const historico =
+    obterHistorico();
+
+
+  area.innerHTML = "";
+
+
+  if(!historico.length){
+
+    area.innerHTML = `
+
+      <div class="historico-vazio"
+           style="grid-column:1/-1;">
+
+        <div class="historico-vazio-icon">
+          ◫
+        </div>
+
+        <div class="historico-vazio-titulo">
+          Nenhuma imagem no histórico
+        </div>
+
+        <div>
+          As imagens que você selecionar
+          aparecerão aqui automaticamente.
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  historico.forEach(function(item,index){
+
+    const card =
+      document.createElement("div");
+
+
+    card.className =
+      "historico-item";
+
+
+    card.innerHTML = `
+
+      <div class="historico-numero">
+        ${index + 1}
+      </div>
+
+      <img
+        class="historico-imagem"
+        src="${item.imagem}"
+        alt="Imagem do histórico"
+      >
+
+      <div class="historico-nome">
+        ${escapeHtml(item.nome)}
+      </div>
+
+      <div class="historico-data">
+        Selecionada em: ${escapeHtml(item.data)}
+      </div>
+
+      <button
+        class="historico-abrir"
+        type="button"
+      >
+        ▧ Abrir imagem
+      </button>
+
+    `;
+
+
+    const imagem =
+      card.querySelector(".historico-imagem");
+
+
+    const botao =
+      card.querySelector(".historico-abrir");
+
+
+    botao.onclick = function(){
+
+      const janela =
+        window.open("", "_blank");
+
+
+      if(!janela)
+        return;
+
+
+      janela.document.write(`
+
+        <!DOCTYPE html>
+
+        <html lang="pt-BR">
+
+        <head>
+
+          <meta charset="UTF-8">
+
+          <title>
+            ${escapeHtml(item.nome)}
+          </title>
+
+          <style>
+
+            body{
+              margin:0;
+              background:#020d19;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              min-height:100vh;
+            }
+
+            img{
+              max-width:95vw;
+              max-height:95vh;
+              object-fit:contain;
+            }
+
+          </style>
+
+        </head>
+
+        <body>
+
+          <img
+            src="${item.imagem}"
+            alt="Imagem"
+          >
+
+        </body>
+
+        </html>
+
+      `);
+
+      janela.document.close();
+
+    };
+
+
+    area.appendChild(card);
+
+  });
+
+}
+
+
+/* ==========================================================
+   BOTÃO HISTÓRICO
+========================================================== */
+
+document
+  .getElementById("menuHistorico")
+  .addEventListener(
+    "click",
+    mostrarHistorico
+  );
+
+
+/* ==========================================================
+   BOTÃO INÍCIO
+========================================================== */
+
+document
+  .getElementById("menuInicio")
+  .addEventListener(
+    "click",
+    mostrarInicio
+  );
+
+
+/* ==========================================================
+   BOTÃO VOLTAR
+========================================================== */
+
+document
+  .getElementById("btnVoltarInicio")
+  .addEventListener(
+    "click",
+    mostrarInicio
+  );
+
+
+/* ==========================================================
+   LIMPAR HISTÓRICO
+========================================================== */
+
+document
+  .getElementById("btnLimparHistorico")
+  .addEventListener(
+    "click",
+    function(){
+
+      const historico =
+        obterHistorico();
+
+
+      if(!historico.length){
+
+        alert(
+          "O histórico já está vazio."
+        );
+
+        return;
+
+      }
+
+
+      const confirmar =
+        confirm(
+          "Deseja realmente apagar todo o histórico de imagens?"
+        );
+
+
+      if(!confirmar)
+        return;
+
+
+      localStorage.removeItem(
+        "historicoFotosIveco"
+      );
+
+
+      carregarHistorico();
+
+    }
+  );
+
+
+/* ==========================================================
+   SELEÇÃO DA FOTO
+========================================================== */
+
+document
+  .getElementById("foto")
+  .onchange = function(){
+
+    foto = this.files[0];
+
+
+    if(foto){
+
+      const img =
+        document.getElementById("preview");
+
+
+      img.src =
+        URL.createObjectURL(foto);
+
+
+      img.style.display =
+        "block";
+
+
+      document
+        .getElementById("removePreview")
+        .style.display =
+        "flex";
+
+
+      /*
+        ADICIONA AUTOMATICAMENTE
+        AO HISTÓRICO
+      */
+
+      adicionarFotoAoHistorico(foto);
+
+    }
+
+  };
 
 
 /* ==========================================================
    REMOVER PREVIEW
-   ========================================================== */
+========================================================== */
 
-document.getElementById("removePreview").onclick = function(){
+document
+  .getElementById("removePreview")
+  .onclick = function(){
 
-  document.getElementById("foto").value = "";
+    document
+      .getElementById("foto")
+      .value = "";
 
-  foto = null;
 
-  document.getElementById("preview").src = "";
+    foto = null;
 
-  document.getElementById("preview").style.display = "none";
 
-  this.style.display = "none";
+    document
+      .getElementById("preview")
+      .src = "";
 
-};
+
+    document
+      .getElementById("preview")
+      .style.display = "none";
+
+
+    this.style.display =
+      "none";
+
+  };
 
 
 /* ==========================================================
    LISTA DE POWERPOINTS
-   ========================================================== */
+========================================================== */
 
-document.getElementById("ppt").onchange = function(){
+document
+  .getElementById("ppt")
+  .onchange = function(){
 
-  const lista = document.getElementById("fileList");
+    const lista =
+      document.getElementById("fileList");
 
-  lista.innerHTML = "";
 
-  const arquivos = Array.from(this.files);
+    lista.innerHTML = "";
 
-  for(const arquivo of arquivos){
 
-    const item = document.createElement("div");
+    const arquivos =
+      Array.from(this.files);
 
-    item.className = "file-item";
 
-    const tamanhoMB =
-      (arquivo.size / 1024 / 1024).toFixed(1);
+    for(const arquivo of arquivos){
 
-    item.innerHTML =
-      '<div class="ppt-icon">P</div>' +
-      '<div class="file-name">' +
-      escapeHtml(arquivo.name) +
-      '</div>' +
-      '<div class="file-size">' +
-      tamanhoMB +
-      ' MB</div>';
+      const item =
+        document.createElement("div");
 
-    lista.appendChild(item);
 
-  }
+      item.className =
+        "file-item";
 
-};
 
+      const tamanhoMB =
+        (
+          arquivo.size /
+          1024 /
+          1024
+        ).toFixed(1);
+
+
+      item.innerHTML =
+
+        '<div class="ppt-icon">P</div>' +
+
+        '<div class="file-name">' +
+
+        escapeHtml(
+          arquivo.name
+        ) +
+
+        '</div>' +
+
+        '<div class="file-size">' +
+
+        tamanhoMB +
+
+        ' MB</div>';
+
+
+      lista.appendChild(item);
+
+    }
+
+  };
+
+
+/* ==========================================================
+   NORMALIZAR CAMINHO
+========================================================== */
 
 function normalizarCaminho(base,target){
 
-  const partes=(base+"/"+target).split("/");
+  const partes =
+    (base + "/" + target)
+      .split("/");
 
-  const saida=[];
+
+  const saida = [];
+
 
   for(const p of partes){
 
-    if(!p || p===".") continue;
+    if(!p || p === ".")
+      continue;
 
-    if(p==="..")
+
+    if(p === "..")
       saida.pop();
+
     else
       saida.push(p);
 
   }
 
+
   return saida.join("/");
+
 }
 
+
+/* ==========================================================
+   TEXTO
+========================================================== */
 
 async function texto(zip,nome){
 
-  if(!zip.files[nome]) return "";
+  if(!zip.files[nome])
+    return "";
 
-  return await zip.files[nome].async("text");
+
+  return await zip.files[nome]
+    .async("text");
 
 }
 
 
+/* ==========================================================
+   RELACIONAMENTOS
+========================================================== */
+
 function extrairRelacionamentos(xml){
 
-  const mapa={};
+  const mapa = {};
 
-  const doc=new DOMParser()
-    .parseFromString(xml,"application/xml");
 
-  const relacoes=Array.from(
-    doc.getElementsByTagName("Relationship")
-  );
+  const doc =
+    new DOMParser()
+      .parseFromString(
+        xml,
+        "application/xml"
+      );
+
+
+  const relacoes =
+    Array.from(
+      doc.getElementsByTagName(
+        "Relationship"
+      )
+    );
+
 
   for(const rel of relacoes){
 
-    const id=rel.getAttribute("Id");
+    const id =
+      rel.getAttribute("Id");
 
-    const target=rel.getAttribute("Target");
+
+    const target =
+      rel.getAttribute("Target");
+
 
     if(id && target)
-      mapa[id]=target;
+      mapa[id] = target;
 
   }
+
 
   return mapa;
 
 }
 
 
+/* ==========================================================
+   TEXTOS DO SLIDE
+========================================================== */
+
 function extrairTextosDoSlide(xml){
 
-  const doc=new DOMParser()
-    .parseFromString(xml,"application/xml");
+  const doc =
+    new DOMParser()
+      .parseFromString(
+        xml,
+        "application/xml"
+      );
 
-  const textos=[];
 
-  const paragrafos=Array.from(
-    doc.getElementsByTagName("a:p")
-  );
+  const textos = [];
+
+
+  const paragrafos =
+    Array.from(
+      doc.getElementsByTagName(
+        "a:p"
+      )
+    );
+
 
   for(const p of paragrafos){
 
-    const partes=Array.from(
-      p.getElementsByTagName("a:t")
-    );
+    const partes =
+      Array.from(
+        p.getElementsByTagName(
+          "a:t"
+        )
+      );
 
-    let texto="";
+
+    let texto = "";
+
 
     for(const t of partes){
 
-      texto+=t.textContent||"";
+      texto +=
+        t.textContent || "";
 
     }
 
-    texto=texto
-      .replace(/\s+/g," ")
-      .trim();
+
+    texto =
+      texto
+        .replace(/\s+/g," ")
+        .trim();
+
 
     if(texto)
       textos.push(texto);
 
   }
 
+
   return textos;
 
 }
 
 
+/* ==========================================================
+   ENCONTRAR DESENHO
+========================================================== */
+
 function encontrarDesenho(xml){
 
-  const textos=extrairTextosDoSlide(xml);
+  const textos =
+    extrairTextosDoSlide(xml);
 
-  for(const textoOriginal of textos){
 
-    const texto=textoOriginal.trim();
+  for(
+    const textoOriginal
+    of textos
+  ){
 
-    if(/^Desenho\s*\/?/i.test(texto)){
+    const texto =
+      textoOriginal.trim();
 
-      let conteudo=texto
-        .replace(/^Desenho\s*\/?\s*/i,"")
-        .trim();
 
-      const partes=conteudo
-        .split(/\s+-\s+/);
+    if(
+      /^Desenho\s*\/?/i
+        .test(texto)
+    ){
 
-      if(partes.length>=3){
-
-        conteudo=partes
-          .slice(0,3)
-          .join(" - ")
+      let conteudo =
+        texto
+          .replace(
+            /^Desenho\s*\/?\s*/i,
+            ""
+          )
           .trim();
 
+
+      const partes =
+        conteudo
+          .split(/\s+-\s+/);
+
+
+      if(partes.length >= 3){
+
+        conteudo =
+          partes
+            .slice(0,3)
+            .join(" - ")
+            .trim();
+
       }
+
 
       return conteudo;
 
@@ -1453,71 +2308,116 @@ function encontrarDesenho(xml){
 
   }
 
+
   return "Desenho não identificado";
 
 }
 
 
+/* ==========================================================
+   IMAGEM DO BLOB
+========================================================== */
+
 async function imagemDoBlob(blob){
 
-  return await new Promise((resolve,reject)=>{
+  return await new Promise(
+    (resolve,reject)=>{
 
-    const url=URL.createObjectURL(blob);
+      const url =
+        URL.createObjectURL(blob);
 
-    const img=new Image();
 
-    img.onload=()=>{
+      const img =
+        new Image();
 
-      URL.revokeObjectURL(url);
 
-      resolve(img);
+      img.onload = ()=>{
 
-    };
+        URL.revokeObjectURL(url);
 
-    img.onerror=()=>{
+        resolve(img);
 
-      URL.revokeObjectURL(url);
+      };
 
-      reject(new Error("Imagem inválida"));
 
-    };
+      img.onerror = ()=>{
 
-    img.src=url;
+        URL.revokeObjectURL(url);
 
-  });
+        reject(
+          new Error("Imagem inválida")
+        );
+
+      };
+
+
+      img.src = url;
+
+    }
+  );
 
 }
 
 
+/* ==========================================================
+   ASSINATURA DA IMAGEM
+========================================================== */
+
 async function assinatura(blob){
 
-  const img=await imagemDoBlob(blob);
+  const img =
+    await imagemDoBlob(blob);
 
-  const w=48,h=48;
 
-  const canvas=document.createElement("canvas");
+  const w = 48;
+  const h = 48;
 
-  canvas.width=w;
 
-  canvas.height=h;
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
 
-  const ctx=canvas.getContext(
-    "2d",
-    {willReadFrequently:true}
+
+  canvas.width = w;
+  canvas.height = h;
+
+
+  const ctx =
+    canvas.getContext(
+      "2d",
+      {
+        willReadFrequently:true
+      }
+    );
+
+
+  ctx.fillStyle = "#fff";
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
   );
 
-  ctx.fillStyle="#fff";
 
-  ctx.fillRect(0,0,w,h);
+  const escala =
+    Math.min(
+      w / img.naturalWidth,
+      h / img.naturalHeight
+    );
 
-  const escala=Math.min(
-    w/img.naturalWidth,
-    h/img.naturalHeight
-  );
 
-  const dw=img.naturalWidth*escala;
+  const dw =
+    img.naturalWidth *
+    escala;
 
-  const dh=img.naturalHeight*escala;
+
+  const dh =
+    img.naturalHeight *
+    escala;
+
 
   ctx.drawImage(
     img,
@@ -1527,13 +2427,24 @@ async function assinatura(blob){
     dh
   );
 
-  const data=ctx.getImageData(
-    0,0,w,h
-  ).data;
 
-  const cinza=new Float32Array(w*h);
+  const data =
+    ctx.getImageData(
+      0,
+      0,
+      w,
+      h
+    ).data;
 
-  let media=0;
+
+  const cinza =
+    new Float32Array(
+      w*h
+    );
+
+
+  let media = 0;
+
 
   for(
     let i=0,p=0;
@@ -1541,53 +2452,83 @@ async function assinatura(blob){
     i+=4,p++
   ){
 
-    const v=
-      .299*data[i]+
-      .587*data[i+1]+
+    const v =
+      .299*data[i] +
+      .587*data[i+1] +
       .114*data[i+2];
 
-    cinza[p]=v;
 
-    media+=v;
+    cinza[p] = v;
+
+    media += v;
 
   }
 
-  media/=cinza.length;
 
-  let vari=0;
+  media /=
+    cinza.length;
+
+
+  let vari = 0;
+
 
   for(const v of cinza){
 
-    vari+=(v-media)*(v-media);
+    vari +=
+      (v-media) *
+      (v-media);
 
   }
 
-  const desvio=
-    Math.sqrt(vari/cinza.length)||1;
 
-  for(let i=0;i<cinza.length;i++){
+  const desvio =
+    Math.sqrt(
+      vari / cinza.length
+    ) || 1;
 
-    cinza[i]=
-      (cinza[i]-media)/desvio;
+
+  for(
+    let i=0;
+    i<cinza.length;
+    i++
+  ){
+
+    cinza[i] =
+      (cinza[i]-media) /
+      desvio;
 
   }
+
 
   return cinza;
 
 }
 
 
+/* ==========================================================
+   DISTÂNCIA
+========================================================== */
+
 function distancia(a,b){
 
-  let soma=0;
+  let soma = 0;
 
-  for(let i=0;i<a.length;i++){
 
-    const d=a[i]-b[i];
+  for(
+    let i=0;
+    i<a.length;
+    i++
+  ){
 
-    soma+=d*d;
+    const d =
+      a[i]-b[i];
+
+
+    soma +=
+      d*d;
 
   }
+
 
   return Math.sqrt(
     soma/a.length
@@ -1596,50 +2537,95 @@ function distancia(a,b){
 }
 
 
+/* ==========================================================
+   SIMILARIDADE
+========================================================== */
+
 function similaridade(dist){
 
   return Math.max(
     0,
     Math.min(
       100,
-      100*Math.exp(-dist/2.2)
+      100*Math.exp(
+        -dist/2.2
+      )
     )
   );
 
 }
 
 
+/* ==========================================================
+   ESCAPE HTML
+========================================================== */
+
 function escapeHtml(text){
 
   return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
 
+/* ==========================================================
+   PROCURAR
+========================================================== */
+
 async function procurar(){
 
-  const ppts=Array.from(
-    document.getElementById("ppt").files
-  );
+  const ppts =
+    Array.from(
+      document
+        .getElementById("ppt")
+        .files
+    );
 
-  const status=
-    document.getElementById("status");
 
-  const area=
-    document.getElementById("resultados");
+  const status =
+    document
+      .getElementById("status");
 
-  const btn=
-    document.getElementById("btn");
+
+  const area =
+    document
+      .getElementById("resultados");
+
+
+  const btn =
+    document
+      .getElementById("btn");
 
 
   if(!foto){
 
-    alert("Escolha a foto primeiro.");
+    alert(
+      "Escolha a foto primeiro."
+    );
 
     return;
 
@@ -1657,20 +2643,23 @@ async function procurar(){
   }
 
 
-  btn.disabled=true;
+  btn.disabled = true;
 
-  area.innerHTML="";
 
-  status.innerText=
+  area.innerHTML = "";
+
+
+  status.innerText =
     "Iniciando busca...";
 
 
   try{
 
-    const ref=
+    const ref =
       await assinatura(foto);
 
-    const todos=[];
+
+    const todos = [];
 
 
     for(
@@ -1679,105 +2668,122 @@ async function procurar(){
       p++
     ){
 
-      const ppt=ppts[p];
+      const ppt =
+        ppts[p];
 
-      status.innerText=
-        "Lendo PowerPoint "+
-        (p+1)+
-        " de "+
-        ppts.length+
-        ": "+
+
+      status.innerText =
+        "Lendo PowerPoint " +
+        (p+1) +
+        " de " +
+        ppts.length +
+        ": " +
         ppt.name;
 
 
-      const buffer=
+      const buffer =
         await ppt.arrayBuffer();
 
-      const zip=
-        await JSZip.loadAsync(buffer);
 
-      const arquivos=
+      const zip =
+        await JSZip.loadAsync(
+          buffer
+        );
+
+
+      const arquivos =
         Object.keys(zip.files);
 
 
-      const imagens=
+      const imagens =
         arquivos.filter(
-          n=>
-            n.startsWith("ppt/media/") &&
+          n =>
+            n.startsWith(
+              "ppt/media/"
+            ) &&
             /\.(jpg|jpeg|png|webp|bmp|gif|tif|tiff)$/i
               .test(n)
         );
 
 
-      const usos={};
+      const usos = {};
 
-      const desenhos={};
+      const desenhos = {};
 
 
-      const slides=
+      const slides =
         arquivos
+
           .filter(
-            n=>
+            n =>
               /^ppt\/slides\/slide\d+\.xml$/i
                 .test(n)
           )
-          .sort((a,b)=>{
 
-            const na=+(
-              a.match(
-                /slide(\d+)\.xml/i
-              )||[,0]
-            )[1];
+          .sort(
+            (a,b)=>{
 
-            const nb=+(
-              b.match(
-                /slide(\d+)\.xml/i
-              )||[,0]
-            )[1];
-
-            return na-nb;
-
-          });
+              const na = +(
+                a.match(
+                  /slide(\d+)\.xml/i
+                ) || [,0]
+              )[1];
 
 
-      for(const slide of slides){
+              const nb = +(
+                b.match(
+                  /slide(\d+)\.xml/i
+                ) || [,0]
+              )[1];
 
-        const num=+(
+
+              return na-nb;
+
+            }
+          );
+
+
+      for(
+        const slide
+        of slides
+      ){
+
+        const num = +(
           slide.match(
             /slide(\d+)\.xml/i
-          )||[,0]
+          ) || [,0]
         )[1];
 
 
-        const slideXml=
+        const slideXml =
           await texto(
             zip,
             slide
           );
 
 
-        desenhos[num]=
+        desenhos[num] =
           encontrarDesenho(
             slideXml
           );
 
 
-        const relXml=
+        const relXml =
           await texto(
             zip,
-            "ppt/slides/_rels/slide"+
-            num+
+            "ppt/slides/_rels/slide" +
+            num +
             ".xml.rels"
           );
 
 
-        const rels=
+        const rels =
           extrairRelacionamentos(
             relXml
           );
 
 
-        const doc=
+        const doc =
           new DOMParser()
             .parseFromString(
               slideXml,
@@ -1785,7 +2791,7 @@ async function procurar(){
             );
 
 
-        const blips=
+        const blips =
           Array.from(
             doc.getElementsByTagName(
               "a:blip"
@@ -1793,34 +2799,55 @@ async function procurar(){
           );
 
 
-        for(const blip of blips){
+        for(
+          const blip
+          of blips
+        ){
 
-          const rid=
-            blip.getAttribute("r:embed")||
-            blip.getAttribute("embed");
+          const rid =
+            blip.getAttribute(
+              "r:embed"
+            ) ||
+            blip.getAttribute(
+              "embed"
+            );
 
 
-          if(!rid||!rels[rid])
+          if(
+            !rid ||
+            !rels[rid]
+          )
             continue;
 
 
-          const target=
+          const target =
             normalizarCaminho(
               "ppt/slides",
               rels[rid]
             );
 
 
-          if(!target.startsWith("ppt/media/"))
+          if(
+            !target.startsWith(
+              "ppt/media/"
+            )
+          )
             continue;
 
 
           if(!usos[target])
-            usos[target]=[];
+            usos[target] = [];
 
 
-          if(!usos[target].includes(num))
-            usos[target].push(num);
+          if(
+            !usos[target]
+              .includes(num)
+          ){
+
+            usos[target]
+              .push(num);
+
+          }
 
         }
 
@@ -1833,30 +2860,34 @@ async function procurar(){
         i++
       ){
 
-        status.innerText=
-          "Analisando "+
-          ppt.name+
-          " — imagem "+
-          (i+1)+
-          " de "+
-          imagens.length+
+        status.innerText =
+          "Analisando " +
+          ppt.name +
+          " — imagem " +
+          (i+1) +
+          " de " +
+          imagens.length +
           "...";
 
 
         try{
 
-          const nome=imagens[i];
+          const nome =
+            imagens[i];
 
-          const blob=
+
+          const blob =
             await zip.files[nome]
               .async("blob");
 
 
-          const sig=
-            await assinatura(blob);
+          const sig =
+            await assinatura(
+              blob
+            );
 
 
-          const score=
+          const score =
             similaridade(
               distancia(
                 ref,
@@ -1865,24 +2896,26 @@ async function procurar(){
             );
 
 
-          const slidesDaImagem=
-            usos[nome]||[];
+          const slidesDaImagem =
+            usos[nome] || [];
 
 
-          const desenhosEncontrados=
+          const desenhosEncontrados =
             slidesDaImagem.map(
-              slide=>
-                desenhos[slide]||
+              slide =>
+                desenhos[slide] ||
                 "Desenho não identificado"
             );
 
 
           todos.push({
 
-            arquivo:ppt.name,
+            arquivo:
+              ppt.name,
 
             nome:
-              nome.split("/").pop(),
+              nome.split("/")
+                .pop(),
 
             blob,
 
@@ -1912,22 +2945,22 @@ async function procurar(){
 
 
     todos.sort(
-      (a,b)=>
+      (a,b) =>
         b.score-a.score
     );
 
 
-    area.innerHTML="";
+    area.innerHTML = "";
 
 
     if(!todos.length){
 
-      area.innerHTML=
+      area.innerHTML =
         "<p>Nenhuma imagem foi encontrada nos PowerPoints selecionados.</p>";
 
     }else{
 
-      const exibidos=
+      const exibidos =
         todos.slice(0,10);
 
 
@@ -1937,118 +2970,149 @@ async function procurar(){
         i++
       ){
 
-        const r=
+        const r =
           exibidos[i];
 
 
-        const div=
+        const div =
           document.createElement(
             "div"
           );
 
-        div.className=
+
+        div.className =
           "resultado";
 
 
-        let desenho=
+        let desenho =
           "Desenho não identificado";
 
 
         if(
-          r.desenhos&&
+          r.desenhos &&
           r.desenhos.length
         ){
 
-          desenho=
+          desenho =
             r.desenhos.find(
-              x=>
-                x&&
-                x!=="Desenho não identificado"
-            )||
+              x =>
+                x &&
+                x !==
+                "Desenho não identificado"
+            ) ||
             r.desenhos[0];
 
         }
 
 
-        div.innerHTML=
-          '<div class="tag">'+
-          'Resultado '+(i+1)+
-          '</div>'+
+        div.innerHTML =
 
-          '<div class="desenho">'+
-          '<b>Desenho:</b><br>'+
-          escapeHtml(desenho)+
-          '</div>'+
+          '<div class="tag">' +
+          r.score.toFixed(1) +
+          '%' +
+          '</div>' +
 
-          '<div class="dados">'+
-          '<b>PowerPoint:</b> '+
-          escapeHtml(r.arquivo)+
+          '<div class="desenho">' +
 
-          '<br><b>Slide:</b> '+
+          '<b>Desenho:</b><br>' +
+
+          escapeHtml(
+            desenho
+          ) +
+
+          '</div>' +
+
+          '<div class="dados">' +
+
+          '<b>PowerPoint:</b> ' +
+
+          escapeHtml(
+            r.arquivo
+          ) +
+
+          '<br><b>Slide:</b> ' +
+
           (
-            r.slides.length?
-            r.slides.join(", "):
-            "não identificado"
-          )+
+            r.slides.length
+              ? r.slides.join(", ")
+              : "não identificado"
+          ) +
 
-          '<br><b>Semelhança visual:</b> '+
-          r.score.toFixed(1)+
-          '%'+
+          '<br><b>Semelhança visual:</b> ' +
+
+          r.score.toFixed(1) +
+
+          '%' +
 
           '</div>';
 
 
-        const img=
+        const img =
           document.createElement(
             "img"
           );
 
-        img.className=
+
+        img.className =
           "imagem-encontrada";
 
-        img.src=
+
+        img.src =
           URL.createObjectURL(
             r.blob
           );
 
 
-        div.appendChild(img);
+        div.appendChild(
+          img
+        );
 
 
-        const abrir=
+        const abrir =
           document.createElement(
             "button"
           );
 
-        abrir.innerText=
+
+        abrir.innerText =
           "▧  Abrir imagem";
 
 
-        abrir.onclick=()=>
+        abrir.onclick = () =>
           window.open(
             img.src,
             "_blank"
           );
 
 
-        div.appendChild(abrir);
+        div.appendChild(
+          abrir
+        );
 
-        area.appendChild(div);
+
+        area.appendChild(
+          div
+        );
 
 
         if(
-          i<exibidos.length-1
+          i <
+          exibidos.length-1
         ){
 
-          const sep=
+          const sep =
             document.createElement(
               "div"
             );
 
-          sep.className=
+
+          sep.className =
             "separador";
 
-          area.appendChild(sep);
+
+          area.appendChild(
+            sep
+          );
 
         }
 
@@ -2057,32 +3121,44 @@ async function procurar(){
     }
 
 
-    status.innerText=
-      "Busca concluída em "+
-      ppts.length+
+    status.innerText =
+      "Busca concluída em " +
+      ppts.length +
       " PowerPoint(s). Foram mostrados os 10 melhores resultados.";
 
 
   }catch(erro){
 
-    console.error(erro);
+    console.error(
+      erro
+    );
 
-    status.innerHTML=
-      '<span class="erro">'+
-      'Erro ao ler o PowerPoint: '+
+
+    status.innerHTML =
+
+      '<span class="erro">' +
+
+      'Erro ao ler o PowerPoint: ' +
+
       escapeHtml(
-        erro.message||erro
-      )+
+        erro.message ||
+        erro
+      ) +
+
       '</span>';
 
   }finally{
 
-    btn.disabled=false;
+    btn.disabled = false;
 
   }
 
 }
 
+
+/* ==========================================================
+   BOTÃO PROCURAR
+========================================================== */
 
 document
   .getElementById("btn")
@@ -2090,6 +3166,13 @@ document
     "click",
     procurar
   );
+
+
+/* ==========================================================
+   AO ABRIR O SISTEMA
+========================================================== */
+
+carregarHistorico();
 
 </script>
 
