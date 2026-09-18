@@ -935,20 +935,14 @@ body{
         <span>Início</span>
       </div>
 
-      <div class="menu-item">
-        <span class="menu-icon">⌕</span>
-        <span>Localizar Fotos</span>
-      </div>
+     
 
       <div class="menu-item">
         <span class="menu-icon">◔</span>
         <span>Histórico</span>
       </div>
 
-      <div class="menu-item">
-        <span class="menu-icon">⚙️</span>
-        <span>Configurações</span>
-      </div>
+    
 
     </div>
 
@@ -1261,8 +1255,12 @@ document.getElementById("foto").onchange = function(){
     const img = document.getElementById("preview");
 
     img.src = URL.createObjectURL(foto);
-
     img.style.display = "block";
+
+    // Adiciona automaticamente ao histórico
+    adicionarFotoAoHistorico(foto);
+  }
+};
 
     document.getElementById("removePreview").style.display = "flex";
 
