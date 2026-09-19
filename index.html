@@ -588,19 +588,22 @@ body{
 #resultados{
   display:grid;
   grid-template-columns:repeat(5,1fr);
-  gap:10px;
+  gap:12px;
+  align-items:start;
 }
 
 .resultado{
   position:relative;
   min-width:0;
+  min-height:245px;
   background:
     linear-gradient(150deg,#06233b,#041a2e);
   border:1px solid rgba(33,105,163,.68);
   border-radius:9px;
-  padding:9px;
+  padding:10px;
   margin:0;
   box-shadow:0 4px 12px rgba(0,0,0,.15);
+  overflow:hidden;
 }
 
 .resultado .separador{
@@ -609,13 +612,13 @@ body{
 
 .tag{
   position:absolute;
-  left:9px;
-  top:9px;
+  left:10px;
+  top:10px;
   z-index:3;
   display:inline-block;
   background:#54edc1;
   color:#052b2a;
-  padding:4px 8px;
+  padding:5px 9px;
   border-radius:15px;
   font-size:11px;
   font-weight:bold;
@@ -627,7 +630,7 @@ body{
   border:0;
   border-left:0;
   padding:0;
-  margin:92px 0 3px;
+  margin:132px 0 4px;
   border-radius:0;
   font-size:10px;
   line-height:1.35;
@@ -635,7 +638,7 @@ body{
 
 .dados{
   line-height:1.42;
-  margin:0 0 5px;
+  margin:0 0 6px;
   font-size:10px;
   color:#eef6ff;
   min-height:67px;
@@ -643,7 +646,7 @@ body{
 
 .imagem-encontrada{
   width:100%;
-  height:105px;
+  height:125px;
   max-width:none;
   max-height:none;
   object-fit:contain;
@@ -655,31 +658,20 @@ body{
 
 .resultado .imagem-encontrada{
   position:absolute;
-  top:18px;
-  left:0;
-  right:0;
-  width:100%;
-  height:73px;
+  top:17px;
+  left:8px;
+  right:8px;
+  width:calc(100% - 16px);
+  height:108px;
   object-fit:contain;
-  border-radius:0;
-  background:transparent;
+  border-radius:6px;
+  background:#031321;
 }
+
+/* BOTÃO DOS RESULTADOS REMOVIDO */
 
 .resultado button{
-  width:100%;
-  height:30px;
-  background:#0878ff;
-  color:#fff;
-  border:0;
-  border-radius:6px;
-  font-size:10px;
-  cursor:pointer;
-  margin:0;
-  padding:0;
-}
-
-.resultado button:hover{
-  background:#1684ff;
+  display:none;
 }
 
 .nota{
@@ -694,9 +686,7 @@ body{
 }
 
 .separador{
-  height:1px;
-  background:#e5e7eb;
-  margin:18px 0;
+  display:none;
 }
 
 /* =========================
@@ -1618,18 +1608,8 @@ function adicionarFotoAoHistorico(arquivo){
     };
 
 
-    /*
-      Coloca a imagem mais recente
-      no início do histórico.
-    */
-
     historico.unshift(novoItem);
 
-
-    /*
-      Evita guardar infinitamente.
-      Aqui ficam as 50 últimas imagens.
-    */
 
     const limitado =
       historico.slice(0,50);
@@ -1986,11 +1966,6 @@ document
         .style.display =
         "flex";
 
-
-      /*
-        ADICIONA AUTOMATICAMENTE
-        AO HISTÓRICO
-      */
 
       adicionarFotoAoHistorico(foto);
 
@@ -2964,6 +2939,13 @@ async function procurar(){
         todos.slice(0,10);
 
 
+      /*
+        Os 10 melhores resultados
+        são exibidos juntos:
+        5 na primeira linha
+        e 5 na segunda linha.
+      */
+
       for(
         let i=0;
         i<exibidos.length;
@@ -3068,53 +3050,15 @@ async function procurar(){
         );
 
 
-        const abrir =
-          document.createElement(
-            "button"
-          );
-
-
-        abrir.innerText =
-          "▧  Abrir imagem";
-
-
-        abrir.onclick = () =>
-          window.open(
-            img.src,
-            "_blank"
-          );
-
-
-        div.appendChild(
-          abrir
-        );
+        /*
+          Não existe mais o botão
+          "Abrir imagem" nos resultados.
+        */
 
 
         area.appendChild(
           div
         );
-
-
-        if(
-          i <
-          exibidos.length-1
-        ){
-
-          const sep =
-            document.createElement(
-              "div"
-            );
-
-
-          sep.className =
-            "separador";
-
-
-          area.appendChild(
-            sep
-          );
-
-        }
 
       }
 
